@@ -6,12 +6,13 @@
 - **React Native** - Cross-platform mobile development
 - **Expo** - Development platform and build system
 - **TypeScript** - Type-safe JavaScript
-- **React Navigation** - Navigation and routing
+- **React Navigation** - Navigation and routing (Bottom Tabs + Native Stack)
 - **React Native Calendars** - Calendar component for workout log
-- **Victory Native** or **Recharts** - Data visualization and charts
+- **React Native Chart Kit** - Data visualization and charts
 - **expo-image-picker** - Upload photos from device
-- **React Native Paper** or **NativeBase** - UI component library
-- **Zustand** or **React Context** - State management
+- **React Native Paper** - UI component library (Material Design)
+- **Zustand** - State management
+- **date-fns** - Date manipulation and formatting
 
 ### Backend
 - **Supabase**
@@ -199,12 +200,74 @@ eas build --platform android
 ```
 
 ## Completed Tasks
-<!-- Track completed implementation tasks here -->
-- [x] README-BUSINESS.md created
-- [x] README-TECHNICAL.md created
+
+### Phase 1: Project Setup ✅
+- [x] Initialize Expo project with TypeScript
+- [x] Set up project folder structure
+- [x] Configure TypeScript and linting
+- [x] Install core dependencies (React Navigation, UI library)
+- [x] Set up Supabase project configuration
+- [x] Configure Supabase client in the app
+- [x] Set up environment variables
+
+### Phase 2: Database & Authentication ✅
+- [x] Create database schema in Supabase (see supabase-schema.sql)
+- [x] Set up authentication (optional for personal use)
+- [x] Create storage buckets for images (documented in SETUP.md)
+- [x] Set up database policies and permissions
+- [x] Create TypeScript types for database models
+
+### Phase 3: Exercise Reference Library ✅
+- [x] Create ExerciseLibraryScreen (list of classes)
+- [x] Create ExerciseGalleryScreen (image gallery)
+- [x] Implement image viewing functionality
+- [x] Create exercise service (CRUD operations)
+- [x] Implement gallery navigation and image viewing
+
+### Phase 4: Workout Log ✅
+- [x] Create WorkoutLogScreen (entry form)
+- [x] Implement workout data entry form
+- [x] Add image picker for watch screenshots
+- [x] Create workout service (CRUD operations)
+- [x] Implement workout data validation
+
+### Phase 5: Calendar View ✅
+- [x] Install and configure React Native Calendars
+- [x] Create CalendarScreen
+- [x] Display workouts on calendar
+- [x] Implement date selection and filtering
+- [x] Add workout detail view from calendar
+
+### Phase 6: Analytics & Charts ✅
+- [x] Install charting library (React Native Chart Kit)
+- [x] Create AnalyticsScreen
+- [x] Implement calories burned chart (weekly)
+- [x] Implement workout frequency chart
+- [x] Add trend analysis and statistics
+- [x] Create data aggregation functions
+
+### Phase 7: Navigation & UI Polish ✅
+- [x] Set up main navigation structure
+- [x] Create tab navigator (Workout Log, Calendar, Analytics, Exercise Library)
+- [x] Implement screen transitions
+- [x] Add loading states and error handling
+- [x] Polish UI/UX across all screens
+
+### Phase 8: Testing & Deployment (User Action Required)
+- [ ] Set up Supabase account and database (see SETUP.md)
+- [ ] Configure environment variables
+- [ ] Test on iOS simulator/device
+- [ ] Test on Android emulator/device
+- [ ] Fix bugs and edge cases (if any)
+- [ ] Configure EAS Build (optional)
+- [ ] Create production build
+- [ ] Install on personal devices
 
 ## Notes & Decisions
 - Using Supabase for backend due to good image storage support and PostgreSQL flexibility
 - React Native Paper chosen for UI components (clean Material Design)
-- Victory Native for charts (better React Native integration)
+- **Changed from Victory Native to React Native Chart Kit** - Victory Native had dependency issues with Skia, Chart Kit is lighter and works well
 - No real-time sync needed for exercise library - offline-first approach
+- Authentication is optional for personal use - RLS policies allow NULL user_id
+- Using Zustand for state management (simpler than Redux, perfect for this use case)
+- Date handling with date-fns for reliable date formatting
