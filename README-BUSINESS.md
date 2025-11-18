@@ -5,7 +5,7 @@ A personal mobile-first fitness tracking application for recording workouts and 
 
 ## Target Platforms
 - iOS
-- Android
+- mobile
 - Personal use only
 
 ## Core Features
