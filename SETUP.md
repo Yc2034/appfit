@@ -67,6 +67,9 @@ npm install
 ### On iOS Simulator (Mac only)
 
 ```bash
+
+open -a Simulator
+
 npm run ios
 ```
 
