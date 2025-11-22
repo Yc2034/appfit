@@ -25,8 +25,8 @@ export default function AnalyticsScreen() {
       borderRadius: 16,
     },
     propsForDots: {
-      r: '6',
-      strokeWidth: '2',
+      r: 6,
+      strokeWidth: 2,
       stroke: '#6200ee',
     },
   };
@@ -145,8 +145,8 @@ export default function AnalyticsScreen() {
               chartConfig={chartConfig}
               yAxisLabel=""
               yAxisSuffix=""
-              fromZero
-              showValuesOnTopOfBars
+              fromZero={true}
+              showValuesOnTopOfBars={true}
             />
           </Card.Content>
         </Card>
@@ -163,8 +163,8 @@ export default function AnalyticsScreen() {
               chartConfig={chartConfig}
               yAxisLabel=""
               yAxisSuffix=""
-              fromZero
-              showValuesOnTopOfBars
+              fromZero={true}
+              showValuesOnTopOfBars={true}
             />
           </Card.Content>
         </Card>
