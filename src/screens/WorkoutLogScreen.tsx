@@ -157,7 +157,7 @@ export default function WorkoutLogScreen({ navigation }: Props) {
           value={formData.notes}
           onChangeText={(text) => setFormData({ ...formData, notes: text })}
           mode="outlined"
-          multiline
+          multiline={true}
           numberOfLines={3}
           style={styles.input}
         />
