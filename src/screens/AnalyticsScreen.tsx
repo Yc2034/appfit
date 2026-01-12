@@ -1,13 +1,16 @@
 import React, { useEffect, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
-import { Text, Surface } from 'react-native-paper';
+import { Text, Surface, useTheme } from 'react-native-paper';
 import { BarChart } from 'react-native-chart-kit';
 import { useWorkoutStore } from '../store/workoutStore';
 import { format, startOfWeek, endOfWeek, eachDayOfInterval } from 'date-fns';
+import ScreenLayout from '../components/ScreenLayout';
+import { SPACING } from '../constants/theme';
 
 const screenWidth = Dimensions.get('window').width;
 
 export default function AnalyticsScreen() {
+  const theme = useTheme();
   const { workouts, fetchWorkouts } = useWorkoutStore();
 
   useEffect(() => {
@@ -19,12 +22,13 @@ export default function AnalyticsScreen() {
     backgroundGradientFrom: '#fff',
     backgroundGradientTo: '#fff',
     decimalPlaces: 0,
-    color: (opacity = 1) => `rgba(98, 0, 238, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(102, 102, 102, ${opacity})`,
+    color: (opacity = 1) => theme.colors.primary,
+    labelColor: (opacity = 1) => theme.colors.onSurfaceVariant,
     barPercentage: 0.6,
     propsForBackgroundLines: {
       strokeDasharray: '',
-      stroke: '#f0f0f0',
+      stroke: theme.colors.outline,
+      strokeOpacity: 0.2,
     },
   };
 
@@ -77,18 +81,20 @@ export default function AnalyticsScreen() {
     };
   }, [workouts]);
 
-  const StatCard = ({ label, value, unit, icon }: { label: string; value: string | number; unit?: string; icon?: string }) => (
-    <Surface style={styles.statCard} elevation={1}>
-      <Text variant="bodySmall" style={styles.statLabel}>{label}</Text>
-      <View style={styles.statValueRow}>
-        <Text variant="headlineMedium" style={styles.statValue}>{value}</Text>
-        {unit && <Text variant="bodySmall" style={styles.statUnit}>{unit}</Text>}
-      </View>
-    </Surface>
+  const StatCard = ({ label, value, unit }: { label: string; value: string | number; unit?: string }) => (
+    <View style={styles.statCardWrapper}>
+      <Surface style={styles.statCardInner} elevation={0}>
+        <Text variant="bodySmall" style={styles.statLabel}>{label}</Text>
+        <View style={styles.statValueRow}>
+          <Text variant="headlineMedium" style={[styles.statValue, { color: theme.colors.primary }]}>{value}</Text>
+          {unit && <Text variant="bodySmall" style={styles.statUnit}>{unit}</Text>}
+        </View>
+      </Surface>
+    </View>
   );
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScreenLayout scrollable>
       {/* Overview Stats */}
       <View style={styles.statsGrid}>
         <StatCard label="Workouts" value={stats.totalWorkouts} />
@@ -98,7 +104,7 @@ export default function AnalyticsScreen() {
       </View>
 
       {/* Weekly Chart */}
-      <Surface style={styles.chartCard} elevation={1}>
+      <Surface style={styles.chartCard} elevation={0}>
         <Text variant="titleMedium" style={styles.chartTitle}>
           This Week
         </Text>
@@ -107,7 +113,7 @@ export default function AnalyticsScreen() {
         </Text>
         <BarChart
           data={weekData}
-          width={screenWidth - 64}
+          width={screenWidth - (SPACING.md * 2) - (SPACING.md * 2)} // Screen padding - Card padding
           height={180}
           chartConfig={chartConfig}
           yAxisLabel=""
@@ -121,7 +127,7 @@ export default function AnalyticsScreen() {
 
       {/* Activity Distribution */}
       {activityData.labels.length > 0 && (
-        <Surface style={styles.chartCard} elevation={1}>
+        <Surface style={styles.chartCard} elevation={0}>
           <Text variant="titleMedium" style={styles.chartTitle}>
             Top Activities
           </Text>
@@ -130,7 +136,7 @@ export default function AnalyticsScreen() {
           </Text>
           <BarChart
             data={activityData}
-            width={screenWidth - 64}
+            width={screenWidth - (SPACING.md * 2) - (SPACING.md * 2)}
             height={180}
             chartConfig={chartConfig}
             yAxisLabel=""
@@ -144,72 +150,66 @@ export default function AnalyticsScreen() {
       )}
 
       <View style={styles.bottomPadding} />
-    </ScrollView>
+    </ScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-    padding: 16,
-  },
   statsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginHorizontal: -6,
-    marginBottom: 8,
+    marginBottom: SPACING.sm,
   },
-  statCard: {
+  statCardWrapper: {
     width: '50%',
     paddingHorizontal: 6,
-    marginBottom: 12,
+    marginBottom: SPACING.md,
   },
   statCardInner: {
     borderRadius: 16,
-    padding: 16,
+    padding: SPACING.md,
     backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
   },
   statLabel: {
-    color: '#999',
+    opacity: 0.6,
     marginBottom: 4,
-    paddingHorizontal: 16,
-    paddingTop: 16,
   },
   statValueRow: {
     flexDirection: 'row',
     alignItems: 'baseline',
-    paddingHorizontal: 16,
-    paddingBottom: 16,
   },
   statValue: {
-    color: '#6200ee',
     fontWeight: '700',
   },
   statUnit: {
-    color: '#999',
+    opacity: 0.5,
     marginLeft: 4,
   },
   chartCard: {
     borderRadius: 16,
-    padding: 16,
-    marginBottom: 16,
+    padding: SPACING.md,
+    marginBottom: SPACING.md,
     backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
   },
   chartTitle: {
     fontWeight: '600',
-    color: '#333',
+    opacity: 0.9,
     marginBottom: 4,
   },
   chartSubtitle: {
-    color: '#999',
-    marginBottom: 16,
+    opacity: 0.6,
+    marginBottom: SPACING.md,
   },
   chart: {
-    marginLeft: -16,
+    marginLeft: -16, // Adjust for left padding of chart lib
     borderRadius: 8,
   },
   bottomPadding: {
-    height: 24,
+    height: SPACING.xl,
   },
 });

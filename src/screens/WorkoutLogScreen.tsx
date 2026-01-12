@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Image, Alert, Pressable } from 'react-native';
-import { TextInput, Button, Text, Surface, Chip, IconButton } from 'react-native-paper';
+import { View, StyleSheet, Image, Alert, Pressable } from 'react-native';
+import { TextInput, Button, Text, Surface, IconButton, useTheme } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import { useWorkoutStore } from '../store/workoutStore';
 import { WorkoutFormData } from '../types/workout.types';
 import { validateWorkoutForm } from '../utils/validators';
 import { format } from 'date-fns';
+import ScreenLayout from '../components/ScreenLayout';
+import { SPACING } from '../constants/theme';
 
 const QUICK_ACTIVITIES = [
   { type: 'Running', icon: 'run' },
@@ -19,6 +21,7 @@ const QUICK_ACTIVITIES = [
 ];
 
 export default function WorkoutLogScreen() {
+  const theme = useTheme();
   const { addWorkout } = useWorkoutStore();
   const [formData, setFormData] = useState<WorkoutFormData>({
     date: format(new Date(), 'yyyy-MM-dd'),
@@ -88,44 +91,48 @@ export default function WorkoutLogScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScreenLayout scrollable>
       {/* Activity Type Selection */}
-      <Surface style={styles.card} elevation={1}>
+      <Surface style={styles.card} elevation={0}>
         <Text variant="titleMedium" style={styles.sectionTitle}>
           Activity Type
         </Text>
         <View style={styles.activityGrid}>
-          {QUICK_ACTIVITIES.map((activity) => (
-            <Pressable
-              key={activity.type}
-              onPress={() => setFormData({ ...formData, activity_type: activity.type })}
-              style={[
-                styles.activityItem,
-                formData.activity_type === activity.type && styles.activityItemSelected,
-              ]}
-            >
-              <IconButton
-                icon={activity.icon}
-                size={28}
-                iconColor={formData.activity_type === activity.type ? '#fff' : '#6200ee'}
-              />
-              <Text
-                variant="bodySmall"
+          {QUICK_ACTIVITIES.map((activity) => {
+            const isSelected = formData.activity_type === activity.type;
+            return (
+              <Pressable
+                key={activity.type}
+                onPress={() => setFormData({ ...formData, activity_type: activity.type })}
                 style={[
-                  styles.activityLabel,
-                  formData.activity_type === activity.type && styles.activityLabelSelected,
+                  styles.activityItem,
+                  isSelected && { backgroundColor: theme.colors.primary },
                 ]}
-                numberOfLines={1}
               >
-                {activity.type}
-              </Text>
-            </Pressable>
-          ))}
+                <IconButton
+                  icon={activity.icon}
+                  size={24}
+                  iconColor={isSelected ? theme.colors.onPrimary : theme.colors.primary}
+                  style={{ margin: 0 }}
+                />
+                <Text
+                  variant="bodySmall"
+                  style={[
+                    styles.activityLabel,
+                    isSelected ? { color: theme.colors.onPrimary, fontWeight: '600' } : { color: theme.colors.onSurfaceVariant },
+                  ]}
+                  numberOfLines={1}
+                >
+                  {activity.type}
+                </Text>
+              </Pressable>
+            );
+          })}
         </View>
       </Surface>
 
       {/* Core Data */}
-      <Surface style={styles.card} elevation={1}>
+      <Surface style={styles.card} elevation={0}>
         <Text variant="titleMedium" style={styles.sectionTitle}>
           Workout Data
         </Text>
@@ -176,19 +183,19 @@ export default function WorkoutLogScreen() {
 
       {/* Optional Fields Toggle */}
       <Pressable onPress={() => setShowOptional(!showOptional)} style={styles.toggleRow}>
-        <Text variant="bodyMedium" style={styles.toggleText}>
+        <Text variant="bodyMedium" style={{ color: theme.colors.primary, fontWeight: '500' }}>
           {showOptional ? 'Hide optional fields' : 'Show optional fields'}
         </Text>
         <IconButton
           icon={showOptional ? 'chevron-up' : 'chevron-down'}
           size={20}
-          iconColor="#6200ee"
+          iconColor={theme.colors.primary}
         />
       </Pressable>
 
       {/* Optional Fields */}
       {showOptional && (
-        <Surface style={styles.card} elevation={1}>
+        <Surface style={styles.card} elevation={0}>
           <TextInput
             label="Heart Rate (bpm)"
             value={formData.heart_rate}
@@ -242,28 +249,23 @@ export default function WorkoutLogScreen() {
       >
         Log Workout
       </Button>
-
-      <View style={styles.bottomPadding} />
-    </ScrollView>
+    </ScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-    padding: 16,
-  },
   card: {
     borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-    backgroundColor: '#fff',
+    padding: SPACING.md,
+    marginBottom: SPACING.md,
+    backgroundColor: '#fff', // Keep specific cards white or use theme.colors.surface
+    borderWidth: 1,
+    borderColor: '#F3F4F6', // Subtle border
   },
   sectionTitle: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
     fontWeight: '600',
-    color: '#333',
+    opacity: 0.8,
   },
   activityGrid: {
     flexDirection: 'row',
@@ -273,62 +275,49 @@ const styles = StyleSheet.create({
   activityItem: {
     width: '25%',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: SPACING.sm,
     paddingHorizontal: 4,
     borderRadius: 12,
-    marginBottom: 4,
-  },
-  activityItemSelected: {
-    backgroundColor: '#6200ee',
+    marginBottom: SPACING.xs,
   },
   activityLabel: {
     fontSize: 11,
-    color: '#666',
     textAlign: 'center',
-  },
-  activityLabelSelected: {
-    color: '#fff',
-    fontWeight: '600',
+    marginTop: 2,
   },
   row: {
     flexDirection: 'row',
-    gap: 12,
-    marginBottom: 12,
+    gap: SPACING.md,
+    marginBottom: SPACING.md,
   },
   halfInput: {
     flex: 1,
     backgroundColor: '#fff',
   },
   input: {
-    marginBottom: 12,
+    marginBottom: SPACING.md,
     backgroundColor: '#fff',
   },
   toggleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 8,
-  },
-  toggleText: {
-    color: '#6200ee',
+    marginBottom: SPACING.sm,
   },
   imageButton: {
-    marginTop: 4,
+    marginTop: SPACING.xs,
   },
   preview: {
     width: '100%',
     height: 150,
-    marginTop: 12,
+    marginTop: SPACING.md,
     borderRadius: 12,
   },
   submitButton: {
-    marginTop: 8,
+    marginTop: SPACING.sm,
     borderRadius: 12,
   },
   submitButtonContent: {
     paddingVertical: 8,
-  },
-  bottomPadding: {
-    height: 24,
   },
 });

@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { Text, ActivityIndicator, Surface, Chip } from 'react-native-paper';
+import { Text, ActivityIndicator, Surface, Chip, useTheme } from 'react-native-paper';
 import { useExerciseStore } from '../store/exerciseStore';
 import { ExerciseClass } from '../types/exercise.types';
+import ScreenLayout from '../components/ScreenLayout';
+import { SPACING } from '../constants/theme';
 
 interface Props {
   navigation: any;
 }
 
 export default function ExerciseLibraryScreen({ navigation }: Props) {
+  const theme = useTheme();
   const { classes, loading, fetchClasses } = useExerciseStore();
 
   useEffect(() => {
@@ -18,12 +21,12 @@ export default function ExerciseLibraryScreen({ navigation }: Props) {
   const renderClassItem = ({ item }: { item: ExerciseClass }) => (
     <Surface
       style={styles.card}
-      elevation={1}
+      elevation={0}
       onTouchEnd={() => navigation.navigate('ExerciseGallery', { classId: item.id, className: item.name })}
     >
       <View style={styles.cardHeader}>
         <Text variant="titleMedium" style={styles.cardTitle}>{item.name}</Text>
-        <Chip compact style={styles.categoryChip} textStyle={styles.categoryText}>
+        <Chip compact style={[styles.categoryChip, { backgroundColor: theme.colors.primary + '15' }]} textStyle={{ color: theme.colors.primary }}>
           {item.category}
         </Chip>
       </View>
@@ -38,13 +41,13 @@ export default function ExerciseLibraryScreen({ navigation }: Props) {
   if (loading && classes.length === 0) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#6200ee" />
+        <ActivityIndicator size="large" color={theme.colors.primary} />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <ScreenLayout>
       <FlatList
         data={classes}
         renderItem={renderClassItem}
@@ -52,7 +55,7 @@ export default function ExerciseLibraryScreen({ navigation }: Props) {
         contentContainerStyle={styles.list}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
-          <Surface style={styles.emptyCard} elevation={1}>
+          <Surface style={styles.emptyCard} elevation={0}>
             <Text variant="titleMedium" style={styles.emptyTitle}>No Exercises Yet</Text>
             <Text variant="bodySmall" style={styles.emptyHint}>
               Add exercise classes in your database
@@ -60,29 +63,26 @@ export default function ExerciseLibraryScreen({ navigation }: Props) {
           </Surface>
         }
       />
-    </View>
+    </ScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
   centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
   },
   list: {
-    padding: 16,
+    paddingBottom: SPACING.xl,
   },
   card: {
     borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
+    padding: SPACING.md,
+    marginBottom: SPACING.md,
     backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
   },
   cardHeader: {
     flexDirection: 'row',
@@ -91,34 +91,33 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontWeight: '600',
-    color: '#333',
+    opacity: 0.9,
     flex: 1,
   },
   categoryChip: {
-    backgroundColor: '#6200ee15',
-  },
-  categoryText: {
-    color: '#6200ee',
-    fontSize: 11,
+    height: 24,
   },
   description: {
-    marginTop: 8,
-    color: '#666',
+    marginTop: SPACING.sm,
+    opacity: 0.7,
     lineHeight: 18,
   },
   emptyCard: {
     borderRadius: 16,
-    padding: 32,
+    padding: SPACING.xl,
     alignItems: 'center',
     backgroundColor: '#fff',
-    marginTop: 24,
+    marginTop: SPACING.lg,
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
+    borderStyle: 'dashed',
   },
   emptyTitle: {
-    color: '#333',
     marginBottom: 8,
+    opacity: 0.8,
   },
   emptyHint: {
-    color: '#999',
+    opacity: 0.5,
     textAlign: 'center',
   },
 });

@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList, Image, Dimensions, Pressable, Modal } from 'react-native';
-import { Text, ActivityIndicator, IconButton, Surface } from 'react-native-paper';
+import { Text, ActivityIndicator, IconButton, Surface, useTheme } from 'react-native-paper';
 import { exerciseService } from '../services/exercise.service';
 import { ExerciseImage } from '../types/exercise.types';
+import ScreenLayout from '../components/ScreenLayout';
+import { SPACING } from '../constants/theme';
 
 interface Props {
   route: any;
 }
 
 const { width } = Dimensions.get('window');
-const IMAGE_SIZE = (width - 48) / 2;
+// Calculate image size based on screen width and spacing
+// (Screen Width - (Left Padding + Right Padding + Middle Gap)) / 2
+const IMAGE_SIZE = (width - (SPACING.md * 2) - SPACING.sm) / 2;
 
 export default function ExerciseGalleryScreen({ route }: Props) {
+  const theme = useTheme();
   const { classId, className } = route.params;
   const [images, setImages] = useState<ExerciseImage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +43,7 @@ export default function ExerciseGalleryScreen({ route }: Props) {
       style={styles.imageContainer}
       onPress={() => setSelectedImage(item.image_url)}
     >
-      <Surface style={styles.imageSurface} elevation={1}>
+      <Surface style={styles.imageSurface} elevation={0}>
         <Image
           source={{ uri: item.image_url }}
           style={styles.thumbnail}
@@ -58,22 +63,23 @@ export default function ExerciseGalleryScreen({ route }: Props) {
   if (loading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" color="#6200ee" />
+        <ActivityIndicator size="large" color={theme.colors.primary} />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <ScreenLayout>
       <FlatList
         data={images}
         renderItem={renderImageItem}
         keyExtractor={(item) => item.id}
         numColumns={2}
+        columnWrapperStyle={styles.columnWrapper}
         contentContainerStyle={styles.gallery}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
-          <Surface style={styles.emptyCard} elevation={1}>
+          <Surface style={styles.emptyCard} elevation={0}>
             <Text variant="titleMedium" style={styles.emptyTitle}>No Images Yet</Text>
             <Text variant="bodySmall" style={styles.emptyHint}>
               Add demonstration images for {className}
@@ -106,58 +112,60 @@ export default function ExerciseGalleryScreen({ route }: Props) {
           )}
         </View>
       </Modal>
-    </View>
+    </ScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
   centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
   },
   gallery: {
-    padding: 16,
+    paddingBottom: SPACING.xl,
+  },
+  columnWrapper: {
+    justifyContent: 'space-between',
   },
   imageContainer: {
-    width: '50%',
-    padding: 4,
+    width: IMAGE_SIZE,
+    marginBottom: SPACING.md,
   },
   imageSurface: {
     borderRadius: 16,
     overflow: 'hidden',
     backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
   },
   thumbnail: {
     width: '100%',
     height: IMAGE_SIZE,
   },
   descriptionContainer: {
-    padding: 12,
+    padding: SPACING.sm,
   },
   imageDescription: {
-    color: '#666',
+    opacity: 0.7,
     lineHeight: 16,
   },
   emptyCard: {
     borderRadius: 16,
-    padding: 32,
+    padding: SPACING.xl,
     alignItems: 'center',
     backgroundColor: '#fff',
-    marginTop: 24,
-    marginHorizontal: 4,
+    marginTop: SPACING.lg,
+    borderWidth: 1,
+    borderColor: '#F3F4F6',
+    borderStyle: 'dashed',
   },
   emptyTitle: {
-    color: '#333',
     marginBottom: 8,
+    opacity: 0.8,
   },
   emptyHint: {
-    color: '#999',
+    opacity: 0.5,
     textAlign: 'center',
   },
   modalContainer: {

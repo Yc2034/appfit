@@ -2,6 +2,14 @@
 
 Personal fitness tracker - React Native + Expo + Supabase
 
+## Features
+
+- **Modern UI:** Clean, minimalist design with a consistent design system (Indigo/Emerald theme).
+- **Workout Logging:** Track variety of activities with calories, duration, and optional photos.
+- **Analytics:** Visual charts for weekly progress and activity distribution.
+- **Exercise Library:** Organize your workout routines with categories and gallery images.
+- **History:** Calendar view to review past workouts.
+
 ## Daily Development
 
 ```bash

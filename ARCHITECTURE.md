@@ -101,33 +101,24 @@ interface ExerciseImage {
 ## Constants (`src/constants/theme.ts`)
 
 ```typescript
-// Colors
-primary: '#6200ee'    // Purple - buttons, charts, selected states
-background: '#f5f5f5' // Light gray
-surface: '#ffffff'    // White cards
+// Colors (Modern Indigo Theme)
+primary: '#4F46E5'     // Indigo 600
+secondary: '#10B981'   // Emerald 500
+tertiary: '#F59E0B'    // Amber 500
+background: '#F9FAFB'  // Cool Gray 50
+surface: '#FFFFFF'     // White
 
-// Activity types (for workout logging)
-ACTIVITY_TYPES = ['Running', 'Cycling', 'Swimming', 'Strength Training', 'Yoga', 'Walking', 'Hiking', 'Other']
-
-// Exercise categories
-EXERCISE_CATEGORIES = ['Upper Body', 'Lower Body', 'Core', 'Cardio', 'Flexibility', 'Full Body']
+// Spacing
+SPACING = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32 }
 ```
-
-## Database Tables (Supabase)
-
-| Table | Columns |
-|-------|---------|
-| `workout_logs` | id, user_id?, date, activity_type, calories, duration, distance?, heart_rate?, notes?, watch_screenshot_url?, created_at |
-| `exercise_classes` | id, name, category, description?, created_at |
-| `exercise_images` | id, class_id (FK), image_url, description?, created_at |
 
 ## UI Patterns
 
-- **Cards:** `<Surface elevation={1}>` with `borderRadius: 16`, `padding: 16`
-- **Forms:** `<TextInput mode="outlined" dense />` from react-native-paper
-- **Lists:** `<FlatList>` with card items
-- **Loading:** `<ActivityIndicator color="#6200ee" />`
-- **Empty state:** `<Surface>` with centered text
+- **Layout:** `<ScreenLayout>` wrapper component handles `SafeAreaView` and standard padding/scrolling.
+- **Components:** Use `react-native-paper` components (`Text`, `Surface`, `Button`) with the custom theme.
+- **Cards:** `<Surface elevation={0}>` with `borderWidth: 1`, `borderColor: '#F3F4F6'`, and `borderRadius: 16`.
+- **Typography:** Use variants like `titleMedium`, `bodySmall`, `headlineMedium` for consistent scaling.
+- **Charts:** `react-native-chart-kit` configured to match theme primary colors.
 
 ## Adding New Features
 
