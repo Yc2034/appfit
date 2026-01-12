@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList, Image, Dimensions, TouchableOpacity, Modal } from 'react-native';
-import { Text, ActivityIndicator, IconButton } from 'react-native-paper';
+import { View, StyleSheet, FlatList, Image, Dimensions, Pressable, Modal } from 'react-native';
+import { Text, ActivityIndicator, IconButton, Surface } from 'react-native-paper';
 import { exerciseService } from '../services/exercise.service';
 import { ExerciseImage } from '../types/exercise.types';
 
@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { width } = Dimensions.get('window');
-const IMAGE_SIZE = width / 2 - 24;
+const IMAGE_SIZE = (width - 48) / 2;
 
 export default function ExerciseGalleryScreen({ route }: Props) {
   const { classId, className } = route.params;
@@ -34,27 +34,31 @@ export default function ExerciseGalleryScreen({ route }: Props) {
   };
 
   const renderImageItem = ({ item }: { item: ExerciseImage }) => (
-    <TouchableOpacity
+    <Pressable
       style={styles.imageContainer}
       onPress={() => setSelectedImage(item.image_url)}
     >
-      <Image
-        source={{ uri: item.image_url }}
-        style={styles.thumbnail}
-        resizeMode="cover"
-      />
-      {item.description && (
-        <Text variant="bodySmall" style={styles.imageDescription} numberOfLines={2}>
-          {item.description}
-        </Text>
-      )}
-    </TouchableOpacity>
+      <Surface style={styles.imageSurface} elevation={1}>
+        <Image
+          source={{ uri: item.image_url }}
+          style={styles.thumbnail}
+          resizeMode="cover"
+        />
+        {item.description && (
+          <View style={styles.descriptionContainer}>
+            <Text variant="bodySmall" style={styles.imageDescription} numberOfLines={2}>
+              {item.description}
+            </Text>
+          </View>
+        )}
+      </Surface>
+    </Pressable>
   );
 
   if (loading) {
     return (
       <View style={styles.centered}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#6200ee" />
       </View>
     );
   }
@@ -67,25 +71,28 @@ export default function ExerciseGalleryScreen({ route }: Props) {
         keyExtractor={(item) => item.id}
         numColumns={2}
         contentContainerStyle={styles.gallery}
+        showsVerticalScrollIndicator={false}
         ListEmptyComponent={
-          <View style={styles.empty}>
-            <Text variant="bodyLarge">No images yet</Text>
+          <Surface style={styles.emptyCard} elevation={1}>
+            <Text variant="titleMedium" style={styles.emptyTitle}>No Images Yet</Text>
             <Text variant="bodySmall" style={styles.emptyHint}>
-              Add exercise demonstration images for {className}
+              Add demonstration images for {className}
             </Text>
-          </View>
+          </Surface>
         }
       />
 
       <Modal
         visible={selectedImage !== null}
-        transparent={true}
+        transparent
+        animationType="fade"
         onRequestClose={() => setSelectedImage(null)}
       >
         <View style={styles.modalContainer}>
+          <Pressable style={styles.modalBackdrop} onPress={() => setSelectedImage(null)} />
           <IconButton
             icon="close"
-            size={30}
+            size={28}
             iconColor="#fff"
             style={styles.closeButton}
             onPress={() => setSelectedImage(null)}
@@ -106,54 +113,71 @@ export default function ExerciseGalleryScreen({ route }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f6f6',
+    backgroundColor: '#f5f5f5',
   },
   centered: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#f5f5f5',
   },
   gallery: {
-    padding: 8,
+    padding: 16,
   },
   imageContainer: {
-    width: IMAGE_SIZE,
-    margin: 8,
-    backgroundColor: '#fff',
-    borderRadius: 8,
+    width: '50%',
+    padding: 4,
+  },
+  imageSurface: {
+    borderRadius: 16,
     overflow: 'hidden',
+    backgroundColor: '#fff',
   },
   thumbnail: {
-    width: IMAGE_SIZE,
+    width: '100%',
     height: IMAGE_SIZE,
   },
-  imageDescription: {
-    padding: 8,
+  descriptionContainer: {
+    padding: 12,
   },
-  empty: {
+  imageDescription: {
+    color: '#666',
+    lineHeight: 16,
+  },
+  emptyCard: {
+    borderRadius: 16,
+    padding: 32,
     alignItems: 'center',
-    marginTop: 48,
-    paddingHorizontal: 24,
+    backgroundColor: '#fff',
+    marginTop: 24,
+    marginHorizontal: 4,
+  },
+  emptyTitle: {
+    color: '#333',
+    marginBottom: 8,
   },
   emptyHint: {
-    marginTop: 8,
     color: '#999',
     textAlign: 'center',
   },
   modalContainer: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
     justifyContent: 'center',
     alignItems: 'center',
   },
+  modalBackdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.95)',
+  },
   closeButton: {
     position: 'absolute',
-    top: 40,
+    top: 50,
     right: 16,
-    zIndex: 1,
+    zIndex: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
   fullImage: {
     width: '100%',
-    height: '100%',
+    height: '80%',
   },
 });

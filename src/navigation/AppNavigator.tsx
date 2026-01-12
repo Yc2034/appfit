@@ -15,7 +15,12 @@ const Stack = createNativeStackNavigator();
 
 function ExerciseStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: '#fff' },
+        headerShadowVisible: false,
+      }}
+    >
       <Stack.Screen
         name="ExerciseLibrary"
         component={ExerciseLibraryScreen}
@@ -37,33 +42,60 @@ export default function AppNavigator() {
         screenOptions={{
           tabBarActiveTintColor: '#6200ee',
           tabBarInactiveTintColor: '#999',
+          tabBarStyle: {
+            backgroundColor: '#fff',
+            borderTopWidth: 0,
+            elevation: 8,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: -2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 8,
+            height: 60,
+            paddingBottom: 8,
+            paddingTop: 8,
+          },
+          tabBarLabelStyle: {
+            fontSize: 11,
+            fontWeight: '500',
+          },
+          headerStyle: {
+            backgroundColor: '#fff',
+            elevation: 0,
+            shadowOpacity: 0,
+          },
+          headerTitleStyle: {
+            fontWeight: '600',
+            fontSize: 18,
+          },
         }}
       >
+        <Tab.Screen
+          name="History"
+          component={CalendarScreen}
+          options={{
+            title: 'History',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="history" size={size} color={color} />
+            ),
+          }}
+        />
         <Tab.Screen
           name="Log"
           component={WorkoutLogScreen}
           options={{
-            title: 'Log Workout',
+            title: 'Log',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="pencil-plus" size={size} color={color} />
+              <MaterialCommunityIcons name="plus-circle" size={size} color={color} />
             ),
           }}
         />
         <Tab.Screen
-          name="Calendar"
-          component={CalendarScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="calendar" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Analytics"
+          name="Stats"
           component={AnalyticsScreen}
           options={{
+            title: 'Stats',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="chart-bar" size={size} color={color} />
+              <MaterialCommunityIcons name="chart-line" size={size} color={color} />
             ),
           }}
         />

@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
 import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
-import { Text, Card } from 'react-native-paper';
+import { Text, Surface } from 'react-native-paper';
 import { BarChart } from 'react-native-chart-kit';
 import { useWorkoutStore } from '../store/workoutStore';
-import { format, subDays, startOfWeek, endOfWeek, eachDayOfInterval } from 'date-fns';
+import { format, startOfWeek, endOfWeek, eachDayOfInterval } from 'date-fns';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -15,19 +15,16 @@ export default function AnalyticsScreen() {
   }, []);
 
   const chartConfig = {
-    backgroundColor: '#ffffff',
-    backgroundGradientFrom: '#ffffff',
-    backgroundGradientTo: '#ffffff',
+    backgroundColor: '#fff',
+    backgroundGradientFrom: '#fff',
+    backgroundGradientTo: '#fff',
     decimalPlaces: 0,
     color: (opacity = 1) => `rgba(98, 0, 238, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-    style: {
-      borderRadius: 16,
-    },
-    propsForDots: {
-      r: 6,
-      strokeWidth: 2,
-      stroke: '#6200ee',
+    labelColor: (opacity = 1) => `rgba(102, 102, 102, ${opacity})`,
+    barPercentage: 0.6,
+    propsForBackgroundLines: {
+      strokeDasharray: '',
+      stroke: '#f0f0f0',
     },
   };
 
@@ -60,7 +57,7 @@ export default function AnalyticsScreen() {
       .slice(0, 5);
 
     return {
-      labels: sortedActivities.map(([name]) => name.substring(0, 8)),
+      labels: sortedActivities.map(([name]) => name.substring(0, 6)),
       datasets: [{ data: sortedActivities.length > 0 ? sortedActivities.map(([, count]) => count) : [0] }],
     };
   }, [workouts]);
@@ -80,95 +77,73 @@ export default function AnalyticsScreen() {
     };
   }, [workouts]);
 
-  return (
-    <ScrollView style={styles.container}>
-      <View style={styles.content}>
-        <Text variant="headlineSmall" style={styles.title}>
-          Statistics
-        </Text>
-
-        <View style={styles.statsGrid}>
-          <Card style={styles.statCard}>
-            <Card.Content>
-              <Text variant="bodySmall" style={styles.statLabel}>
-                Total Workouts
-              </Text>
-              <Text variant="headlineMedium" style={styles.statValue}>
-                {stats.totalWorkouts}
-              </Text>
-            </Card.Content>
-          </Card>
-
-          <Card style={styles.statCard}>
-            <Card.Content>
-              <Text variant="bodySmall" style={styles.statLabel}>
-                Total Calories
-              </Text>
-              <Text variant="headlineMedium" style={styles.statValue}>
-                {stats.totalCalories}
-              </Text>
-            </Card.Content>
-          </Card>
-
-          <Card style={styles.statCard}>
-            <Card.Content>
-              <Text variant="bodySmall" style={styles.statLabel}>
-                Avg Calories
-              </Text>
-              <Text variant="headlineMedium" style={styles.statValue}>
-                {stats.avgCalories}
-              </Text>
-            </Card.Content>
-          </Card>
-
-          <Card style={styles.statCard}>
-            <Card.Content>
-              <Text variant="bodySmall" style={styles.statLabel}>
-                Total Distance
-              </Text>
-              <Text variant="headlineMedium" style={styles.statValue}>
-                {stats.totalDistance} km
-              </Text>
-            </Card.Content>
-          </Card>
-        </View>
-
-        <Text variant="titleLarge" style={styles.sectionTitle}>
-          Weekly Calories Burned
-        </Text>
-        <Card style={styles.chartCard}>
-          <Card.Content>
-            <BarChart
-              data={weekData}
-              width={screenWidth - 64}
-              height={220}
-              chartConfig={chartConfig}
-              yAxisLabel=""
-              yAxisSuffix=""
-              fromZero={true}
-              showValuesOnTopOfBars={true}
-            />
-          </Card.Content>
-        </Card>
-
-        <Text variant="titleLarge" style={styles.sectionTitle}>
-          Workout Frequency by Type
-        </Text>
-        <Card style={styles.chartCard}>
-          <Card.Content>
-            <BarChart
-              data={activityData}
-              width={screenWidth - 64}
-              height={220}
-              chartConfig={chartConfig}
-              yAxisLabel=""
-              yAxisSuffix=""
-              fromZero={true}
-              showValuesOnTopOfBars={true}
-            />
-          </Card.Content>
-        </Card>
+  const StatCard = ({ label, value, unit, icon }: { label: string; value: string | number; unit?: string; icon?: string }) => (
+    <Surface style={styles.statCard} elevation={1}>
+      <Text variant="bodySmall" style={styles.statLabel}>{label}</Text>
+      <View style={styles.statValueRow}>
+        <Text variant="headlineMedium" style={styles.statValue}>{value}</Text>
+        {unit && <Text variant="bodySmall" style={styles.statUnit}>{unit}</Text>}
       </View>
+    </Surface>
+  );
+
+  return (
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      {/* Overview Stats */}
+      <View style={styles.statsGrid}>
+        <StatCard label="Workouts" value={stats.totalWorkouts} />
+        <StatCard label="Calories" value={stats.totalCalories.toLocaleString()} unit="kcal" />
+        <StatCard label="Avg/Session" value={stats.avgCalories} unit="kcal" />
+        <StatCard label="Distance" value={stats.totalDistance} unit="km" />
+      </View>
+
+      {/* Weekly Chart */}
+      <Surface style={styles.chartCard} elevation={1}>
+        <Text variant="titleMedium" style={styles.chartTitle}>
+          This Week
+        </Text>
+        <Text variant="bodySmall" style={styles.chartSubtitle}>
+          Calories burned per day
+        </Text>
+        <BarChart
+          data={weekData}
+          width={screenWidth - 64}
+          height={180}
+          chartConfig={chartConfig}
+          yAxisLabel=""
+          yAxisSuffix=""
+          fromZero
+          showValuesOnTopOfBars
+          withInnerLines={false}
+          style={styles.chart}
+        />
+      </Surface>
+
+      {/* Activity Distribution */}
+      {activityData.labels.length > 0 && (
+        <Surface style={styles.chartCard} elevation={1}>
+          <Text variant="titleMedium" style={styles.chartTitle}>
+            Top Activities
+          </Text>
+          <Text variant="bodySmall" style={styles.chartSubtitle}>
+            Workout frequency by type
+          </Text>
+          <BarChart
+            data={activityData}
+            width={screenWidth - 64}
+            height={180}
+            chartConfig={chartConfig}
+            yAxisLabel=""
+            yAxisSuffix=""
+            fromZero
+            showValuesOnTopOfBars
+            withInnerLines={false}
+            style={styles.chart}
+          />
+        </Surface>
+      )}
+
+      <View style={styles.bottomPadding} />
     </ScrollView>
   );
 }
@@ -176,37 +151,65 @@ export default function AnalyticsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f6f6',
-  },
-  content: {
+    backgroundColor: '#f5f5f5',
     padding: 16,
-  },
-  title: {
-    marginBottom: 16,
   },
   statsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: 24,
+    marginHorizontal: -6,
+    marginBottom: 8,
   },
   statCard: {
-    width: '48%',
+    width: '50%',
+    paddingHorizontal: 6,
     marginBottom: 12,
   },
+  statCardInner: {
+    borderRadius: 16,
+    padding: 16,
+    backgroundColor: '#fff',
+  },
   statLabel: {
-    color: '#666',
+    color: '#999',
     marginBottom: 4,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
+  statValueRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    paddingHorizontal: 16,
+    paddingBottom: 16,
   },
   statValue: {
     color: '#6200ee',
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
-  sectionTitle: {
-    marginTop: 8,
-    marginBottom: 12,
+  statUnit: {
+    color: '#999',
+    marginLeft: 4,
   },
   chartCard: {
-    marginBottom: 24,
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    backgroundColor: '#fff',
+  },
+  chartTitle: {
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 4,
+  },
+  chartSubtitle: {
+    color: '#999',
+    marginBottom: 16,
+  },
+  chart: {
+    marginLeft: -16,
+    borderRadius: 8,
+  },
+  bottomPadding: {
+    height: 24,
   },
 });
