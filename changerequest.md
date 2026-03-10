@@ -48,3 +48,19 @@
   - 在 Tab 3 修改数据后，页面能立即反映更新结果。
 - UI Reference: 暂无（先按系统风格做可用版本）
 - Notes: 已交付。实现了 3 Tab 架构、3 份基础 JSON 数据源、Tab 3 的手动编辑与图表实时更新。
+
+## CR-20260310-03
+- Status: Open
+- Goal: 建立统一且现代化的 AppFit UI 架构（Design System），实现 UI 与业务逻辑代码的高效解耦。
+- Scope: 
+  - 提取全局定义文件 `Theme.swift`（统一管理 AppColor, AppFont, AppLayout 等设计规范）。
+  - 封装可复用的核心基础组件（如 `AppFitCard`, `AppFitButton`, `TagView` 等）。
+  - 运用新主题和组件重构现有页面（各 Tab 首页、课程详情页、训练模式页等）。
+  - 确立视觉风格：灵动、明快、极具健身氛围，并能良好适配系统暗/亮色模式。
+- Out of Scope: 核心业务逻辑架构变更、添加新业务特性、极其复杂的转场动画。
+- Acceptance Criteria: 
+  - 全局代码消除散落、硬编码的 Color 和 Font。
+  - 各个页面的卡片、按钮、文字排版在视觉形态上保持高度一致。
+  - 作为未来的 UI 风格基石，后续开发可直接复用这套组件。
+- UI Reference: 现代运动类 App (高饱和度强调色、深/浅色卡片背景的层级分离)
+- Notes: 
