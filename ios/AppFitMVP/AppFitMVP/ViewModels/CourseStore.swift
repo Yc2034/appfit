@@ -3,7 +3,7 @@ import Foundation
 @MainActor
 final class CourseStore: ObservableObject {
     @Published private(set) var courses: [FitnessCourse] = []
-    @Published var query: String = ""
+    @Published var selectedTags: Set<String> = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
@@ -14,14 +14,16 @@ final class CourseStore: ObservableObject {
         self.repository = repository
     }
 
+    var availableTags: [String] {
+        let allTags = Set(courses.flatMap(\.tags))
+        return allTags.sorted { $0.localizedCompare($1) == .orderedAscending }
+    }
+
     var filteredCourses: [FitnessCourse] {
-        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return courses }
+        guard !selectedTags.isEmpty else { return courses }
 
         return courses.filter { course in
-            course.title.localizedCaseInsensitiveContains(trimmed) ||
-            course.focus.localizedCaseInsensitiveContains(trimmed) ||
-            course.tags.contains(where: { $0.localizedCaseInsensitiveContains(trimmed) })
+            !selectedTags.isDisjoint(with: Set(course.tags))
         }
     }
 
@@ -36,11 +38,24 @@ final class CourseStore: ObservableObject {
 
         do {
             courses = try repository.loadCourses()
+            selectedTags = selectedTags.intersection(Set(availableTags))
             loaded = true
         } catch {
             errorMessage = error.localizedDescription
         }
 
         isLoading = false
+    }
+
+    func toggleTag(_ tag: String) {
+        if selectedTags.contains(tag) {
+            selectedTags.remove(tag)
+        } else {
+            selectedTags.insert(tag)
+        }
+    }
+
+    func clearTagFilter() {
+        selectedTags.removeAll()
     }
 }

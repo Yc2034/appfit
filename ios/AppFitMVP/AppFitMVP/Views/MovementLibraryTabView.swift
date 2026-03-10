@@ -2,6 +2,10 @@ import SwiftUI
 
 struct MovementLibraryTabView: View {
     @EnvironmentObject private var store: ExerciseStore
+    private let columns = [
+        GridItem(.flexible(), spacing: AppLayout.space12),
+        GridItem(.flexible(), spacing: AppLayout.space12)
+    ]
 
     var body: some View {
         NavigationStack {
@@ -13,14 +17,6 @@ struct MovementLibraryTabView: View {
             }
             .navigationTitle("动作细节")
             .searchable(text: $store.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "搜索动作、类别、目标肌群")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("刷新") {
-                        store.loadMovements()
-                    }
-                    .font(AppFont.caption())
-                }
-            }
             .navigationDestination(for: ExerciseMovement.self) { movement in
                 MovementDetailView(movement: movement)
             }
@@ -39,50 +35,50 @@ struct MovementLibraryTabView: View {
         } else if store.filteredMovements.isEmpty {
             ContentUnavailableView("暂无动作", systemImage: "figure.strengthtraining.traditional", description: Text("请在 exercise_library.json 中补充动作"))
         } else {
-            List(store.filteredMovements) { movement in
-                NavigationLink(value: movement) {
-                    MovementRowView(movement: movement)
-                        .padding(.vertical, AppLayout.space4)
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: AppLayout.space12) {
+                    ForEach(store.filteredMovements) { movement in
+                        NavigationLink(value: movement) {
+                            MovementGridCard(movement: movement)
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
-                .listRowInsets(EdgeInsets(top: AppLayout.space4, leading: AppLayout.screenPadding, bottom: AppLayout.space4, trailing: AppLayout.screenPadding))
+                .padding(.horizontal, AppLayout.screenPadding)
+                .padding(.vertical, AppLayout.space8)
             }
-            .scrollContentBackground(.hidden)
-            .listStyle(.plain)
         }
     }
 }
 
-private struct MovementRowView: View {
+private struct MovementGridCard: View {
     let movement: ExerciseMovement
 
     var body: some View {
         AppFitCard(style: .elevated) {
-            HStack(spacing: AppLayout.space12) {
-                LocalImageView(imageName: movement.imageName, height: 96)
-                    .frame(width: 110)
+            VStack(alignment: .leading, spacing: AppLayout.space10) {
+                LocalImageView(imageName: movement.imageName, height: 110)
                     .clipShape(RoundedRectangle(cornerRadius: AppLayout.radius14))
 
-                VStack(alignment: .leading, spacing: AppLayout.space8) {
-                    Text(movement.name)
-                        .font(AppFont.headline())
-                        .foregroundStyle(AppColor.textPrimary)
+                Text(movement.name)
+                    .font(AppFont.headline())
+                    .foregroundStyle(AppColor.textPrimary)
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                    Text(movement.category)
-                        .font(AppFont.caption())
-                        .foregroundStyle(AppColor.textSecondary)
+                Text(movement.category)
+                    .font(AppFont.caption())
+                    .foregroundStyle(AppColor.textSecondary)
+                    .lineLimit(1)
 
-                    Text("目标：\(movement.targetArea)")
-                        .font(AppFont.caption())
-                        .foregroundStyle(AppColor.textSecondary)
+                Text("目标：\(movement.targetArea)")
+                    .font(AppFont.caption())
+                    .foregroundStyle(AppColor.textSecondary)
+                    .lineLimit(1)
 
-                    Text("器械：\(movement.equipment)")
-                        .font(AppFont.caption())
-                        .foregroundStyle(AppColor.textSecondary)
-                }
-                Spacer(minLength: 0)
+                TagView(text: movement.equipment)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }

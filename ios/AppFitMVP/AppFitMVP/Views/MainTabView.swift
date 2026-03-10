@@ -5,7 +5,7 @@ struct MainTabView: View {
         TabView {
             CourseSearchTabView()
                 .tabItem {
-                    Label("课件", systemImage: "magnifyingglass")
+                    Label("课件", systemImage: "square.grid.2x2")
                 }
 
             MovementLibraryTabView()

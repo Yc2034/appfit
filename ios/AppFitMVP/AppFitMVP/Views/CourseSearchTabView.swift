@@ -11,16 +11,7 @@ struct CourseSearchTabView: View {
 
                 content
             }
-            .navigationTitle("搜索课件")
-            .searchable(text: $store.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "搜索课程、标签、训练目标")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("刷新") {
-                        store.loadCourses()
-                    }
-                    .font(AppFont.caption())
-                }
-            }
+            .navigationTitle("课件")
             .navigationDestination(for: FitnessCourse.self) { course in
                 CourseDetailView(course: course)
             }
@@ -36,21 +27,107 @@ struct CourseSearchTabView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if let errorMessage = store.errorMessage {
             ContentUnavailableView("加载失败", systemImage: "exclamationmark.triangle", description: Text(errorMessage))
-        } else if store.filteredCourses.isEmpty {
-            ContentUnavailableView("暂无课程", systemImage: "doc.text.image", description: Text("请在 courses.json 中添加课程内容"))
         } else {
-            List(store.filteredCourses) { course in
-                NavigationLink(value: course) {
-                    CourseCard(course: course)
-                        .padding(.vertical, AppLayout.space4)
+            ScrollView {
+                VStack(alignment: .leading, spacing: AppLayout.space12) {
+                    CourseTagFilterBar(
+                        tags: store.availableTags,
+                        selectedTags: store.selectedTags,
+                        onToggle: store.toggleTag(_:),
+                        onClear: store.clearTagFilter
+                    )
+
+                    if store.filteredCourses.isEmpty {
+                        ContentUnavailableView(
+                            "暂无匹配课程",
+                            systemImage: "line.3.horizontal.decrease.circle",
+                            description: Text("请切换标签筛选条件")
+                        )
+                        .frame(maxWidth: .infinity, minHeight: 240)
+                    } else {
+                        LazyVStack(spacing: AppLayout.space12) {
+                            ForEach(store.filteredCourses) { course in
+                                NavigationLink(value: course) {
+                                    CourseCard(course: course)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                    }
                 }
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
-                .listRowInsets(EdgeInsets(top: AppLayout.space4, leading: AppLayout.screenPadding, bottom: AppLayout.space4, trailing: AppLayout.screenPadding))
+                .padding(.horizontal, AppLayout.screenPadding)
+                .padding(.vertical, AppLayout.space8)
             }
-            .scrollContentBackground(.hidden)
-            .listStyle(.plain)
         }
+    }
+}
+
+private struct CourseTagFilterBar: View {
+    let tags: [String]
+    let selectedTags: Set<String>
+    let onToggle: (String) -> Void
+    let onClear: () -> Void
+
+    var body: some View {
+        AppFitCard {
+            VStack(alignment: .leading, spacing: AppLayout.space10) {
+                HStack {
+                    Text("按标签筛选")
+                        .font(AppFont.headline())
+                        .foregroundStyle(AppColor.textPrimary)
+
+                    Spacer()
+
+                    if !selectedTags.isEmpty {
+                        Button("清除") {
+                            onClear()
+                        }
+                        .font(AppFont.caption())
+                        .foregroundStyle(AppColor.accent)
+                    }
+                }
+
+                if tags.isEmpty {
+                    Text("暂无标签")
+                        .font(AppFont.caption())
+                        .foregroundStyle(AppColor.textSecondary)
+                } else {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: AppLayout.space8) {
+                            ForEach(tags, id: \.self) { tag in
+                                FilterChip(
+                                    text: tag,
+                                    isSelected: selectedTags.contains(tag)
+                                ) {
+                                    onToggle(tag)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+private struct FilterChip: View {
+    let text: String
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(text)
+                .font(AppFont.tiny())
+                .foregroundStyle(isSelected ? AppColor.textOnAccent : AppColor.accent)
+                .padding(.horizontal, AppLayout.space10)
+                .padding(.vertical, AppLayout.space8)
+                .background(
+                    Capsule()
+                        .fill(isSelected ? AppColor.accent : AppColor.accentSoft)
+                )
+        }
+        .buttonStyle(.plain)
     }
 }
 
