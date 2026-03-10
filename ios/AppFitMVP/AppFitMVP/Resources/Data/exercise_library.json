@@ -1,0 +1,58 @@
+[
+  {
+    "id": "incline-pushup",
+    "name": "Incline Push-up",
+    "category": "Push",
+    "targetArea": "Chest / Triceps / Core",
+    "equipment": "Bench or Box",
+    "instruction": "双手放在稳定高位，身体保持一条直线。下放时肘部约 45 度，推起时保持核心收紧。",
+    "commonMistakes": [
+      "塌腰导致下背压力过大",
+      "耸肩导致肩颈代偿",
+      "下放过快，失去控制"
+    ],
+    "imageName": "pushup_demo"
+  },
+  {
+    "id": "bodyweight-squat",
+    "name": "Bodyweight Squat",
+    "category": "Lower Body",
+    "targetArea": "Quadriceps / Glutes",
+    "equipment": "None",
+    "instruction": "双脚与肩同宽，髋部向后坐，膝盖朝脚尖方向，起身时脚跟发力。",
+    "commonMistakes": [
+      "膝内扣",
+      "脚跟离地",
+      "躯干过度前倾"
+    ],
+    "imageName": "squat_demo"
+  },
+  {
+    "id": "forearm-plank",
+    "name": "Forearm Plank",
+    "category": "Core",
+    "targetArea": "Core Stability",
+    "equipment": "Mat",
+    "instruction": "前臂支撑地面，肩膀在手肘正上方，收紧腹部与臀部，保持自然呼吸。",
+    "commonMistakes": [
+      "塌腰",
+      "抬臀过高",
+      "屏气"
+    ],
+    "imageName": "plank_demo"
+  },
+  {
+    "id": "reverse-lunge",
+    "name": "Reverse Lunge",
+    "category": "Lower Body",
+    "targetArea": "Glutes / Hamstrings",
+    "equipment": "None",
+    "instruction": "向后迈步，前脚稳定，下降到双膝接近 90 度后起身回到起始位。",
+    "commonMistakes": [
+      "前膝超过脚尖过多",
+      "重心过于前压",
+      "躯干左右晃动"
+    ],
+    "imageName": "lunge_demo"
+  }
+]

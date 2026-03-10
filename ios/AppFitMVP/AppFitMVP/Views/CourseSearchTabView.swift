@@ -1,12 +1,12 @@
 import SwiftUI
 
-struct HomeView: View {
+struct CourseSearchTabView: View {
     @EnvironmentObject private var store: CourseStore
 
     var body: some View {
         NavigationStack {
             content
-                .navigationTitle("训练课件")
+                .navigationTitle("搜索课件")
                 .searchable(text: $store.query, placement: .navigationBarDrawer(displayMode: .always), prompt: "搜索课程、标签、训练目标")
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {

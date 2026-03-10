@@ -10,48 +10,70 @@
 		002F108400AF580DB494233F /* pushup_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F7922649A2D32DC2DE783FF /* pushup_demo.png */; };
 		03D31D6FA7CE79CB9360B0B1 /* courses.json in Resources */ = {isa = PBXBuildFile; fileRef = 862AD47B9ADF9A383C254B86 /* courses.json */; };
 		049214842623564307138CB4 /* LocalImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA15E0ACE3BAD1D74DC93FD /* LocalImageView.swift */; };
+		0942FA5F056328165F01F959 /* ExerciseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8EC67A9D502937462EA938 /* ExerciseStore.swift */; };
 		09582122C2A0CEF1B49E9B84 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03EF45A7700757F5E3B3BE1B /* Foundation.framework */; };
+		20010E0D7D71377A32793C92 /* ExerciseModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489264D19B5A930D78FDA3F5 /* ExerciseModels.swift */; };
 		256CA5E37103F2FBB77F8BF6 /* course_strength_cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F2CB759BDC652EF20F25D03 /* course_strength_cover.png */; };
 		2AE5873332C7E04602D54D6D /* CourseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43C656392C622BB469282AA /* CourseStore.swift */; };
+		32E18D75BC9DD0C88C8C5027 /* exercise_library.json in Resources */ = {isa = PBXBuildFile; fileRef = CB28F2CB09814EE7B7E2FD38 /* exercise_library.json */; };
 		362CA17013299B725BE2F4A7 /* CourseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20879ED7CC68C150A89DCEDC /* CourseDetailView.swift */; };
 		3BF50D5929FDFEAA79C1C105 /* CourseModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F519610009BE63E90E305AB9 /* CourseModels.swift */; };
 		3E48443496F99EC08E919740 /* plank_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = C5C65E60BE44E05578C228E2 /* plank_demo.png */; };
 		51B95040A6560608ED19056A /* lunge_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = FE47FE2DBEE556B6F5EDAE05 /* lunge_demo.png */; };
+		557036A93877992BF61D9C89 /* ProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895B8DEEA387480CB6ED9E3F /* ProgressStore.swift */; };
+		582277E251B02BF4F64FF80E /* LocalExerciseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D69BDC56FD68E7CC19256B9 /* LocalExerciseRepository.swift */; };
+		6994ACDA15EB1D28AB923AEC /* ProgressModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597F3179FF64030C4E32E73F /* ProgressModels.swift */; };
 		69B7C253AE692FD6346E568A /* stretch_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = D5C7FFD469DE4F3248E4B3FB /* stretch_demo.png */; };
 		8DA3764D7550A790B261BC35 /* running_drill.png in Resources */ = {isa = PBXBuildFile; fileRef = B3B8338243F23C1283F3D46D /* running_drill.png */; };
+		8F8FC623335602281533D3A2 /* LocalProgressRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9AD02F86A6EC705EB045604 /* LocalProgressRepository.swift */; };
 		A15BA360FD37AD15D85155C8 /* AppFitMVPApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9A26C02ECB05E15F1B346 /* AppFitMVPApp.swift */; };
 		A28C897CBC774DB5960DC275 /* LocalCourseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDE52BDA98D2135BC6FCF61 /* LocalCourseRepository.swift */; };
 		A55BE501899C700846AABD5B /* warmup_dynamic.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EABDA3124F670DF13A9E05 /* warmup_dynamic.png */; };
 		A659AB974E9433F50D2C8285 /* course_cardio_cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 060AF895585451F6C8560245 /* course_cardio_cover.png */; };
 		AB947F05AF91964FE7ABED28 /* mobility_flow.png in Resources */ = {isa = PBXBuildFile; fileRef = 735DB1AD3014C06348F3C9C1 /* mobility_flow.png */; };
+		AD0BD947255AC0BF8D06334E /* CourseSearchTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5A9C98958B22DF16687C10 /* CourseSearchTabView.swift */; };
 		AF8BAF62755ECB5FD3763256 /* SessionPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26E83E46AAE43009E43F1FD /* SessionPlayerView.swift */; };
+		AFDCF451394193492F0F0C69 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A106133FC12903E5213968CF /* MainTabView.swift */; };
 		B970ABFD2D9BEE60D62F9C81 /* breathing_reset.png in Resources */ = {isa = PBXBuildFile; fileRef = 11C228903C64D57539405871 /* breathing_reset.png */; };
-		CF25F20F14071A32360280E2 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F02C1FF1B213D6F60300B30 /* HomeView.swift */; };
 		DC795EDF075AC1B5C174999C /* squat_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DE7B3DB9A181F92DCB3BD3E /* squat_demo.png */; };
+		E051B2425D6E9A8A43182715 /* ProgressTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27E5BC3400A8F23421B7C37 /* ProgressTabView.swift */; };
 		E69EBEB5C7E8193B328B645F /* cadence_block.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC4F2BC63893545ACDA55EB /* cadence_block.png */; };
+		EED82A528D9FF27CE679F3C4 /* MovementLibraryTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1449E9B2BF1A1DB4EEE92D3E /* MovementLibraryTabView.swift */; };
+		F067B3439735FCA7C09FD0BA /* progress_seed.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F906DB7CC0C9DF88CEF32C7 /* progress_seed.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		03EF45A7700757F5E3B3BE1B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		060AF895585451F6C8560245 /* course_cardio_cover.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = course_cardio_cover.png; sourceTree = "<group>"; };
-		0F02C1FF1B213D6F60300B30 /* HomeView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		11C228903C64D57539405871 /* breathing_reset.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = breathing_reset.png; sourceTree = "<group>"; };
+		1449E9B2BF1A1DB4EEE92D3E /* MovementLibraryTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MovementLibraryTabView.swift; sourceTree = "<group>"; };
 		20879ED7CC68C150A89DCEDC /* CourseDetailView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseDetailView.swift; sourceTree = "<group>"; };
+		2F8EC67A9D502937462EA938 /* ExerciseStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ExerciseStore.swift; sourceTree = "<group>"; };
+		489264D19B5A930D78FDA3F5 /* ExerciseModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ExerciseModels.swift; sourceTree = "<group>"; };
+		4D69BDC56FD68E7CC19256B9 /* LocalExerciseRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalExerciseRepository.swift; sourceTree = "<group>"; };
 		4F2CB759BDC652EF20F25D03 /* course_strength_cover.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = course_strength_cover.png; sourceTree = "<group>"; };
 		50EABDA3124F670DF13A9E05 /* warmup_dynamic.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = warmup_dynamic.png; sourceTree = "<group>"; };
+		597F3179FF64030C4E32E73F /* ProgressModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProgressModels.swift; sourceTree = "<group>"; };
+		5B5A9C98958B22DF16687C10 /* CourseSearchTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseSearchTabView.swift; sourceTree = "<group>"; };
 		5BA15E0ACE3BAD1D74DC93FD /* LocalImageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalImageView.swift; sourceTree = "<group>"; };
 		6F7922649A2D32DC2DE783FF /* pushup_demo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = pushup_demo.png; sourceTree = "<group>"; };
+		6F906DB7CC0C9DF88CEF32C7 /* progress_seed.json */ = {isa = PBXFileReference; includeInIndex = 1; path = progress_seed.json; sourceTree = "<group>"; };
 		735DB1AD3014C06348F3C9C1 /* mobility_flow.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = mobility_flow.png; sourceTree = "<group>"; };
 		7DE7B3DB9A181F92DCB3BD3E /* squat_demo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = squat_demo.png; sourceTree = "<group>"; };
 		828241B583BBD1C14EEEED5C /* AppFitMVP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppFitMVP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		862AD47B9ADF9A383C254B86 /* courses.json */ = {isa = PBXFileReference; includeInIndex = 1; path = courses.json; sourceTree = "<group>"; };
+		895B8DEEA387480CB6ED9E3F /* ProgressStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProgressStore.swift; sourceTree = "<group>"; };
+		A106133FC12903E5213968CF /* MainTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		B2F9A26C02ECB05E15F1B346 /* AppFitMVPApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppFitMVPApp.swift; sourceTree = "<group>"; };
 		B3B8338243F23C1283F3D46D /* running_drill.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = running_drill.png; sourceTree = "<group>"; };
 		B43C656392C622BB469282AA /* CourseStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseStore.swift; sourceTree = "<group>"; };
 		C5C65E60BE44E05578C228E2 /* plank_demo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = plank_demo.png; sourceTree = "<group>"; };
+		CB28F2CB09814EE7B7E2FD38 /* exercise_library.json */ = {isa = PBXFileReference; includeInIndex = 1; path = exercise_library.json; sourceTree = "<group>"; };
 		D26E83E46AAE43009E43F1FD /* SessionPlayerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SessionPlayerView.swift; sourceTree = "<group>"; };
 		D5C7FFD469DE4F3248E4B3FB /* stretch_demo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = stretch_demo.png; sourceTree = "<group>"; };
+		E27E5BC3400A8F23421B7C37 /* ProgressTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProgressTabView.swift; sourceTree = "<group>"; };
 		F519610009BE63E90E305AB9 /* CourseModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseModels.swift; sourceTree = "<group>"; };
+		F9AD02F86A6EC705EB045604 /* LocalProgressRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalProgressRepository.swift; sourceTree = "<group>"; };
 		FBDE52BDA98D2135BC6FCF61 /* LocalCourseRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalCourseRepository.swift; sourceTree = "<group>"; };
 		FCC4F2BC63893545ACDA55EB /* cadence_block.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = cadence_block.png; sourceTree = "<group>"; };
 		FE47FE2DBEE556B6F5EDAE05 /* lunge_demo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = lunge_demo.png; sourceTree = "<group>"; };
@@ -73,6 +95,8 @@
 			isa = PBXGroup;
 			children = (
 				B43C656392C622BB469282AA /* CourseStore.swift */,
+				2F8EC67A9D502937462EA938 /* ExerciseStore.swift */,
+				895B8DEEA387480CB6ED9E3F /* ProgressStore.swift */,
 			);
 			name = ViewModels;
 			path = ViewModels;
@@ -89,10 +113,13 @@
 		4C53E6188E8E1DFCC4A3AEFD /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0F02C1FF1B213D6F60300B30 /* HomeView.swift */,
 				20879ED7CC68C150A89DCEDC /* CourseDetailView.swift */,
 				D26E83E46AAE43009E43F1FD /* SessionPlayerView.swift */,
 				5BA15E0ACE3BAD1D74DC93FD /* LocalImageView.swift */,
+				A106133FC12903E5213968CF /* MainTabView.swift */,
+				5B5A9C98958B22DF16687C10 /* CourseSearchTabView.swift */,
+				1449E9B2BF1A1DB4EEE92D3E /* MovementLibraryTabView.swift */,
+				E27E5BC3400A8F23421B7C37 /* ProgressTabView.swift */,
 			);
 			name = Views;
 			path = Views;
@@ -102,6 +129,8 @@
 			isa = PBXGroup;
 			children = (
 				862AD47B9ADF9A383C254B86 /* courses.json */,
+				CB28F2CB09814EE7B7E2FD38 /* exercise_library.json */,
+				6F906DB7CC0C9DF88CEF32C7 /* progress_seed.json */,
 			);
 			name = Data;
 			path = Data;
@@ -119,6 +148,8 @@
 			isa = PBXGroup;
 			children = (
 				F519610009BE63E90E305AB9 /* CourseModels.swift */,
+				489264D19B5A930D78FDA3F5 /* ExerciseModels.swift */,
+				597F3179FF64030C4E32E73F /* ProgressModels.swift */,
 			);
 			name = Models;
 			path = Models;
@@ -162,6 +193,8 @@
 			isa = PBXGroup;
 			children = (
 				FBDE52BDA98D2135BC6FCF61 /* LocalCourseRepository.swift */,
+				4D69BDC56FD68E7CC19256B9 /* LocalExerciseRepository.swift */,
+				F9AD02F86A6EC705EB045604 /* LocalProgressRepository.swift */,
 			);
 			name = Services;
 			path = Services;
@@ -259,6 +292,8 @@
 				E69EBEB5C7E8193B328B645F /* cadence_block.png in Resources */,
 				69B7C253AE692FD6346E568A /* stretch_demo.png in Resources */,
 				B970ABFD2D9BEE60D62F9C81 /* breathing_reset.png in Resources */,
+				32E18D75BC9DD0C88C8C5027 /* exercise_library.json in Resources */,
+				F067B3439735FCA7C09FD0BA /* progress_seed.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,10 +308,19 @@
 				3BF50D5929FDFEAA79C1C105 /* CourseModels.swift in Sources */,
 				A28C897CBC774DB5960DC275 /* LocalCourseRepository.swift in Sources */,
 				2AE5873332C7E04602D54D6D /* CourseStore.swift in Sources */,
-				CF25F20F14071A32360280E2 /* HomeView.swift in Sources */,
 				362CA17013299B725BE2F4A7 /* CourseDetailView.swift in Sources */,
 				AF8BAF62755ECB5FD3763256 /* SessionPlayerView.swift in Sources */,
 				049214842623564307138CB4 /* LocalImageView.swift in Sources */,
+				20010E0D7D71377A32793C92 /* ExerciseModels.swift in Sources */,
+				6994ACDA15EB1D28AB923AEC /* ProgressModels.swift in Sources */,
+				582277E251B02BF4F64FF80E /* LocalExerciseRepository.swift in Sources */,
+				8F8FC623335602281533D3A2 /* LocalProgressRepository.swift in Sources */,
+				0942FA5F056328165F01F959 /* ExerciseStore.swift in Sources */,
+				557036A93877992BF61D9C89 /* ProgressStore.swift in Sources */,
+				AFDCF451394193492F0F0C69 /* MainTabView.swift in Sources */,
+				AD0BD947255AC0BF8D06334E /* CourseSearchTabView.swift in Sources */,
+				EED82A528D9FF27CE679F3C4 /* MovementLibraryTabView.swift in Sources */,
+				E051B2425D6E9A8A43182715 /* ProgressTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
