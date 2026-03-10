@@ -8,6 +8,10 @@
     "totalMinutes": 45,
     "tags": ["居家", "无跳跃", "力量"],
     "coverImageName": "course_strength_cover",
+    "audioGuide": {
+      "title": "45分钟训练引导音频",
+      "fileName": "strength-foundation-45min.mp3"
+    },
     "sessions": [
       {
         "id": "sfa-day1",
@@ -84,6 +88,10 @@
     "totalMinutes": 30,
     "tags": ["节奏", "呼吸", "跑姿"],
     "coverImageName": "course_cardio_cover",
+    "audioGuide": {
+      "title": "30分钟跑姿节奏引导",
+      "fileName": "cardio-technique-30min.mp3"
+    },
     "sessions": [
       {
         "id": "ctb-session1",

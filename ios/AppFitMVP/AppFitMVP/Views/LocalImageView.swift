@@ -14,15 +14,15 @@ struct LocalImageView: View {
                 .clipped()
         } else {
             ZStack {
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(Color(.systemGray6))
-                VStack(spacing: 8) {
+                RoundedRectangle(cornerRadius: AppLayout.radius14)
+                    .fill(AppColor.backgroundSecondary)
+                VStack(spacing: AppLayout.space8) {
                     Image(systemName: "figure.strengthtraining.traditional")
-                        .font(.system(size: 28))
-                        .foregroundStyle(.secondary)
+                        .font(AppFont.sectionTitle())
+                        .foregroundStyle(AppColor.textSecondary)
                     Text("图片待补充")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
+                        .font(AppFont.caption())
+                        .foregroundStyle(AppColor.textSecondary)
                 }
             }
             .frame(height: height)

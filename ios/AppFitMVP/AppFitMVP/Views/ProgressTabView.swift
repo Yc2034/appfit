@@ -15,11 +15,13 @@ struct ProgressTabView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 18) {
+                VStack(alignment: .leading, spacing: AppLayout.space16) {
                     if let errorMessage = store.errorMessage {
-                        Text(errorMessage)
-                            .font(.subheadline)
-                            .foregroundStyle(.red)
+                        AppFitCard {
+                            Text(errorMessage)
+                                .font(AppFont.body())
+                                .foregroundStyle(AppColor.danger)
+                        }
                     }
 
                     weightChartSection
@@ -29,8 +31,9 @@ struct ProgressTabView: View {
                     weightListSection
                     weeklyListSection
                 }
-                .padding(16)
+                .padding(AppLayout.screenPadding)
             }
+            .background(AppGradient.subtleBackground.ignoresSafeArea())
             .navigationTitle("训练数据")
             .sheet(item: $editingWeightEntry) { entry in
                 EditWeightSheet(entry: entry) { date, weight in
@@ -46,138 +49,180 @@ struct ProgressTabView: View {
     }
 
     private var weightChartSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("体重变化")
-                .font(.headline)
+        AppFitCard(style: .elevated) {
+            VStack(alignment: .leading, spacing: AppLayout.space12) {
+                AppSectionHeader(title: "体重变化", subtitle: "最近记录趋势")
 
-            Chart(store.bodyWeightEntries) { entry in
-                LineMark(
-                    x: .value("日期", entry.parsedDate),
-                    y: .value("体重", entry.weight)
-                )
-                .interpolationMethod(.catmullRom)
+                Chart(store.bodyWeightEntries) { entry in
+                    LineMark(
+                        x: .value("日期", entry.parsedDate),
+                        y: .value("体重", entry.weight)
+                    )
+                    .interpolationMethod(.catmullRom)
+                    .foregroundStyle(AppColor.accent)
 
-                PointMark(
-                    x: .value("日期", entry.parsedDate),
-                    y: .value("体重", entry.weight)
-                )
+                    PointMark(
+                        x: .value("日期", entry.parsedDate),
+                        y: .value("体重", entry.weight)
+                    )
+                    .foregroundStyle(AppColor.accentDeep)
+                }
+                .frame(height: 220)
             }
-            .frame(height: 220)
         }
-        .cardStyle()
     }
 
     private var weeklyChartSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("每周训练时长")
-                .font(.headline)
+        AppFitCard(style: .elevated) {
+            VStack(alignment: .leading, spacing: AppLayout.space12) {
+                AppSectionHeader(title: "每周训练时长", subtitle: "按周累计分钟数")
 
-            Chart(store.weeklyTrainingEntries) { entry in
-                BarMark(
-                    x: .value("周", entry.weekLabel),
-                    y: .value("分钟", entry.minutes)
-                )
+                Chart(store.weeklyTrainingEntries) { entry in
+                    BarMark(
+                        x: .value("周", entry.weekLabel),
+                        y: .value("分钟", entry.minutes)
+                    )
+                    .foregroundStyle(AppColor.accent)
+                    .cornerRadius(AppLayout.radius10)
+                }
+                .frame(height: 220)
             }
-            .frame(height: 220)
         }
-        .cardStyle()
     }
 
     private var addWeightSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("新增体重记录")
-                .font(.headline)
+        AppFitCard {
+            VStack(alignment: .leading, spacing: AppLayout.space12) {
+                AppSectionHeader(title: "新增体重记录")
 
-            DatePicker("日期", selection: $newWeightDate, displayedComponents: .date)
-            TextField("体重（kg）", text: $newWeightText)
-                .keyboardType(.decimalPad)
-                .textFieldStyle(.roundedBorder)
+                DatePicker("日期", selection: $newWeightDate, displayedComponents: .date)
+                    .font(AppFont.body())
 
-            Button("保存体重") {
-                guard let weight = Double(newWeightText), weight > 0 else { return }
-                store.addBodyWeight(date: newWeightDate, weight: weight)
-                newWeightText = ""
+                TextField("体重（kg）", text: $newWeightText)
+                    .font(AppFont.body())
+                    .keyboardType(.decimalPad)
+                    .textFieldStyle(.roundedBorder)
+
+                AppFitButton("保存体重", icon: "plus") {
+                    guard let weight = Double(newWeightText), weight > 0 else { return }
+                    store.addBodyWeight(date: newWeightDate, weight: weight)
+                    newWeightText = ""
+                }
             }
-            .buttonStyle(.borderedProminent)
         }
-        .cardStyle()
     }
 
     private var addWeeklySection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("新增每周训练时长")
-                .font(.headline)
+        AppFitCard {
+            VStack(alignment: .leading, spacing: AppLayout.space12) {
+                AppSectionHeader(title: "新增每周训练时长")
 
-            TextField("周标签（例如 2026-W11）", text: $newWeekLabel)
-                .textFieldStyle(.roundedBorder)
-            TextField("训练时长（分钟）", text: $newWeekMinutes)
-                .keyboardType(.numberPad)
-                .textFieldStyle(.roundedBorder)
+                TextField("周标签（例如 2026-W11）", text: $newWeekLabel)
+                    .font(AppFont.body())
+                    .textFieldStyle(.roundedBorder)
 
-            Button("保存周数据") {
-                let trimmed = newWeekLabel.trimmingCharacters(in: .whitespacesAndNewlines)
-                guard !trimmed.isEmpty,
-                      let minutes = Int(newWeekMinutes),
-                      minutes >= 0 else { return }
-                store.addWeeklyTraining(weekLabel: trimmed, minutes: minutes)
-                newWeekLabel = ""
-                newWeekMinutes = ""
+                TextField("训练时长（分钟）", text: $newWeekMinutes)
+                    .font(AppFont.body())
+                    .keyboardType(.numberPad)
+                    .textFieldStyle(.roundedBorder)
+
+                AppFitButton("保存周数据", icon: "plus") {
+                    let trimmed = newWeekLabel.trimmingCharacters(in: .whitespacesAndNewlines)
+                    guard !trimmed.isEmpty,
+                          let minutes = Int(newWeekMinutes),
+                          minutes >= 0 else { return }
+                    store.addWeeklyTraining(weekLabel: trimmed, minutes: minutes)
+                    newWeekLabel = ""
+                    newWeekMinutes = ""
+                }
             }
-            .buttonStyle(.borderedProminent)
         }
-        .cardStyle()
     }
 
     private var weightListSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("体重记录列表")
-                .font(.headline)
+        AppFitCard {
+            VStack(alignment: .leading, spacing: AppLayout.space10) {
+                AppSectionHeader(title: "体重记录列表")
 
-            ForEach(store.bodyWeightEntries) { entry in
-                HStack {
-                    Text(entry.date)
-                    Spacer()
-                    Text(String(format: "%.1f kg", entry.weight))
-                        .foregroundStyle(.secondary)
-                }
-                .swipeActions {
-                    Button("删除", role: .destructive) {
-                        store.deleteBodyWeight(id: entry.id)
+                if store.bodyWeightEntries.isEmpty {
+                    Text("暂无体重记录")
+                        .font(AppFont.body())
+                        .foregroundStyle(AppColor.textSecondary)
+                } else {
+                    ForEach(store.bodyWeightEntries) { entry in
+                        HStack {
+                            Text(entry.date)
+                                .font(AppFont.body())
+                                .foregroundStyle(AppColor.textPrimary)
+
+                            Spacer()
+
+                            Text(String(format: "%.1f kg", entry.weight))
+                                .font(AppFont.bodyStrong())
+                                .foregroundStyle(AppColor.textSecondary)
+                        }
+                        .padding(.vertical, AppLayout.space4)
+                        .swipeActions {
+                            Button("删除", role: .destructive) {
+                                store.deleteBodyWeight(id: entry.id)
+                            }
+                            Button("编辑") {
+                                editingWeightEntry = entry
+                            }
+                            .tint(AppColor.accent)
+                        }
+
+                        if entry.id != store.bodyWeightEntries.last?.id {
+                            Divider()
+                                .overlay(AppColor.divider)
+                        }
                     }
-                    Button("编辑") {
-                        editingWeightEntry = entry
-                    }
-                    .tint(.blue)
                 }
             }
         }
-        .cardStyle()
     }
 
     private var weeklyListSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text("每周训练时长列表")
-                .font(.headline)
+        AppFitCard {
+            VStack(alignment: .leading, spacing: AppLayout.space10) {
+                AppSectionHeader(title: "每周训练时长列表")
 
-            ForEach(store.weeklyTrainingEntries) { entry in
-                HStack {
-                    Text(entry.weekLabel)
-                    Spacer()
-                    Text("\(entry.minutes) 分钟")
-                        .foregroundStyle(.secondary)
-                }
-                .swipeActions {
-                    Button("删除", role: .destructive) {
-                        store.deleteWeeklyTraining(id: entry.id)
+                if store.weeklyTrainingEntries.isEmpty {
+                    Text("暂无周训练记录")
+                        .font(AppFont.body())
+                        .foregroundStyle(AppColor.textSecondary)
+                } else {
+                    ForEach(store.weeklyTrainingEntries) { entry in
+                        HStack {
+                            Text(entry.weekLabel)
+                                .font(AppFont.body())
+                                .foregroundStyle(AppColor.textPrimary)
+
+                            Spacer()
+
+                            Text("\(entry.minutes) 分钟")
+                                .font(AppFont.bodyStrong())
+                                .foregroundStyle(AppColor.textSecondary)
+                        }
+                        .padding(.vertical, AppLayout.space4)
+                        .swipeActions {
+                            Button("删除", role: .destructive) {
+                                store.deleteWeeklyTraining(id: entry.id)
+                            }
+                            Button("编辑") {
+                                editingWeekEntry = entry
+                            }
+                            .tint(AppColor.accent)
+                        }
+
+                        if entry.id != store.weeklyTrainingEntries.last?.id {
+                            Divider()
+                                .overlay(AppColor.divider)
+                        }
                     }
-                    Button("编辑") {
-                        editingWeekEntry = entry
-                    }
-                    .tint(.blue)
                 }
             }
         }
-        .cardStyle()
     }
 }
 
@@ -200,13 +245,17 @@ private struct EditWeightSheet: View {
         NavigationStack {
             Form {
                 DatePicker("日期", selection: $date, displayedComponents: .date)
+                    .font(AppFont.body())
+
                 TextField("体重（kg）", text: $weightText)
+                    .font(AppFont.body())
                     .keyboardType(.decimalPad)
             }
             .navigationTitle("编辑体重")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("取消") { dismiss() }
+                        .font(AppFont.body())
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("保存") {
@@ -214,6 +263,7 @@ private struct EditWeightSheet: View {
                         onSave(date, weight)
                         dismiss()
                     }
+                    .font(AppFont.bodyStrong())
                 }
             }
         }
@@ -239,13 +289,17 @@ private struct EditWeekSheet: View {
         NavigationStack {
             Form {
                 TextField("周标签", text: $weekLabel)
+                    .font(AppFont.body())
+
                 TextField("分钟", text: $minutesText)
+                    .font(AppFont.body())
                     .keyboardType(.numberPad)
             }
             .navigationTitle("编辑周数据")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("取消") { dismiss() }
+                        .font(AppFont.body())
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("保存") {
@@ -256,20 +310,9 @@ private struct EditWeekSheet: View {
                         onSave(trimmed, minutes)
                         dismiss()
                     }
+                    .font(AppFont.bodyStrong())
                 }
             }
         }
-    }
-}
-
-private extension View {
-    func cardStyle() -> some View {
-        self
-            .padding(12)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(Color(.secondarySystemBackground))
-            )
     }
 }

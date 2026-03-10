@@ -9,7 +9,13 @@ struct FitnessCourse: Codable, Identifiable, Hashable {
     let totalMinutes: Int
     let tags: [String]
     let coverImageName: String
+    let audioGuide: CourseAudioGuide?
     let sessions: [CourseSession]
+}
+
+struct CourseAudioGuide: Codable, Hashable {
+    let title: String
+    let fileName: String
 }
 
 struct CourseSession: Codable, Identifiable, Hashable {

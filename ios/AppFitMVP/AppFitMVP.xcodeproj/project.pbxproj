@@ -10,6 +10,7 @@
 		002F108400AF580DB494233F /* pushup_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F7922649A2D32DC2DE783FF /* pushup_demo.png */; };
 		03D31D6FA7CE79CB9360B0B1 /* courses.json in Resources */ = {isa = PBXBuildFile; fileRef = 862AD47B9ADF9A383C254B86 /* courses.json */; };
 		049214842623564307138CB4 /* LocalImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA15E0ACE3BAD1D74DC93FD /* LocalImageView.swift */; };
+		053151D2D9C7EA03017529B5 /* AppSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81250B727C29064FDFA0A691 /* AppSectionHeader.swift */; };
 		0942FA5F056328165F01F959 /* ExerciseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8EC67A9D502937462EA938 /* ExerciseStore.swift */; };
 		09582122C2A0CEF1B49E9B84 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03EF45A7700757F5E3B3BE1B /* Foundation.framework */; };
 		20010E0D7D71377A32793C92 /* ExerciseModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489264D19B5A930D78FDA3F5 /* ExerciseModels.swift */; };
@@ -22,6 +23,9 @@
 		51B95040A6560608ED19056A /* lunge_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = FE47FE2DBEE556B6F5EDAE05 /* lunge_demo.png */; };
 		557036A93877992BF61D9C89 /* ProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 895B8DEEA387480CB6ED9E3F /* ProgressStore.swift */; };
 		582277E251B02BF4F64FF80E /* LocalExerciseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D69BDC56FD68E7CC19256B9 /* LocalExerciseRepository.swift */; };
+		585BFC5B7D37862EA80C06EA /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BDF7D584D81247422E34D18 /* Theme.swift */; };
+		636200510C34C6796F413BFE /* AppFitCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EEF5D8C6BF1D46B0FA871D /* AppFitCard.swift */; };
+		64B9D9FC115689AE4319A775 /* AudioPlaybackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3C690DA51C0BA45E1E837 /* AudioPlaybackManager.swift */; };
 		6994ACDA15EB1D28AB923AEC /* ProgressModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 597F3179FF64030C4E32E73F /* ProgressModels.swift */; };
 		69B7C253AE692FD6346E568A /* stretch_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = D5C7FFD469DE4F3248E4B3FB /* stretch_demo.png */; };
 		8DA3764D7550A790B261BC35 /* running_drill.png in Resources */ = {isa = PBXBuildFile; fileRef = B3B8338243F23C1283F3D46D /* running_drill.png */; };
@@ -35,19 +39,25 @@
 		AF8BAF62755ECB5FD3763256 /* SessionPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D26E83E46AAE43009E43F1FD /* SessionPlayerView.swift */; };
 		AFDCF451394193492F0F0C69 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A106133FC12903E5213968CF /* MainTabView.swift */; };
 		B970ABFD2D9BEE60D62F9C81 /* breathing_reset.png in Resources */ = {isa = PBXBuildFile; fileRef = 11C228903C64D57539405871 /* breathing_reset.png */; };
+		D7FA30BC1BCB376998B5C571 /* AppFitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4E6F98CA84F4493B0BF841 /* AppFitButton.swift */; };
 		DC795EDF075AC1B5C174999C /* squat_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DE7B3DB9A181F92DCB3BD3E /* squat_demo.png */; };
 		E051B2425D6E9A8A43182715 /* ProgressTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27E5BC3400A8F23421B7C37 /* ProgressTabView.swift */; };
+		E08586134765028155CE463F /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5597A69E05098B7E9AB391F /* TagView.swift */; };
 		E69EBEB5C7E8193B328B645F /* cadence_block.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC4F2BC63893545ACDA55EB /* cadence_block.png */; };
 		EED82A528D9FF27CE679F3C4 /* MovementLibraryTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1449E9B2BF1A1DB4EEE92D3E /* MovementLibraryTabView.swift */; };
 		F067B3439735FCA7C09FD0BA /* progress_seed.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F906DB7CC0C9DF88CEF32C7 /* progress_seed.json */; };
+		FE365A3904DF3D093EB0D5DD /* CourseAudioPlayerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124F98790A7E02499AB3CB20 /* CourseAudioPlayerCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		03EF45A7700757F5E3B3BE1B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		060AF895585451F6C8560245 /* course_cardio_cover.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = course_cardio_cover.png; sourceTree = "<group>"; };
+		0BDF7D584D81247422E34D18 /* Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		11C228903C64D57539405871 /* breathing_reset.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = breathing_reset.png; sourceTree = "<group>"; };
+		124F98790A7E02499AB3CB20 /* CourseAudioPlayerCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseAudioPlayerCard.swift; sourceTree = "<group>"; };
 		1449E9B2BF1A1DB4EEE92D3E /* MovementLibraryTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MovementLibraryTabView.swift; sourceTree = "<group>"; };
 		20879ED7CC68C150A89DCEDC /* CourseDetailView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseDetailView.swift; sourceTree = "<group>"; };
+		2BE3C690DA51C0BA45E1E837 /* AudioPlaybackManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AudioPlaybackManager.swift; sourceTree = "<group>"; };
 		2F8EC67A9D502937462EA938 /* ExerciseStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ExerciseStore.swift; sourceTree = "<group>"; };
 		489264D19B5A930D78FDA3F5 /* ExerciseModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ExerciseModels.swift; sourceTree = "<group>"; };
 		4D69BDC56FD68E7CC19256B9 /* LocalExerciseRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalExerciseRepository.swift; sourceTree = "<group>"; };
@@ -60,10 +70,14 @@
 		6F906DB7CC0C9DF88CEF32C7 /* progress_seed.json */ = {isa = PBXFileReference; includeInIndex = 1; path = progress_seed.json; sourceTree = "<group>"; };
 		735DB1AD3014C06348F3C9C1 /* mobility_flow.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = mobility_flow.png; sourceTree = "<group>"; };
 		7DE7B3DB9A181F92DCB3BD3E /* squat_demo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = squat_demo.png; sourceTree = "<group>"; };
+		7F4E6F98CA84F4493B0BF841 /* AppFitButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppFitButton.swift; sourceTree = "<group>"; };
+		81250B727C29064FDFA0A691 /* AppSectionHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppSectionHeader.swift; sourceTree = "<group>"; };
 		828241B583BBD1C14EEEED5C /* AppFitMVP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppFitMVP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		862AD47B9ADF9A383C254B86 /* courses.json */ = {isa = PBXFileReference; includeInIndex = 1; path = courses.json; sourceTree = "<group>"; };
 		895B8DEEA387480CB6ED9E3F /* ProgressStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProgressStore.swift; sourceTree = "<group>"; };
+		91EEF5D8C6BF1D46B0FA871D /* AppFitCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppFitCard.swift; sourceTree = "<group>"; };
 		A106133FC12903E5213968CF /* MainTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		A5597A69E05098B7E9AB391F /* TagView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		B2F9A26C02ECB05E15F1B346 /* AppFitMVPApp.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppFitMVPApp.swift; sourceTree = "<group>"; };
 		B3B8338243F23C1283F3D46D /* running_drill.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = running_drill.png; sourceTree = "<group>"; };
 		B43C656392C622BB469282AA /* CourseStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseStore.swift; sourceTree = "<group>"; };
@@ -184,6 +198,8 @@
 				4C53E6188E8E1DFCC4A3AEFD /* Views */,
 				ED9D68634BED34F120B4171E /* Resources */,
 				B2F9A26C02ECB05E15F1B346 /* AppFitMVPApp.swift */,
+				A3055149016F4719F6B776AF /* DesignSystem */,
+				984845540B8C8F818F304FE0 /* Components */,
 			);
 			name = AppFitMVP;
 			path = AppFitMVP;
@@ -195,6 +211,7 @@
 				FBDE52BDA98D2135BC6FCF61 /* LocalCourseRepository.swift */,
 				4D69BDC56FD68E7CC19256B9 /* LocalExerciseRepository.swift */,
 				F9AD02F86A6EC705EB045604 /* LocalProgressRepository.swift */,
+				2BE3C690DA51C0BA45E1E837 /* AudioPlaybackManager.swift */,
 			);
 			name = Services;
 			path = Services;
@@ -206,6 +223,28 @@
 				5B2ABC0048E280C6B9E52CAE /* iOS */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		984845540B8C8F818F304FE0 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				91EEF5D8C6BF1D46B0FA871D /* AppFitCard.swift */,
+				7F4E6F98CA84F4493B0BF841 /* AppFitButton.swift */,
+				A5597A69E05098B7E9AB391F /* TagView.swift */,
+				81250B727C29064FDFA0A691 /* AppSectionHeader.swift */,
+				124F98790A7E02499AB3CB20 /* CourseAudioPlayerCard.swift */,
+			);
+			name = Components;
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A3055149016F4719F6B776AF /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				0BDF7D584D81247422E34D18 /* Theme.swift */,
+			);
+			name = DesignSystem;
+			path = DesignSystem;
 			sourceTree = "<group>";
 		};
 		EC117E082B1CDEC7EE6BD5DF = {
@@ -321,6 +360,13 @@
 				AD0BD947255AC0BF8D06334E /* CourseSearchTabView.swift in Sources */,
 				EED82A528D9FF27CE679F3C4 /* MovementLibraryTabView.swift in Sources */,
 				E051B2425D6E9A8A43182715 /* ProgressTabView.swift in Sources */,
+				585BFC5B7D37862EA80C06EA /* Theme.swift in Sources */,
+				636200510C34C6796F413BFE /* AppFitCard.swift in Sources */,
+				D7FA30BC1BCB376998B5C571 /* AppFitButton.swift in Sources */,
+				E08586134765028155CE463F /* TagView.swift in Sources */,
+				053151D2D9C7EA03017529B5 /* AppSectionHeader.swift in Sources */,
+				64B9D9FC115689AE4319A775 /* AudioPlaybackManager.swift in Sources */,
+				FE365A3904DF3D093EB0D5DD /* CourseAudioPlayerCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

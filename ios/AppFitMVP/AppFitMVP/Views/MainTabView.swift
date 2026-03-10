@@ -18,5 +18,7 @@ struct MainTabView: View {
                     Label("数据", systemImage: "chart.bar.xaxis")
                 }
         }
+        .tint(AppColor.accent)
+        .background(AppGradient.subtleBackground.ignoresSafeArea())
     }
 }

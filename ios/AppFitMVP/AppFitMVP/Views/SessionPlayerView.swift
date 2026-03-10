@@ -15,61 +15,61 @@ struct SessionPlayerView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            Text(courseTitle)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            Text(session.title)
-                .font(.title3.bold())
+        ScrollView {
+            VStack(alignment: .leading, spacing: AppLayout.space16) {
+                AppFitCard(style: .elevated) {
+                    VStack(alignment: .leading, spacing: AppLayout.space8) {
+                        Text(courseTitle)
+                            .font(AppFont.caption())
+                            .foregroundStyle(AppColor.textSecondary)
 
-            ProgressView(value: Double(stepIndex + 1), total: Double(session.steps.count))
-            Text(progressText)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                        Text(session.title)
+                            .font(AppFont.title())
+                            .foregroundStyle(AppColor.textPrimary)
 
-            LocalImageView(imageName: currentStep.imageName, height: 220)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
+                        ProgressView(value: Double(stepIndex + 1), total: Double(session.steps.count))
+                            .tint(AppColor.accent)
 
-            VStack(alignment: .leading, spacing: 8) {
-                Text(currentStep.title)
-                    .font(.headline)
-                Text(currentStep.instruction)
-                    .font(.body)
-                HStack(spacing: 14) {
-                    Label("动作 \(currentStep.durationSeconds) 秒", systemImage: "figure.walk")
-                    Label("休息 \(currentStep.restSeconds) 秒", systemImage: "pause.circle")
+                        Text(progressText)
+                            .font(AppFont.caption())
+                            .foregroundStyle(AppColor.textSecondary)
+                    }
                 }
-                .font(.caption)
-                .foregroundStyle(.secondary)
+
+                LocalImageView(imageName: currentStep.imageName, height: 240)
+                    .clipShape(RoundedRectangle(cornerRadius: AppLayout.radius18))
+
+                AppFitCard {
+                    VStack(alignment: .leading, spacing: AppLayout.space8) {
+                        Text(currentStep.title)
+                            .font(AppFont.sectionTitle())
+                            .foregroundStyle(AppColor.textPrimary)
+
+                        Text(currentStep.instruction)
+                            .font(AppFont.body())
+                            .foregroundStyle(AppColor.textSecondary)
+
+                        HStack(spacing: AppLayout.space12) {
+                            TagView(text: "动作 \(currentStep.durationSeconds) 秒")
+                            TagView(text: "休息 \(currentStep.restSeconds) 秒")
+                        }
+                    }
+                }
+
+                HStack(spacing: AppLayout.space12) {
+                    AppFitButton("上一步", icon: "chevron.left", variant: .secondary) {
+                        stepIndex = max(0, stepIndex - 1)
+                    }
+                    .disabled(stepIndex == 0)
+
+                    AppFitButton(stepIndex == session.steps.count - 1 ? "完成" : "下一步", icon: "chevron.right") {
+                        stepIndex = min(session.steps.count - 1, stepIndex + 1)
+                    }
+                }
             }
-            .padding(12)
-            .background(
-                RoundedRectangle(cornerRadius: 14)
-                    .fill(Color(.secondarySystemBackground))
-            )
-
-            HStack(spacing: 12) {
-                Button {
-                    stepIndex = max(0, stepIndex - 1)
-                } label: {
-                    Label("上一步", systemImage: "chevron.left")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered)
-                .disabled(stepIndex == 0)
-
-                Button {
-                    stepIndex = min(session.steps.count - 1, stepIndex + 1)
-                } label: {
-                    Label(stepIndex == session.steps.count - 1 ? "完成" : "下一步", systemImage: "chevron.right")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-            }
-
-            Spacer(minLength: 0)
+            .padding(AppLayout.screenPadding)
         }
-        .padding(16)
+        .background(AppGradient.subtleBackground.ignoresSafeArea())
         .navigationTitle("训练模式")
         .navigationBarTitleDisplayMode(.inline)
     }
