@@ -2,7 +2,7 @@ import Foundation
 
 @MainActor
 final class ProgressStore: ObservableObject {
-    @Published private(set) var bodyWeightEntries: [BodyWeightEntry] = []
+    @Published private(set) var bodyWeightMonthlyEntries: [BodyWeightMonthlyEntry] = []
     @Published private(set) var weeklyTrainingEntries: [WeeklyTrainingEntry] = []
     @Published var errorMessage: String?
 
@@ -10,7 +10,6 @@ final class ProgressStore: ObservableObject {
     private let defaults: UserDefaults
     private var loaded = false
 
-    private let weightKey = "appfit.progress.weight.entries"
     private let weeklyKey = "appfit.progress.weekly.entries"
 
     init(repository: ProgressRepository, defaults: UserDefaults = .standard) {
@@ -26,46 +25,66 @@ final class ProgressStore: ObservableObject {
     func load() {
         errorMessage = nil
 
-        if let cachedWeight = loadWeightFromDefaults(),
-           let cachedWeekly = loadWeeklyFromDefaults() {
-            bodyWeightEntries = cachedWeight.sorted { $0.date < $1.date }
-            weeklyTrainingEntries = cachedWeekly.sorted { $0.weekLabel < $1.weekLabel }
-            loaded = true
-            return
-        }
-
         do {
             let seed = try repository.loadSeedData()
-            bodyWeightEntries = seed.bodyWeightEntries.sorted { $0.date < $1.date }
-            weeklyTrainingEntries = seed.weeklyTrainingEntries.sorted { $0.weekLabel < $1.weekLabel }
-            persist()
+            bodyWeightMonthlyEntries = sortedMonthlyEntries(seed.bodyWeightMonthlyEntries)
+
+            if let cachedWeekly = loadWeeklyFromDefaults() {
+                weeklyTrainingEntries = cachedWeekly.sorted { $0.weekLabel < $1.weekLabel }
+            } else {
+                weeklyTrainingEntries = seed.weeklyTrainingEntries.sorted { $0.weekLabel < $1.weekLabel }
+                persist()
+            }
+
             loaded = true
         } catch {
             errorMessage = error.localizedDescription
         }
     }
 
-    func addBodyWeight(date: Date, weight: Double) {
-        let entry = BodyWeightEntry(
-            id: UUID().uuidString,
-            date: DateParsers.dayFormatter.string(from: date),
-            weight: weight
-        )
-        bodyWeightEntries.append(entry)
-        bodyWeightEntries.sort { $0.date < $1.date }
+    func addBodyWeight(month: Date, weight: Double) {
+        let monthKey = DateParsers.monthFormatter.string(from: month)
+        let normalizedWeight = normalizedWeightValue(weight)
+
+        if let index = bodyWeightMonthlyEntries.firstIndex(where: { $0.month == monthKey }) {
+            bodyWeightMonthlyEntries[index].weight = normalizedWeight
+            bodyWeightMonthlyEntries[index].updatedAt = DateParsers.iso8601Formatter.string(from: Date())
+        } else {
+            let entry = BodyWeightMonthlyEntry(
+                id: UUID().uuidString,
+                month: monthKey,
+                weight: normalizedWeight,
+                updatedAt: DateParsers.iso8601Formatter.string(from: Date())
+            )
+            bodyWeightMonthlyEntries.append(entry)
+        }
+
+        bodyWeightMonthlyEntries = sortedMonthlyEntries(bodyWeightMonthlyEntries)
         persist()
     }
 
-    func updateBodyWeight(id: String, date: Date, weight: Double) {
-        guard let index = bodyWeightEntries.firstIndex(where: { $0.id == id }) else { return }
-        bodyWeightEntries[index].date = DateParsers.dayFormatter.string(from: date)
-        bodyWeightEntries[index].weight = weight
-        bodyWeightEntries.sort { $0.date < $1.date }
+    func updateBodyWeight(id: String, month: Date, weight: Double) {
+        guard let index = bodyWeightMonthlyEntries.firstIndex(where: { $0.id == id }) else { return }
+
+        let monthKey = DateParsers.monthFormatter.string(from: month)
+        let normalizedWeight = normalizedWeightValue(weight)
+
+        if let duplicateIndex = bodyWeightMonthlyEntries.firstIndex(where: { $0.month == monthKey && $0.id != id }) {
+            bodyWeightMonthlyEntries[duplicateIndex].weight = normalizedWeight
+            bodyWeightMonthlyEntries[duplicateIndex].updatedAt = DateParsers.iso8601Formatter.string(from: Date())
+            bodyWeightMonthlyEntries.remove(at: index)
+        } else {
+            bodyWeightMonthlyEntries[index].month = monthKey
+            bodyWeightMonthlyEntries[index].weight = normalizedWeight
+            bodyWeightMonthlyEntries[index].updatedAt = DateParsers.iso8601Formatter.string(from: Date())
+        }
+
+        bodyWeightMonthlyEntries = sortedMonthlyEntries(bodyWeightMonthlyEntries)
         persist()
     }
 
     func deleteBodyWeight(id: String) {
-        bodyWeightEntries.removeAll { $0.id == id }
+        bodyWeightMonthlyEntries.removeAll { $0.id == id }
         persist()
     }
 
@@ -96,22 +115,21 @@ final class ProgressStore: ObservableObject {
     private func persist() {
         let encoder = JSONEncoder()
 
-        if let weightData = try? encoder.encode(bodyWeightEntries) {
-            defaults.set(weightData, forKey: weightKey)
-        }
-
         if let weeklyData = try? encoder.encode(weeklyTrainingEntries) {
             defaults.set(weeklyData, forKey: weeklyKey)
         }
     }
 
-    private func loadWeightFromDefaults() -> [BodyWeightEntry]? {
-        guard let data = defaults.data(forKey: weightKey) else { return nil }
-        return try? JSONDecoder().decode([BodyWeightEntry].self, from: data)
-    }
-
     private func loadWeeklyFromDefaults() -> [WeeklyTrainingEntry]? {
         guard let data = defaults.data(forKey: weeklyKey) else { return nil }
         return try? JSONDecoder().decode([WeeklyTrainingEntry].self, from: data)
+    }
+
+    private func sortedMonthlyEntries(_ entries: [BodyWeightMonthlyEntry]) -> [BodyWeightMonthlyEntry] {
+        entries.sorted { $0.month < $1.month }
+    }
+
+    private func normalizedWeightValue(_ weight: Double) -> Double {
+        (weight * 10).rounded() / 10
     }
 }

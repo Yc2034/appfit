@@ -4,12 +4,9 @@ import Charts
 struct ProgressTabView: View {
     @EnvironmentObject private var store: ProgressStore
 
-    @State private var newWeightDate: Date = Date()
-    @State private var newWeightText: String = ""
     @State private var newWeekLabel: String = ""
     @State private var newWeekMinutes: String = ""
 
-    @State private var editingWeightEntry: BodyWeightEntry?
     @State private var editingWeekEntry: WeeklyTrainingEntry?
 
     var body: some View {
@@ -26,20 +23,13 @@ struct ProgressTabView: View {
 
                     weightChartSection
                     weeklyChartSection
-                    addWeightSection
                     addWeeklySection
-                    weightListSection
                     weeklyListSection
                 }
                 .padding(AppLayout.screenPadding)
             }
             .background(AppGradient.subtleBackground.ignoresSafeArea())
             .navigationTitle("训练数据")
-            .sheet(item: $editingWeightEntry) { entry in
-                EditWeightSheet(entry: entry) { date, weight in
-                    store.updateBodyWeight(id: entry.id, date: date, weight: weight)
-                }
-            }
             .sheet(item: $editingWeekEntry) { entry in
                 EditWeekSheet(entry: entry) { week, minutes in
                     store.updateWeeklyTraining(id: entry.id, weekLabel: week, minutes: minutes)
@@ -51,21 +41,55 @@ struct ProgressTabView: View {
     private var weightChartSection: some View {
         AppFitCard(style: .elevated) {
             VStack(alignment: .leading, spacing: AppLayout.space12) {
-                AppSectionHeader(title: "体重变化", subtitle: "最近记录趋势")
+                AppSectionHeader(title: "月度体重趋势", subtitle: "按月份追踪体重变化")
 
-                Chart(store.bodyWeightEntries) { entry in
-                    LineMark(
-                        x: .value("日期", entry.parsedDate),
-                        y: .value("体重", entry.weight)
-                    )
-                    .interpolationMethod(.catmullRom)
-                    .foregroundStyle(AppColor.accent)
+                Group {
+                    if store.bodyWeightMonthlyEntries.isEmpty {
+                        Text("暂无月度体重记录，先新增一条数据吧。")
+                            .font(AppFont.body())
+                            .foregroundStyle(AppColor.textSecondary)
+                            .padding(.vertical, AppLayout.space12)
+                    } else {
+                        Chart(store.bodyWeightMonthlyEntries) { entry in
+                            LineMark(
+                                x: .value("月份", entry.parsedMonth),
+                                y: .value("体重", entry.weight)
+                            )
+                            .interpolationMethod(.catmullRom)
+                            .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
+                            .foregroundStyle(AppColor.accent)
 
-                    PointMark(
-                        x: .value("日期", entry.parsedDate),
-                        y: .value("体重", entry.weight)
-                    )
-                    .foregroundStyle(AppColor.accentDeep)
+                            AreaMark(
+                                x: .value("月份", entry.parsedMonth),
+                                y: .value("体重", entry.weight)
+                            )
+                            .interpolationMethod(.catmullRom)
+                            .foregroundStyle(AppColor.accent.opacity(0.12))
+
+                            PointMark(
+                                x: .value("月份", entry.parsedMonth),
+                                y: .value("体重", entry.weight)
+                            )
+                            .symbolSize(36)
+                            .foregroundStyle(AppColor.accentDeep)
+                        }
+                        .chartXAxis {
+                            AxisMarks(values: .stride(by: .month)) { value in
+                                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.6))
+                                    .foregroundStyle(AppColor.divider.opacity(0.5))
+                                AxisTick()
+                                AxisValueLabel(format: .dateTime.year().month(.twoDigits))
+                            }
+                        }
+                        .chartYAxis {
+                            AxisMarks { value in
+                                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.6))
+                                    .foregroundStyle(AppColor.divider.opacity(0.5))
+                                AxisTick()
+                                AxisValueLabel()
+                            }
+                        }
+                    }
                 }
                 .frame(height: 220)
             }
@@ -86,28 +110,6 @@ struct ProgressTabView: View {
                     .cornerRadius(AppLayout.radius10)
                 }
                 .frame(height: 220)
-            }
-        }
-    }
-
-    private var addWeightSection: some View {
-        AppFitCard {
-            VStack(alignment: .leading, spacing: AppLayout.space12) {
-                AppSectionHeader(title: "新增体重记录")
-
-                DatePicker("日期", selection: $newWeightDate, displayedComponents: .date)
-                    .font(AppFont.body())
-
-                TextField("体重（kg）", text: $newWeightText)
-                    .font(AppFont.body())
-                    .keyboardType(.decimalPad)
-                    .textFieldStyle(.roundedBorder)
-
-                AppFitButton("保存体重", icon: "plus") {
-                    guard let weight = Double(newWeightText), weight > 0 else { return }
-                    store.addBodyWeight(date: newWeightDate, weight: weight)
-                    newWeightText = ""
-                }
             }
         }
     }
@@ -139,49 +141,6 @@ struct ProgressTabView: View {
         }
     }
 
-    private var weightListSection: some View {
-        AppFitCard {
-            VStack(alignment: .leading, spacing: AppLayout.space10) {
-                AppSectionHeader(title: "体重记录列表")
-
-                if store.bodyWeightEntries.isEmpty {
-                    Text("暂无体重记录")
-                        .font(AppFont.body())
-                        .foregroundStyle(AppColor.textSecondary)
-                } else {
-                    ForEach(store.bodyWeightEntries) { entry in
-                        HStack {
-                            Text(entry.date)
-                                .font(AppFont.body())
-                                .foregroundStyle(AppColor.textPrimary)
-
-                            Spacer()
-
-                            Text(String(format: "%.1f kg", entry.weight))
-                                .font(AppFont.bodyStrong())
-                                .foregroundStyle(AppColor.textSecondary)
-                        }
-                        .padding(.vertical, AppLayout.space4)
-                        .swipeActions {
-                            Button("删除", role: .destructive) {
-                                store.deleteBodyWeight(id: entry.id)
-                            }
-                            Button("编辑") {
-                                editingWeightEntry = entry
-                            }
-                            .tint(AppColor.accent)
-                        }
-
-                        if entry.id != store.bodyWeightEntries.last?.id {
-                            Divider()
-                                .overlay(AppColor.divider)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private var weeklyListSection: some View {
         AppFitCard {
             VStack(alignment: .leading, spacing: AppLayout.space10) {
@@ -203,6 +162,23 @@ struct ProgressTabView: View {
                             Text("\(entry.minutes) 分钟")
                                 .font(AppFont.bodyStrong())
                                 .foregroundStyle(AppColor.textSecondary)
+
+                            Button {
+                                editingWeekEntry = entry
+                            } label: {
+                                Image(systemName: "pencil")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundStyle(AppColor.accent)
+                            }
+                            .buttonStyle(.plain)
+
+                            Button(role: .destructive) {
+                                store.deleteWeeklyTraining(id: entry.id)
+                            } label: {
+                                Image(systemName: "trash")
+                                    .font(.system(size: 14, weight: .semibold))
+                            }
+                            .buttonStyle(.plain)
                         }
                         .padding(.vertical, AppLayout.space4)
                         .swipeActions {
@@ -226,49 +202,6 @@ struct ProgressTabView: View {
     }
 }
 
-private struct EditWeightSheet: View {
-    let entry: BodyWeightEntry
-    let onSave: (Date, Double) -> Void
-
-    @Environment(\.dismiss) private var dismiss
-    @State private var date: Date
-    @State private var weightText: String
-
-    init(entry: BodyWeightEntry, onSave: @escaping (Date, Double) -> Void) {
-        self.entry = entry
-        self.onSave = onSave
-        _date = State(initialValue: entry.parsedDate)
-        _weightText = State(initialValue: String(format: "%.1f", entry.weight))
-    }
-
-    var body: some View {
-        NavigationStack {
-            Form {
-                DatePicker("日期", selection: $date, displayedComponents: .date)
-                    .font(AppFont.body())
-
-                TextField("体重（kg）", text: $weightText)
-                    .font(AppFont.body())
-                    .keyboardType(.decimalPad)
-            }
-            .navigationTitle("编辑体重")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("取消") { dismiss() }
-                        .font(AppFont.body())
-                }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("保存") {
-                        guard let weight = Double(weightText), weight > 0 else { return }
-                        onSave(date, weight)
-                        dismiss()
-                    }
-                    .font(AppFont.bodyStrong())
-                }
-            }
-        }
-    }
-}
 
 private struct EditWeekSheet: View {
     let entry: WeeklyTrainingEntry

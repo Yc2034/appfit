@@ -1,8 +1,10 @@
 {
-  "bodyWeightEntries": [
-    { "id": "bw-20260301", "date": "2026-03-01", "weight": 71.8 },
-    { "id": "bw-20260304", "date": "2026-03-04", "weight": 71.5 },
-    { "id": "bw-20260308", "date": "2026-03-08", "weight": 71.2 }
+  "schemaVersion": 2,
+  "bodyWeightMonthlyEntries": [
+    { "id": "bwm-2025-12", "month": "2025-12", "weight": 72.6 },
+    { "id": "bwm-2026-01", "month": "2026-01", "weight": 72.1 },
+    { "id": "bwm-2026-02", "month": "2026-02", "weight": 71.7 },
+    { "id": "bwm-2026-03", "month": "2026-03", "weight": 71.2 }
   ],
   "weeklyTrainingEntries": [
     { "id": "wt-2026w08", "weekLabel": "2026-W08", "minutes": 140 },

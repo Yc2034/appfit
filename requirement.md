@@ -20,7 +20,7 @@
 - 不做训练记录统计
 - 不做视频流媒体（先用本地图片 + 文本）
 
-## 4. Current Scope (v0.4)
+## 4. Current Scope (v0.5)
 ### 4.1 页面
 1. Tab 1 - 课件
 - 课程列表展示（基于本地课程 JSON）。
@@ -33,15 +33,15 @@
 - 动作详情（说明、目标肌群、器械、常见错误、配图）。
 
 3. Tab 3 - 训练数据
-- 体重变化图表（折线图）。
+- 月度体重变化图表（折线图，按 `yyyy-MM` 展示，只读）。
 - 每周训练时长图表（柱状图）。
-- 支持在 App 内手动新增、编辑、删除体重与周训练数据。
+- 支持在 App 内手动新增、编辑、删除每周训练数据（体重模块当前不提供交互编辑）。
 
 ### 4.2 数据
 - `courses.json`：课件筛选与训练步骤。
 - `courses.json` 可为课程配置 `audioGuide`（本地音频标题 + 文件名）。
 - `exercise_library.json`：动作细节内容。
-- `progress_seed.json`：训练数据初始值。
+- `progress_seed.json`：训练数据初始值（当前 `schemaVersion: 2`，体重为月度结构）。
 - 用户修改后的训练数据落地到 `UserDefaults`（本地持久化）。
 
 ### 4.3 技术
@@ -110,14 +110,17 @@
 
 ```json
 {
-  "bodyWeightEntries": [
-    { "id": "string", "date": "yyyy-MM-dd", "weight": 71.2 }
+  "schemaVersion": 2,
+  "bodyWeightMonthlyEntries": [
+    { "id": "string", "month": "yyyy-MM", "weight": 71.2, "updatedAt": "2026-03-11T12:30:00Z" }
   ],
   "weeklyTrainingEntries": [
     { "id": "string", "weekLabel": "2026-W10", "minutes": 210 }
   ]
 }
 ```
+
+说明：`progress_seed.json` 兼容旧字段 `bodyWeightEntries` 的解码路径，但当前体重图展示以 `bodyWeightMonthlyEntries` 为准。
 
 ## 6. File/Module Convention
 当前 SwiftUI 代码位置：`ios/AppFitMVP`
@@ -137,13 +140,14 @@
 1. 可稳定切换 3 个 Tab（课件、动作、数据）。
 2. Tab 1 可基于 `courses.json` 按标签筛选课程并进入训练步骤。
 3. Tab 2 可基于 `exercise_library.json` 渲染双列动作列表与动作详情。
-4. Tab 3 可基于 `progress_seed.json` 渲染图表。
-5. Tab 3 支持手动新增、编辑、删除数据，且界面立即更新。
+4. Tab 3 可基于 `progress_seed.json` 渲染“月度体重折线 + 每周训练柱状”图表，月体重样例数据点数量需完整呈现。
+5. Tab 3 支持手动新增、编辑、删除“周训练”数据，且界面立即更新（体重模块当前为只读展示）。
 6. 数据功能全程不依赖网络。
 7. 页面层不再散落硬编码 Color/Font（图表库必要配置除外）。
 8. 亮色/暗色模式下核心页面具备可读性和一致视觉层级。
 9. 当课程配置 `audioGuide` 时，课程页可进行本地音频播放/暂停、进度拖动与时长显示。
 10. 当本地音频文件缺失时，页面给出明确提示且不影响课程浏览与训练流程。
+11. 当本地存在历史缓存时，体重图仍以 `progress_seed.json` 的月度数据为准，不应出现“4 个点只渲染 1 个”的情况。
 
 ## 8. Iteration Plan
 ### Phase A (Completed)
@@ -158,6 +162,7 @@
 - 训练模式增强：倒计时、自动跳下一步、震动提示。
 - 课程与动作页面的筛选与排序增强。
 - 数据页面增加更多统计维度（周/月对比）。
+- `CR-20260311-01` 已完成（按最终口径）：体重数据升级为月度结构，体重趋势图按 JSON 只读展示，修复历史缓存导致的数据点丢失问题。
 
 ### Phase C
 - 内容生产效率：模板化 JSON、批量导入图片。
@@ -186,3 +191,12 @@
 - UI Reference: (可选，Figma 链接或截图说明)
 - Notes: (可选)
 ```
+
+## 10. Delivery Log
+### CR-20260311-01 (Done, 2026-03-11)
+- 体重数据模型由按日 `bodyWeightEntries` 升级为按月 `bodyWeightMonthlyEntries`。
+- `progress_seed.json` 升级到 `schemaVersion: 2`，并提供月度体重样例数据。
+- `ProgressStore` 体重数据改为优先读取本地 JSON（避免历史缓存导致图表仅渲染 1 个点）。
+- `Tab 3` 体重图改为月度趋势展示（平滑折线 + 点位 + 面积层），并优化月份轴标签可读性。
+- 按最终需求移除体重编辑交互入口，体重模块改为只读展示。
+- 每周训练时长模块保持原有行为，未发生功能回归。
