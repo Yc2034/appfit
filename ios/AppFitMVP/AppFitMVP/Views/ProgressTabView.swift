@@ -20,6 +20,10 @@ struct ProgressTabView: View {
                     monthlyTrainingChartSection
                 }
                 .padding(AppLayout.screenPadding)
+                .padding(.bottom, AppLayout.space20)
+            }
+            .safeAreaInset(edge: .bottom) {
+                Color.clear.frame(height: AppLayout.space20)
             }
             .background(AppGradient.subtleBackground.ignoresSafeArea())
             .navigationTitle("训练数据")
