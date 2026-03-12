@@ -3,45 +3,52 @@ import Foundation
 struct ProgressSeedData: Codable {
     let schemaVersion: Int?
     let bodyWeightMonthlyEntries: [BodyWeightMonthlyEntry]
-    let weeklyTrainingEntries: [WeeklyTrainingEntry]
+    let monthlyTrainingEntries: [MonthlyTrainingEntry]
 
     enum CodingKeys: String, CodingKey {
         case schemaVersion
         case bodyWeightMonthlyEntries
         case bodyWeightEntries
+        case monthlyTrainingEntries
         case weeklyTrainingEntries
     }
 
     init(
         schemaVersion: Int? = nil,
         bodyWeightMonthlyEntries: [BodyWeightMonthlyEntry],
-        weeklyTrainingEntries: [WeeklyTrainingEntry]
+        monthlyTrainingEntries: [MonthlyTrainingEntry]
     ) {
         self.schemaVersion = schemaVersion
         self.bodyWeightMonthlyEntries = bodyWeightMonthlyEntries
-        self.weeklyTrainingEntries = weeklyTrainingEntries
+        self.monthlyTrainingEntries = monthlyTrainingEntries
     }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         schemaVersion = try container.decodeIfPresent(Int.self, forKey: .schemaVersion)
-        weeklyTrainingEntries = try container.decodeIfPresent([WeeklyTrainingEntry].self, forKey: .weeklyTrainingEntries) ?? []
 
         if let monthlyEntries = try container.decodeIfPresent([BodyWeightMonthlyEntry].self, forKey: .bodyWeightMonthlyEntries),
            !monthlyEntries.isEmpty {
             bodyWeightMonthlyEntries = monthlyEntries
-            return
+        } else {
+            let legacyEntries = try container.decodeIfPresent([LegacyBodyWeightEntry].self, forKey: .bodyWeightEntries) ?? []
+            bodyWeightMonthlyEntries = LegacyBodyWeightEntry.migrateToMonthly(legacyEntries)
         }
 
-        let legacyEntries = try container.decodeIfPresent([LegacyBodyWeightEntry].self, forKey: .bodyWeightEntries) ?? []
-        bodyWeightMonthlyEntries = LegacyBodyWeightEntry.migrateToMonthly(legacyEntries)
+        if let monthlyTraining = try container.decodeIfPresent([MonthlyTrainingEntry].self, forKey: .monthlyTrainingEntries),
+           !monthlyTraining.isEmpty {
+            monthlyTrainingEntries = monthlyTraining.sorted { $0.month < $1.month }
+        } else {
+            let legacyWeekly = try container.decodeIfPresent([LegacyWeeklyTrainingEntry].self, forKey: .weeklyTrainingEntries) ?? []
+            monthlyTrainingEntries = LegacyWeeklyTrainingEntry.migrateToMonthly(legacyWeekly)
+        }
     }
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(schemaVersion, forKey: .schemaVersion)
         try container.encode(bodyWeightMonthlyEntries, forKey: .bodyWeightMonthlyEntries)
-        try container.encode(weeklyTrainingEntries, forKey: .weeklyTrainingEntries)
+        try container.encode(monthlyTrainingEntries, forKey: .monthlyTrainingEntries)
     }
 }
 
@@ -100,10 +107,71 @@ struct LegacyBodyWeightEntry: Codable, Identifiable, Hashable {
     }
 }
 
-struct WeeklyTrainingEntry: Codable, Identifiable, Hashable {
+struct MonthlyTrainingEntry: Codable, Identifiable, Hashable {
+    let id: String
+    var month: String
+    var categories: [TrainingCategoryMinutes]
+
+    var parsedMonth: Date {
+        DateParsers.monthFormatter.date(from: month) ?? Date()
+    }
+
+    var monthLabel: String {
+        DateParsers.monthLabelFormatter.string(from: parsedMonth)
+    }
+
+    var totalMinutes: Int {
+        categories.reduce(0) { $0 + $1.minutes }
+    }
+}
+
+struct TrainingCategoryMinutes: Codable, Hashable {
+    var category: String
+    var minutes: Int
+}
+
+struct LegacyWeeklyTrainingEntry: Codable, Identifiable, Hashable {
     let id: String
     var weekLabel: String
     var minutes: Int
+
+    private var month: String? {
+        let parts = weekLabel.split(separator: "-W")
+        guard parts.count == 2,
+              let year = Int(parts[0]),
+              let week = Int(parts[1]) else { return nil }
+
+        var components = DateComponents()
+        components.yearForWeekOfYear = year
+        components.weekOfYear = week
+        components.weekday = 2
+
+        let calendar = Calendar(identifier: .iso8601)
+        guard let date = calendar.date(from: components) else { return nil }
+        return DateParsers.monthFormatter.string(from: date)
+    }
+
+    static func migrateToMonthly(_ entries: [LegacyWeeklyTrainingEntry]) -> [MonthlyTrainingEntry] {
+        guard !entries.isEmpty else { return [] }
+
+        var totalsByMonth: [String: Int] = [:]
+        for entry in entries {
+            guard let month = entry.month else { continue }
+            totalsByMonth[month, default: 0] += entry.minutes
+        }
+
+        return totalsByMonth
+            .map { month, total in
+                MonthlyTrainingEntry(
+                    id: "mt-\(month)",
+                    month: month,
+                    categories: [
+                        TrainingCategoryMinutes(category: "综合训练", minutes: total)
+                    ]
+                )
+            }
+            .sorted { $0.month < $1.month }
+    }
 }
 
 enum DateParsers {
