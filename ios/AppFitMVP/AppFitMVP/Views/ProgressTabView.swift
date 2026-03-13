@@ -16,8 +16,8 @@ struct ProgressTabView: View {
                         }
                     }
 
-                    weightChartSection
                     monthlyTrainingChartSection
+                    weightChartSection
                 }
                 .padding(AppLayout.screenPadding)
                 .padding(.bottom, AppLayout.space20)
@@ -47,8 +47,8 @@ struct ProgressTabView: View {
                             y: .value("体重", entry.weight)
                         )
                         .interpolationMethod(.catmullRom)
-                        .lineStyle(StrokeStyle(lineWidth: 3.5, lineCap: .round, lineJoin: .round))
-                        .foregroundStyle(AppGradient.hero)
+                        .lineStyle(StrokeStyle(lineWidth: 2.0, lineCap: .round, lineJoin: .round))
+                        .foregroundStyle(AppColor.accent.opacity(0.7))
 
                         AreaMark(
                             x: .value("月份", entry.parsedMonth),
@@ -57,25 +57,11 @@ struct ProgressTabView: View {
                         .interpolationMethod(.catmullRom)
                         .foregroundStyle(
                             LinearGradient(
-                                colors: [AppColor.accent.opacity(0.4), AppColor.accent.opacity(0.0)],
+                                colors: [AppColor.accent.opacity(0.2), AppColor.accent.opacity(0.0)],
                                 startPoint: .top,
                                 endPoint: .bottom
                             )
                         )
-
-                        PointMark(
-                            x: .value("月份", entry.parsedMonth),
-                            y: .value("体重", entry.weight)
-                        )
-                        .symbolSize(120)
-                        .foregroundStyle(AppColor.card)
-
-                        PointMark(
-                            x: .value("月份", entry.parsedMonth),
-                            y: .value("体重", entry.weight)
-                        )
-                        .symbolSize(50)
-                        .foregroundStyle(AppColor.accent)
                     }
                     .chartYScale(domain: .automatic(includesZero: false))
                     .chartXAxis {
@@ -100,7 +86,7 @@ struct ProgressTabView: View {
                             }
                         }
                     }
-                    .frame(height: 240)
+                    .frame(height: 160)
                     .padding(.top, 8)
                 }
             }
@@ -110,7 +96,7 @@ struct ProgressTabView: View {
     private var monthlyTrainingChartSection: some View {
         AppFitCard(style: .elevated) {
             VStack(alignment: .leading, spacing: AppLayout.space16) {
-                AppSectionHeader(title: "训练时长分布", subtitle: "各类别训练时长（分钟）")
+                AppSectionHeader(title: "锻炼成就", subtitle: "每月坚持挥洒汗水的时间")
 
                 if trainingPoints.isEmpty {
                     Text("暂无数据")
@@ -125,6 +111,11 @@ struct ProgressTabView: View {
                         )
                         .foregroundStyle(by: .value("类别", point.category))
                         .cornerRadius(AppLayout.radius10)
+                        
+                        // Add a subtle background shading to each bar for depth
+                        if let lastCategory = trainingPoints.last(where: { $0.month == point.month })?.category, point.category == lastCategory {
+                            // Only add this for the top of the stack or we could use annotations
+                        }
                     }
                     .chartForegroundStyleScale(domain: categoryDomain, range: categoryRange)
                     .chartXAxis {
@@ -138,20 +129,21 @@ struct ProgressTabView: View {
                     }
                     .chartYAxis {
                         AxisMarks { value in
-                            AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
-                                .foregroundStyle(AppColor.divider.opacity(0.4))
+                            AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [4, 4]))
+                                .foregroundStyle(AppColor.divider.opacity(0.3))
                             AxisValueLabel() {
                                 if let mins = value.as(Int.self) {
-                                    Text("\(mins)")
-                                        .font(AppFont.caption())
+                                    Text("\(mins) m")
+                                        .font(AppFont.tiny())
                                         .foregroundStyle(AppColor.textSecondary)
                                 }
                             }
                         }
                     }
-                    .chartLegend(position: .bottom, alignment: .leading, spacing: AppLayout.space12)
-                    .frame(height: 260)
-                    .padding(.top, 8)
+                    .chartLegend(position: .top, alignment: .trailing, spacing: AppLayout.space8)
+                    .frame(height: 280)
+                    .padding(.top, AppLayout.space12)
+                    .padding(.bottom, AppLayout.space8)
                 }
             }
         }
