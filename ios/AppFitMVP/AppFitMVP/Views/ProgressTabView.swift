@@ -8,6 +8,7 @@ struct ProgressTabView: View {
     private let visiblePointCount = 6
     private let weightChartHeight: CGFloat = 132
     private let trainingChartHeight: CGFloat = 280
+    private let chartEdgePadding: CGFloat = 20
 
     var body: some View {
         NavigationStack {
@@ -77,6 +78,7 @@ struct ProgressTabView: View {
                                 .symbolSize(28)
                                 .foregroundStyle(AppColor.accent)
                             }
+                            .chartXScale(range: .plotDimension(startPadding: chartEdgePadding, endPadding: chartEdgePadding))
                             .chartYScale(domain: .automatic(includesZero: false))
                             .chartXAxis {
                                 AxisMarks(values: .stride(by: .month)) { _ in
@@ -144,6 +146,7 @@ struct ProgressTabView: View {
                                 .foregroundStyle(by: .value("类别", point.category))
                                 .cornerRadius(AppLayout.radius10)
                             }
+                            .chartXScale(range: .plotDimension(startPadding: chartEdgePadding, endPadding: chartEdgePadding))
                             .chartForegroundStyleScale(domain: categoryDomain, range: categoryRange)
                             .chartXAxis {
                                 AxisMarks(values: .stride(by: .month)) { _ in
