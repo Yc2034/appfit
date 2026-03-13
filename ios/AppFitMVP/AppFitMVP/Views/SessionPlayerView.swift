@@ -1,6 +1,10 @@
 import SwiftUI
 
 struct SessionPlayerView: View {
+    @EnvironmentObject private var store: CourseStore
+    @Environment(\.dismiss) private var dismiss
+
+    let courseID: String
     let courseTitle: String
     let session: CourseSession
 
@@ -62,8 +66,11 @@ struct SessionPlayerView: View {
                     }
                     .disabled(stepIndex == 0)
 
-                    AppFitButton(stepIndex == session.steps.count - 1 ? "完成" : "下一步", icon: "chevron.right") {
-                        stepIndex = min(session.steps.count - 1, stepIndex + 1)
+                    AppFitButton(
+                        stepIndex == session.steps.count - 1 ? "完成" : "下一步",
+                        icon: stepIndex == session.steps.count - 1 ? "checkmark" : "chevron.right"
+                    ) {
+                        handlePrimaryAction()
                     }
                 }
             }
@@ -72,5 +79,17 @@ struct SessionPlayerView: View {
         .background(AppGradient.subtleBackground.ignoresSafeArea())
         .navigationTitle("训练模式")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            store.markSessionStarted(courseID: courseID, sessionID: session.id)
+        }
+    }
+
+    private func handlePrimaryAction() {
+        if stepIndex == session.steps.count - 1 {
+            store.markSessionCompleted(courseID: courseID, sessionID: session.id)
+            dismiss()
+        } else {
+            stepIndex = min(session.steps.count - 1, stepIndex + 1)
+        }
     }
 }

@@ -11,6 +11,14 @@ struct FitnessCourse: Codable, Identifiable, Hashable {
     let coverImageName: String
     let audioGuide: CourseAudioGuide?
     let sessions: [CourseSession]
+
+    var sessionCount: Int {
+        sessions.count
+    }
+
+    var totalStepCount: Int {
+        sessions.reduce(0) { $0 + $1.steps.count }
+    }
 }
 
 struct CourseAudioGuide: Codable, Hashable {
@@ -33,4 +41,10 @@ struct CourseStep: Codable, Identifiable, Hashable {
     let durationSeconds: Int
     let restSeconds: Int
     let imageName: String
+}
+
+struct CourseSessionRoute: Hashable {
+    let courseID: String
+    let courseTitle: String
+    let session: CourseSession
 }
