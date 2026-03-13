@@ -1,0 +1,64 @@
+{
+  "id": "cardio-technique",
+  "title": "Cardio Technique Builder",
+  "subtitle": "30分钟有氧技术课，用来做训练前的节奏校准",
+  "focus": "Cardio",
+  "level": "Intermediate",
+  "totalMinutes": 30,
+  "tags": ["节奏", "呼吸", "跑姿"],
+  "coverImageName": "course_cardio_cover",
+  "audioGuide": {
+    "title": "30分钟跑姿节奏引导",
+    "fileName": "cardio-technique-30min.mp3"
+  },
+  "sessions": [
+    {
+      "id": "ctb-session1",
+      "title": "Stride + Breathing",
+      "goal": "建立步频与呼吸配合",
+      "estimatedMinutes": 15,
+      "steps": [
+        {
+          "id": "march-drill",
+          "title": "March Drill",
+          "instruction": "高抬腿行进，控制落地声音，稳定上身。",
+          "durationSeconds": 90,
+          "restSeconds": 30,
+          "imageName": "running_drill"
+        },
+        {
+          "id": "cadence-run",
+          "title": "Cadence Block",
+          "instruction": "按节拍维持目标步频，注意放松肩颈。",
+          "durationSeconds": 180,
+          "restSeconds": 45,
+          "imageName": "cadence_block"
+        }
+      ]
+    },
+    {
+      "id": "ctb-session2",
+      "title": "Cooldown Flow",
+      "goal": "训练后放松与恢复",
+      "estimatedMinutes": 15,
+      "steps": [
+        {
+          "id": "hamstring-stretch",
+          "title": "Hamstring Stretch",
+          "instruction": "保持脊柱中立，呼气时缓慢增加拉伸幅度。",
+          "durationSeconds": 120,
+          "restSeconds": 20,
+          "imageName": "stretch_demo"
+        },
+        {
+          "id": "box-breathing",
+          "title": "Box Breathing",
+          "instruction": "吸气4拍、停4拍、呼气4拍、停4拍，循环4轮。",
+          "durationSeconds": 180,
+          "restSeconds": 0,
+          "imageName": "breathing_reset"
+        }
+      ]
+    }
+  ]
+}

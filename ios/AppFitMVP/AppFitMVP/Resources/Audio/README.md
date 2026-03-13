@@ -14,7 +14,7 @@ Files must be included in the app bundle.
 3. Confirm the file appears in `Copy Bundle Resources`.
 
 ## JSON mapping
-Reference file names from `Resources/Data/courses.json` using:
+Reference file names from `Resources/Data/CourseLibrary/*.json` using:
 
 ```json
 "audioGuide": {

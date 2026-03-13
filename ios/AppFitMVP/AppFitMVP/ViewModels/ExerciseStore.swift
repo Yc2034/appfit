@@ -87,4 +87,21 @@ final class ExerciseStore: ObservableObject {
 
         isLoading = false
     }
+
+    func movement(matching step: CourseStep) -> ExerciseMovement? {
+        let normalizedTitle = normalizedToken(from: step.title)
+        let normalizedStepID = normalizedToken(from: step.id)
+
+        return movements.first { movement in
+            normalizedToken(from: movement.name) == normalizedTitle ||
+            normalizedToken(from: movement.id) == normalizedStepID
+        }
+    }
+
+    private func normalizedToken(from value: String) -> String {
+        value
+            .lowercased()
+            .components(separatedBy: CharacterSet.alphanumerics.inverted)
+            .joined()
+    }
 }

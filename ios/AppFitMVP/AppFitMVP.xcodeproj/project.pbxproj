@@ -8,15 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		002F108400AF580DB494233F /* pushup_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F7922649A2D32DC2DE783FF /* pushup_demo.png */; };
-		03D31D6FA7CE79CB9360B0B1 /* courses.json in Resources */ = {isa = PBXBuildFile; fileRef = 862AD47B9ADF9A383C254B86 /* courses.json */; };
 		049214842623564307138CB4 /* LocalImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA15E0ACE3BAD1D74DC93FD /* LocalImageView.swift */; };
 		053151D2D9C7EA03017529B5 /* AppSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81250B727C29064FDFA0A691 /* AppSectionHeader.swift */; };
+		08112233445566778899AA01 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08112233445566778899BB01 /* AppRouter.swift */; };
 		0942FA5F056328165F01F959 /* ExerciseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8EC67A9D502937462EA938 /* ExerciseStore.swift */; };
 		09582122C2A0CEF1B49E9B84 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03EF45A7700757F5E3B3BE1B /* Foundation.framework */; };
 		11223344556677889900AA01 /* movement_bodyweight_squat.json in Resources */ = {isa = PBXBuildFile; fileRef = 11223344556677889900BB01 /* movement_bodyweight_squat.json */; };
 		11223344556677889900AA02 /* movement_forearm_plank.json in Resources */ = {isa = PBXBuildFile; fileRef = 11223344556677889900BB02 /* movement_forearm_plank.json */; };
 		11223344556677889900AA03 /* movement_incline_pushup.json in Resources */ = {isa = PBXBuildFile; fileRef = 11223344556677889900BB03 /* movement_incline_pushup.json */; };
 		11223344556677889900AA04 /* movement_reverse_lunge.json in Resources */ = {isa = PBXBuildFile; fileRef = 11223344556677889900BB04 /* movement_reverse_lunge.json */; };
+		22334455667788990011AA01 /* course_cardio_technique_builder.json in Resources */ = {isa = PBXBuildFile; fileRef = 22334455667788990011BB01 /* course_cardio_technique_builder.json */; };
+		22334455667788990011AA02 /* course_strength_foundation_a.json in Resources */ = {isa = PBXBuildFile; fileRef = 22334455667788990011BB02 /* course_strength_foundation_a.json */; };
 		20010E0D7D71377A32793C92 /* ExerciseModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489264D19B5A930D78FDA3F5 /* ExerciseModels.swift */; };
 		256CA5E37103F2FBB77F8BF6 /* course_strength_cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F2CB759BDC652EF20F25D03 /* course_strength_cover.png */; };
 		2AE5873332C7E04602D54D6D /* CourseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43C656392C622BB469282AA /* CourseStore.swift */; };
@@ -56,12 +58,15 @@
 /* Begin PBXFileReference section */
 		03EF45A7700757F5E3B3BE1B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		060AF895585451F6C8560245 /* course_cardio_cover.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = course_cardio_cover.png; sourceTree = "<group>"; };
+		08112233445566778899BB01 /* AppRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		0BDF7D584D81247422E34D18 /* Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		11C228903C64D57539405871 /* breathing_reset.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = breathing_reset.png; sourceTree = "<group>"; };
 		11223344556677889900BB01 /* movement_bodyweight_squat.json */ = {isa = PBXFileReference; includeInIndex = 1; path = movement_bodyweight_squat.json; sourceTree = "<group>"; };
 		11223344556677889900BB02 /* movement_forearm_plank.json */ = {isa = PBXFileReference; includeInIndex = 1; path = movement_forearm_plank.json; sourceTree = "<group>"; };
 		11223344556677889900BB03 /* movement_incline_pushup.json */ = {isa = PBXFileReference; includeInIndex = 1; path = movement_incline_pushup.json; sourceTree = "<group>"; };
 		11223344556677889900BB04 /* movement_reverse_lunge.json */ = {isa = PBXFileReference; includeInIndex = 1; path = movement_reverse_lunge.json; sourceTree = "<group>"; };
+		22334455667788990011BB01 /* course_cardio_technique_builder.json */ = {isa = PBXFileReference; includeInIndex = 1; path = course_cardio_technique_builder.json; sourceTree = "<group>"; };
+		22334455667788990011BB02 /* course_strength_foundation_a.json */ = {isa = PBXFileReference; includeInIndex = 1; path = course_strength_foundation_a.json; sourceTree = "<group>"; };
 		124F98790A7E02499AB3CB20 /* CourseAudioPlayerCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseAudioPlayerCard.swift; sourceTree = "<group>"; };
 		1449E9B2BF1A1DB4EEE92D3E /* MovementLibraryTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MovementLibraryTabView.swift; sourceTree = "<group>"; };
 		20879ED7CC68C150A89DCEDC /* CourseDetailView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseDetailView.swift; sourceTree = "<group>"; };
@@ -81,7 +86,6 @@
 		7BA6AD9E625F4F8DAA8E4801 /* body_weight_seed.json */ = {isa = PBXFileReference; includeInIndex = 1; path = body_weight_seed.json; sourceTree = "<group>"; };
 		81250B727C29064FDFA0A691 /* AppSectionHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppSectionHeader.swift; sourceTree = "<group>"; };
 		828241B583BBD1C14EEEED5C /* AppFitMVP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppFitMVP.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		862AD47B9ADF9A383C254B86 /* courses.json */ = {isa = PBXFileReference; includeInIndex = 1; path = courses.json; sourceTree = "<group>"; };
 		895B8DEEA387480CB6ED9E3F /* ProgressStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProgressStore.swift; sourceTree = "<group>"; };
 		91EEF5D8C6BF1D46B0FA871D /* AppFitCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppFitCard.swift; sourceTree = "<group>"; };
 		A106133FC12903E5213968CF /* MainTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -116,6 +120,7 @@
 		13DBCE8DCFC34BA11B5AB458 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				08112233445566778899BB01 /* AppRouter.swift */,
 				B43C656392C622BB469282AA /* CourseStore.swift */,
 				2F8EC67A9D502937462EA938 /* ExerciseStore.swift */,
 				895B8DEEA387480CB6ED9E3F /* ProgressStore.swift */,
@@ -150,7 +155,7 @@
 		580516EF2C830001C34DDF37 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				862AD47B9ADF9A383C254B86 /* courses.json */,
+				22334455667788990011CC01 /* CourseLibrary */,
 				11223344556677889900CC01 /* ExerciseLibrary */,
 				7BA6AD9E625F4F8DAA8E4801 /* body_weight_seed.json */,
 				3C7F8750AC694CCDA5E7596F /* training_seed.json */,
@@ -168,6 +173,15 @@
 				11223344556677889900BB04 /* movement_reverse_lunge.json */,
 			);
 			path = ExerciseLibrary;
+			sourceTree = "<group>";
+		};
+		22334455667788990011CC01 /* CourseLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				22334455667788990011BB01 /* course_cardio_technique_builder.json */,
+				22334455667788990011BB02 /* course_strength_foundation_a.json */,
+			);
+			path = CourseLibrary;
 			sourceTree = "<group>";
 		};
 		5B2ABC0048E280C6B9E52CAE /* iOS */ = {
@@ -338,7 +352,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03D31D6FA7CE79CB9360B0B1 /* courses.json in Resources */,
+				22334455667788990011AA01 /* course_cardio_technique_builder.json in Resources */,
+				22334455667788990011AA02 /* course_strength_foundation_a.json in Resources */,
 				256CA5E37103F2FBB77F8BF6 /* course_strength_cover.png in Resources */,
 				A659AB974E9433F50D2C8285 /* course_cardio_cover.png in Resources */,
 				A55BE501899C700846AABD5B /* warmup_dynamic.png in Resources */,
@@ -368,6 +383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A15BA360FD37AD15D85155C8 /* AppFitMVPApp.swift in Sources */,
+				08112233445566778899AA01 /* AppRouter.swift in Sources */,
 				3BF50D5929FDFEAA79C1C105 /* CourseModels.swift in Sources */,
 				A28C897CBC774DB5960DC275 /* LocalCourseRepository.swift in Sources */,
 				2AE5873332C7E04602D54D6D /* CourseStore.swift in Sources */,

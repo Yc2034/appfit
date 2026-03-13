@@ -1,0 +1,80 @@
+{
+  "id": "strength-foundation",
+  "title": "Strength Foundation A",
+  "subtitle": "45分钟全身训练，适合恢复期和重建习惯",
+  "focus": "Full Body",
+  "level": "Beginner",
+  "totalMinutes": 45,
+  "tags": ["居家", "无跳跃", "力量"],
+  "coverImageName": "course_strength_cover",
+  "audioGuide": {
+    "title": "45分钟训练引导音频",
+    "fileName": "strength-foundation-45min.mp3"
+  },
+  "sessions": [
+    {
+      "id": "sfa-day1",
+      "title": "Day 1 Push + Core",
+      "goal": "激活胸肩推力与核心稳定",
+      "estimatedMinutes": 22,
+      "steps": [
+        {
+          "id": "warmup-dynamic",
+          "title": "Dynamic Warmup",
+          "instruction": "肩环绕、髋关节打开、原地快走，保持呼吸节奏。",
+          "durationSeconds": 240,
+          "restSeconds": 20,
+          "imageName": "warmup_dynamic"
+        },
+        {
+          "id": "pushup-elevated",
+          "title": "Incline Push-up",
+          "instruction": "双手撑高位，身体一条直线，下放时保持核心收紧。",
+          "durationSeconds": 45,
+          "restSeconds": 30,
+          "imageName": "pushup_demo"
+        },
+        {
+          "id": "plank-hold",
+          "title": "Forearm Plank",
+          "instruction": "肘在肩正下方，收紧臀部，避免塌腰。",
+          "durationSeconds": 40,
+          "restSeconds": 30,
+          "imageName": "plank_demo"
+        }
+      ]
+    },
+    {
+      "id": "sfa-day2",
+      "title": "Day 2 Legs + Mobility",
+      "goal": "提高下肢发力与活动度",
+      "estimatedMinutes": 23,
+      "steps": [
+        {
+          "id": "bodyweight-squat",
+          "title": "Bodyweight Squat",
+          "instruction": "髋向后坐，膝盖朝脚尖方向，起身时脚跟发力。",
+          "durationSeconds": 60,
+          "restSeconds": 30,
+          "imageName": "squat_demo"
+        },
+        {
+          "id": "reverse-lunge",
+          "title": "Reverse Lunge",
+          "instruction": "向后迈步，前脚稳定，躯干保持直立。",
+          "durationSeconds": 50,
+          "restSeconds": 30,
+          "imageName": "lunge_demo"
+        },
+        {
+          "id": "hip-mobility",
+          "title": "Hip Mobility Flow",
+          "instruction": "缓慢控制髋关节旋转，保持核心稳定，动作范围逐步加大。",
+          "durationSeconds": 120,
+          "restSeconds": 20,
+          "imageName": "mobility_flow"
+        }
+      ]
+    }
+  ]
+}

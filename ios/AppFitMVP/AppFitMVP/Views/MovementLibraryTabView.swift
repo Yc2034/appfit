@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct MovementLibraryTabView: View {
+    @EnvironmentObject private var router: AppRouter
     @EnvironmentObject private var store: ExerciseStore
     private let columns = [
         GridItem(.flexible(), spacing: AppLayout.space12),
@@ -8,7 +9,7 @@ struct MovementLibraryTabView: View {
     ]
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $router.movementPath) {
             ZStack {
                 AppGradient.subtleBackground
                     .ignoresSafeArea()
@@ -16,8 +17,8 @@ struct MovementLibraryTabView: View {
                 content
             }
             .navigationTitle("动作细节")
-            .navigationDestination(for: ExerciseMovement.self) { movement in
-                MovementDetailView(movement: movement)
+            .navigationDestination(for: MovementRoute.self) { route in
+                MovementDetailView(movement: route.movement, source: route.source)
             }
         }
     }
@@ -50,7 +51,7 @@ struct MovementLibraryTabView: View {
                         LazyVGrid(columns: columns, spacing: AppLayout.space12) {
                             ForEach(store.filteredMovements) { movement in
                                 ZStack(alignment: .topTrailing) {
-                                    NavigationLink(value: movement) {
+                                    NavigationLink(value: MovementRoute(movement: movement, source: .library)) {
                                         MovementGridCard(movement: movement)
                                     }
                                     .buttonStyle(MovementCardButtonStyle())
@@ -173,8 +174,10 @@ private struct MovementGridCard: View {
 }
 
 struct MovementDetailView: View {
+    @EnvironmentObject private var router: AppRouter
     @EnvironmentObject private var store: ExerciseStore
     let movement: ExerciseMovement
+    let source: MovementRouteSource
 
     var body: some View {
         ScrollView {
@@ -253,7 +256,17 @@ struct MovementDetailView: View {
         .background(AppGradient.subtleBackground.ignoresSafeArea())
         .navigationTitle("动作详情")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(source == .course)
         .toolbar {
+            if source == .course {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("返回课程") {
+                        router.returnFromCourseLinkedMovement()
+                    }
+                    .foregroundStyle(AppColor.textPrimary)
+                }
+            }
+
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     store.toggleFavorite(for: movement)

@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct SessionPlayerView: View {
+    @EnvironmentObject private var router: AppRouter
     @EnvironmentObject private var store: CourseStore
+    @EnvironmentObject private var exerciseStore: ExerciseStore
     @Environment(\.dismiss) private var dismiss
 
     let courseID: String
@@ -16,6 +18,10 @@ struct SessionPlayerView: View {
 
     private var progressText: String {
         "步骤 \(stepIndex + 1) / \(session.steps.count)"
+    }
+
+    private var linkedMovement: ExerciseMovement? {
+        exerciseStore.movement(matching: currentStep)
     }
 
     var body: some View {
@@ -56,6 +62,29 @@ struct SessionPlayerView: View {
                         HStack(spacing: AppLayout.space12) {
                             TagView(text: "动作 \(currentStep.durationSeconds) 秒")
                             TagView(text: "休息 \(currentStep.restSeconds) 秒")
+                        }
+
+                        if let linkedMovement {
+                            Button {
+                                router.openMovementFromCourse(linkedMovement)
+                            } label: {
+                                HStack(spacing: AppLayout.space8) {
+                                    Image(systemName: "figure.strengthtraining.traditional")
+                                    Text("查看动作要领")
+                                        .font(AppFont.bodyStrong())
+                                    Spacer()
+                                    Image(systemName: "arrow.right")
+                                        .font(AppFont.caption())
+                                }
+                                .foregroundStyle(AppColor.accent)
+                                .padding(.horizontal, AppLayout.space12)
+                                .padding(.vertical, AppLayout.space10)
+                                .background(
+                                    RoundedRectangle(cornerRadius: AppLayout.radius14, style: .continuous)
+                                        .fill(AppColor.accentSoft)
+                                )
+                            }
+                            .buttonStyle(.plain)
                         }
                     }
                 }
