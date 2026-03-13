@@ -1,0 +1,16 @@
+{
+  "id": "incline-pushup",
+  "name": "Incline Push-up",
+  "category": "Push",
+  "targetArea": "Chest / Triceps / Core",
+  "equipment": "Bench or Box",
+  "instruction": "双手支撑高位，肩膀远离耳朵，身体保持一条直线后完成控制下放和推起。",
+  "tags": ["上肢", "推", "胸肩臂", "自重"],
+  "keyPoints": [
+    "下放时肘部自然向后约 45 度",
+    "推起时保持肩胛稳定，不要耸肩",
+    "核心收紧，避免腰部塌陷"
+  ],
+  "imageName": "pushup_demo",
+  "demoImageNames": ["pushup_demo", "running_drill"]
+}

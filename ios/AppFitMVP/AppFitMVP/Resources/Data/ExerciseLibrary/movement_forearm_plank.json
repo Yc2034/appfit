@@ -1,0 +1,16 @@
+{
+  "id": "forearm-plank",
+  "name": "Forearm Plank",
+  "category": "Core",
+  "targetArea": "Core Stability",
+  "equipment": "Mat",
+  "instruction": "前臂支撑地面，肩膀垂直对齐手肘，保持身体从头到脚成一条线。",
+  "tags": ["核心", "稳定", "自重"],
+  "keyPoints": [
+    "腹部和臀部持续收紧",
+    "避免塌腰或抬臀过高",
+    "保持均匀呼吸，不要屏气"
+  ],
+  "imageName": "plank_demo",
+  "demoImageNames": ["plank_demo", "mobility_flow"]
+}

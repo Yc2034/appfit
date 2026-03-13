@@ -1,0 +1,16 @@
+{
+  "id": "bodyweight-squat",
+  "name": "Bodyweight Squat",
+  "category": "Lower Body",
+  "targetArea": "Quadriceps / Glutes",
+  "equipment": "None",
+  "instruction": "双脚与肩同宽站立，吸气下蹲，髋部向后坐，起身时脚跟稳定发力。",
+  "tags": ["下肢", "臀腿", "自重"],
+  "keyPoints": [
+    "下蹲时膝盖与脚尖方向一致",
+    "重心保持在足中和脚跟",
+    "起身时先稳住核心再发力"
+  ],
+  "imageName": "squat_demo",
+  "demoImageNames": ["squat_demo", "lunge_demo"]
+}

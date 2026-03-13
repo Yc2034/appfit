@@ -1,0 +1,16 @@
+{
+  "id": "reverse-lunge",
+  "name": "Reverse Lunge",
+  "category": "Lower Body",
+  "targetArea": "Glutes / Hamstrings",
+  "equipment": "None",
+  "instruction": "向后撤步后垂直下沉，前脚稳定承重，再通过前脚发力回到起始位。",
+  "tags": ["下肢", "臀腿", "平衡", "自重"],
+  "keyPoints": [
+    "撤步距离要足够，保证前腿稳定",
+    "下降时躯干保持直立，不要前扑",
+    "回起时以前脚脚跟发力更稳定"
+  ],
+  "imageName": "lunge_demo",
+  "demoImageNames": ["lunge_demo", "stretch_demo"]
+}

@@ -5,32 +5,36 @@ protocol ExerciseRepository {
 }
 
 enum LocalExerciseRepositoryError: LocalizedError {
-    case missingFile
-    case decodeFailed
+    case missingFiles
+    case decodeFailed(String)
 
     var errorDescription: String? {
         switch self {
-        case .missingFile:
-            return "无法找到本地动作数据文件 exercise_library.json"
-        case .decodeFailed:
-            return "动作数据格式无效，请检查 exercise_library.json"
+        case .missingFiles:
+            return "无法找到本地动作数据文件，请检查 ExerciseLibrary 文件夹"
+        case .decodeFailed(let fileName):
+            return "动作数据格式无效，请检查 \(fileName)"
         }
     }
 }
 
 struct LocalExerciseRepository: ExerciseRepository {
     func loadMovements() throws -> [ExerciseMovement] {
-        guard let url = Bundle.main.url(forResource: "exercise_library", withExtension: "json") else {
-            throw LocalExerciseRepositoryError.missingFile
+        let urls = (Bundle.main.urls(forResourcesWithExtension: "json", subdirectory: nil) ?? [])
+            .filter { $0.deletingPathExtension().lastPathComponent.hasPrefix("movement_") }
+            .sorted { $0.lastPathComponent < $1.lastPathComponent }
+
+        guard !urls.isEmpty else {
+            throw LocalExerciseRepositoryError.missingFiles
         }
 
-        let data = try Data(contentsOf: url)
         let decoder = JSONDecoder()
-
-        guard let movements = try? decoder.decode([ExerciseMovement].self, from: data) else {
-            throw LocalExerciseRepositoryError.decodeFailed
+        return try urls.map { url in
+            let data = try Data(contentsOf: url)
+            guard let movement = try? decoder.decode(ExerciseMovement.self, from: data) else {
+                throw LocalExerciseRepositoryError.decodeFailed(url.lastPathComponent)
+            }
+            return movement
         }
-
-        return movements
     }
 }

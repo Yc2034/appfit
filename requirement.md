@@ -29,8 +29,9 @@
 - 课程详情支持本地音频引导播放（可选，按课程配置）。
 
 2. Tab 2 - 动作细节
-- 动作列表与搜索（动作名、类别、目标肌群），列表以双列网格展示。
-- 动作详情（说明、目标肌群、器械、常见错误、配图）。
+- 动作列表以双列网格展示，顶部支持按 tag 分类筛选。
+- 支持收藏动作，收藏项优先展示。
+- 动作详情展示动作要领、目标肌群、器械与可选动作示例多图。
 
 3. Tab 3 - 训练数据
 - 月度体重变化图表（折线图，按 `yyyy-MM` 展示，只读）。
@@ -42,7 +43,7 @@
 ### 4.2 数据
 - `courses.json`：课件筛选与训练步骤。
 - `courses.json` 可为课程配置 `audioGuide`（本地音频标题 + 文件名）。
-- `exercise_library.json`：动作细节内容。
+- `Resources/Data/ExerciseLibrary/*.json`：单动作明细文件，每个 JSON 对应一个动作。
 - `body_weight_seed.json`：体重数据初始值（当前 `schemaVersion: 3`，月度体重结构）。
 - `training_seed.json`：训练数据初始值（当前 `schemaVersion: 3`，月度分类训练结构）。
 - 当前数据页面以本地 JSON 只读展示为主，不依赖用户侧编辑持久化。
@@ -94,7 +95,7 @@
 
 说明：`audioGuide` 为可选字段；未配置时课程页不展示音频模块。
 
-`exercise_library.json` 顶层是数组，每个 Movement 结构如下：
+`Resources/Data/ExerciseLibrary/*.json` 采用“单文件单动作”结构，每个 Movement 文件如下：
 
 ```json
 {
@@ -104,10 +105,14 @@
   "targetArea": "string",
   "equipment": "string",
   "instruction": "string",
-  "commonMistakes": ["string"],
-  "imageName": "local_image_name"
+  "tags": ["string"],
+  "keyPoints": ["string"],
+  "imageName": "local_image_name",
+  "demoImageNames": ["local_image_name"]
 }
 ```
+
+说明：`demoImageNames` 为可选字段；未配置时详情页不展示“动作示例”多图区块。当前解码层兼容旧字段 `commonMistakes`，会在缺少 `keyPoints` 时作为降级读取。
 
 `body_weight_seed.json` 结构如下：
 
@@ -157,17 +162,19 @@
 满足以下全部条件即视为当前版本完成：
 1. 可稳定切换 3 个 Tab（课件、动作、数据）。
 2. Tab 1 可基于 `courses.json` 按标签筛选课程并进入训练步骤。
-3. Tab 2 可基于 `exercise_library.json` 渲染双列动作列表与动作详情。
-4. Tab 3 可基于 `body_weight_seed.json` 与 `training_seed.json` 渲染“月度体重折线 + 月度分类堆叠柱状（带 legend）”图表，月体重样例数据点数量需完整呈现。
-5. 对同一月份的多类别训练分钟数可正确累加并以单月堆叠柱展示。
-6. 当月度数据超过 6 个点时，图表应可横向浏览，不应压缩到无法阅读。
-7. 点按训练图中的具体类别分段时，页面应显示该月份该类别对应的分钟数。
-8. 数据功能全程不依赖网络。
-9. 页面层不再散落硬编码 Color/Font（图表库必要配置除外）。
-10. 亮色/暗色模式下核心页面具备可读性和一致视觉层级。
-11. 当课程配置 `audioGuide` 时，课程页可进行本地音频播放/暂停、进度拖动与时长显示。
-12. 当本地音频文件缺失时，页面给出明确提示且不影响课程浏览与训练流程。
-13. 当本地存在历史缓存时，体重图仍以 `body_weight_seed.json` 的月度数据为准，不应出现“4 个点只渲染 1 个”的情况。
+3. Tab 2 可基于 `Resources/Data/ExerciseLibrary/*.json` 渲染双列动作列表与动作详情。
+4. Tab 2 顶部可按 tag 进行本地筛选，且收藏动作优先展示。
+5. 动作详情页可展示“动作要领”与可选“动作示例”多图。
+6. Tab 3 可基于 `body_weight_seed.json` 与 `training_seed.json` 渲染“月度体重折线 + 月度分类堆叠柱状（带 legend）”图表，月体重样例数据点数量需完整呈现。
+7. 对同一月份的多类别训练分钟数可正确累加并以单月堆叠柱展示。
+8. 当月度数据超过 6 个点时，图表应可横向浏览，不应压缩到无法阅读。
+9. 点按训练图中的具体类别分段时，页面应显示该月份该类别对应的分钟数。
+10. 数据功能全程不依赖网络。
+11. 页面层不再散落硬编码 Color/Font（图表库必要配置除外）。
+12. 亮色/暗色模式下核心页面具备可读性和一致视觉层级。
+13. 当课程配置 `audioGuide` 时，课程页可进行本地音频播放/暂停、进度拖动与时长显示。
+14. 当本地音频文件缺失时，页面给出明确提示且不影响课程浏览与训练流程。
+15. 当本地存在历史缓存时，体重图仍以 `body_weight_seed.json` 的月度数据为准，不应出现“4 个点只渲染 1 个”的情况。
 
 ## 8. Iteration Plan
 ### Phase A (Completed)
@@ -227,3 +234,10 @@
 - 体重趋势图高度下调，保留核心趋势表达，减少页面纵向占用。
 - 体重图与训练图增加“默认 6 个月窗口 + 横向滚动”浏览方式，用于承载多年历史数据。
 - 训练图支持点按堆叠柱的具体分类分段，并在卡片内显示该月该类别的分钟数明细。
+
+### Tab 2 Update (2026-03-12)
+- 动作数据由单一 `exercise_library.json` 重构为 `Resources/Data/ExerciseLibrary/*.json` 单文件目录结构，便于后续逐动作维护。
+- `LocalExerciseRepository` 改为扫描并解码多个 `movement_*.json` 文件。
+- 列表页移除搜索栏，改为顶部 tag 筛选；收藏动作通过 `UserDefaults` 本地持久化，并在列表中优先展示。
+- 详情页移除“常见错误”区块，替换为“动作要领”。
+- 动作模型新增 `tags`、`keyPoints` 与可选 `demoImageNames`，支持详情页多图展示“动作示例”。
