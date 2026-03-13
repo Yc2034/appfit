@@ -1,17 +1,9 @@
 import Foundation
 
-struct ProgressSeedData: Codable {
+struct ProgressSeedData {
     let schemaVersion: Int?
     let bodyWeightMonthlyEntries: [BodyWeightMonthlyEntry]
     let monthlyTrainingEntries: [MonthlyTrainingEntry]
-
-    enum CodingKeys: String, CodingKey {
-        case schemaVersion
-        case bodyWeightMonthlyEntries
-        case bodyWeightEntries
-        case monthlyTrainingEntries
-        case weeklyTrainingEntries
-    }
 
     init(
         schemaVersion: Int? = nil,
@@ -22,6 +14,17 @@ struct ProgressSeedData: Codable {
         self.bodyWeightMonthlyEntries = bodyWeightMonthlyEntries
         self.monthlyTrainingEntries = monthlyTrainingEntries
     }
+}
+
+struct BodyWeightSeedData: Decodable {
+    let schemaVersion: Int?
+    let bodyWeightMonthlyEntries: [BodyWeightMonthlyEntry]
+
+    enum CodingKeys: String, CodingKey {
+        case schemaVersion
+        case bodyWeightMonthlyEntries
+        case bodyWeightEntries
+    }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -29,11 +32,27 @@ struct ProgressSeedData: Codable {
 
         if let monthlyEntries = try container.decodeIfPresent([BodyWeightMonthlyEntry].self, forKey: .bodyWeightMonthlyEntries),
            !monthlyEntries.isEmpty {
-            bodyWeightMonthlyEntries = monthlyEntries
+            bodyWeightMonthlyEntries = monthlyEntries.sorted { $0.month < $1.month }
         } else {
             let legacyEntries = try container.decodeIfPresent([LegacyBodyWeightEntry].self, forKey: .bodyWeightEntries) ?? []
             bodyWeightMonthlyEntries = LegacyBodyWeightEntry.migrateToMonthly(legacyEntries)
         }
+    }
+}
+
+struct TrainingSeedData: Decodable {
+    let schemaVersion: Int?
+    let monthlyTrainingEntries: [MonthlyTrainingEntry]
+
+    enum CodingKeys: String, CodingKey {
+        case schemaVersion
+        case monthlyTrainingEntries
+        case weeklyTrainingEntries
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        schemaVersion = try container.decodeIfPresent(Int.self, forKey: .schemaVersion)
 
         if let monthlyTraining = try container.decodeIfPresent([MonthlyTrainingEntry].self, forKey: .monthlyTrainingEntries),
            !monthlyTraining.isEmpty {
@@ -42,13 +61,6 @@ struct ProgressSeedData: Codable {
             let legacyWeekly = try container.decodeIfPresent([LegacyWeeklyTrainingEntry].self, forKey: .weeklyTrainingEntries) ?? []
             monthlyTrainingEntries = LegacyWeeklyTrainingEntry.migrateToMonthly(legacyWeekly)
         }
-    }
-
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(schemaVersion, forKey: .schemaVersion)
-        try container.encode(bodyWeightMonthlyEntries, forKey: .bodyWeightMonthlyEntries)
-        try container.encode(monthlyTrainingEntries, forKey: .monthlyTrainingEntries)
     }
 }
 

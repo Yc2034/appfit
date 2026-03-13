@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 3,
+  "monthlyTrainingEntries": [
+    {
+      "id": "mt-2025-04",
+      "month": "2025-04",
+      "categories": [
+        { "category": "跑步", "minutes": 90 },
+        { "category": "游泳", "minutes": 30 },
+        { "category": "HIIT", "minutes": 40 },
+        { "category": "力量训练", "minutes": 70 },
+        { "category": "腹部训练", "minutes": 50 }
+      ]
+    },
+    {
+      "id": "mt-2025-05",
+      "month": "2025-05",
+      "categories": [
+        { "category": "跑步", "minutes": 100 },
+        { "category": "游泳", "minutes": 40 },
+        { "category": "HIIT", "minutes": 60 },
+        { "category": "力量训练", "minutes": 80 },
+        { "category": "腹部训练", "minutes": 60 }
+      ]
+    },
+    {
+      "id": "mt-2025-06",
+      "month": "2025-06",
+      "categories": [
+        { "category": "跑步", "minutes": 120 },
+        { "category": "游泳", "minutes": 50 },
+        { "category": "HIIT", "minutes": 70 },
+        { "category": "力量训练", "minutes": 90 },
+        { "category": "腹部训练", "minutes": 70 }
+      ]
+    },
+    {
+      "id": "mt-2025-07",
+      "month": "2025-07",
+      "categories": [
+        { "category": "跑步", "minutes": 140 },
+        { "category": "游泳", "minutes": 40 },
+        { "category": "HIIT", "minutes": 80 },
+        { "category": "力量训练", "minutes": 100 },
+        { "category": "腹部训练", "minutes": 80 }
+      ]
+    },
+    {
+      "id": "mt-2025-08",
+      "month": "2025-08",
+      "categories": [
+        { "category": "跑步", "minutes": 160 },
+        { "category": "游泳", "minutes": 30 },
+        { "category": "HIIT", "minutes": 90 },
+        { "category": "力量训练", "minutes": 110 },
+        { "category": "腹部训练", "minutes": 90 }
+      ]
+    },
+    {
+      "id": "mt-2025-09",
+      "month": "2025-09",
+      "categories": [
+        { "category": "跑步", "minutes": 130 },
+        { "category": "游泳", "minutes": 60 },
+        { "category": "HIIT", "minutes": 70 },
+        { "category": "力量训练", "minutes": 100 },
+        { "category": "腹部训练", "minutes": 85 }
+      ]
+    },
+    {
+      "id": "mt-2025-10",
+      "month": "2025-10",
+      "categories": [
+        { "category": "跑步", "minutes": 110 },
+        { "category": "游泳", "minutes": 70 },
+        { "category": "HIIT", "minutes": 60 },
+        { "category": "力量训练", "minutes": 95 },
+        { "category": "腹部训练", "minutes": 80 }
+      ]
+    },
+    {
+      "id": "mt-2025-11",
+      "month": "2025-11",
+      "categories": [
+        { "category": "跑步", "minutes": 100 },
+        { "category": "游泳", "minutes": 50 },
+        { "category": "HIIT", "minutes": 75 },
+        { "category": "力量训练", "minutes": 105 },
+        { "category": "腹部训练", "minutes": 85 }
+      ]
+    },
+    {
+      "id": "mt-2025-12",
+      "month": "2025-12",
+      "categories": [
+        { "category": "跑步", "minutes": 120 },
+        { "category": "游泳", "minutes": 60 },
+        { "category": "HIIT", "minutes": 80 },
+        { "category": "力量训练", "minutes": 60 },
+        { "category": "腹部训练", "minutes": 120 }
+      ]
+    },
+    {
+      "id": "mt-2026-01",
+      "month": "2026-01",
+      "categories": [
+        { "category": "跑步", "minutes": 140 },
+        { "category": "游泳", "minutes": 40 },
+        { "category": "HIIT", "minutes": 70 },
+        { "category": "力量训练", "minutes": 90 },
+        { "category": "腹部训练", "minutes": 100 }
+      ]
+    },
+    {
+      "id": "mt-2026-02",
+      "month": "2026-02",
+      "categories": [
+        { "category": "跑步", "minutes": 100 },
+        { "category": "游泳", "minutes": 80 },
+        { "category": "HIIT", "minutes": 90 },
+        { "category": "力量训练", "minutes": 110 },
+        { "category": "腹部训练", "minutes": 90 }
+      ]
+    },
+    {
+      "id": "mt-2026-03",
+      "month": "2026-03",
+      "categories": [
+        { "category": "跑步", "minutes": 160 },
+        { "category": "游泳", "minutes": 50 },
+        { "category": "HIIT", "minutes": 100 },
+        { "category": "力量训练", "minutes": 130 },
+        { "category": "腹部训练", "minutes": 110 }
+      ]
+    }
+  ]
+}

@@ -3,6 +3,11 @@ import Charts
 
 struct ProgressTabView: View {
     @EnvironmentObject private var store: ProgressStore
+    @State private var selectedTrainingDetail: SelectedTrainingDetail?
+
+    private let visiblePointCount = 6
+    private let weightChartHeight: CGFloat = 132
+    private let trainingChartHeight: CGFloat = 280
 
     var body: some View {
         NavigationStack {
@@ -33,7 +38,7 @@ struct ProgressTabView: View {
     private var weightChartSection: some View {
         AppFitCard(style: .elevated) {
             VStack(alignment: .leading, spacing: AppLayout.space16) {
-                AppSectionHeader(title: "体重趋势", subtitle: "体重变化历史记录")
+                AppSectionHeader(title: "体重趋势")
 
                 if store.bodyWeightMonthlyEntries.isEmpty {
                     Text("暂无记录")
@@ -41,53 +46,76 @@ struct ProgressTabView: View {
                         .foregroundStyle(AppColor.textSecondary)
                         .padding(.vertical, AppLayout.space12)
                 } else {
-                    Chart(store.bodyWeightMonthlyEntries) { entry in
-                        LineMark(
-                            x: .value("月份", entry.parsedMonth),
-                            y: .value("体重", entry.weight)
-                        )
-                        .interpolationMethod(.catmullRom)
-                        .lineStyle(StrokeStyle(lineWidth: 2.0, lineCap: .round, lineJoin: .round))
-                        .foregroundStyle(AppColor.accent.opacity(0.7))
+                    GeometryReader { geometry in
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            Chart(store.bodyWeightMonthlyEntries) { entry in
+                                LineMark(
+                                    x: .value("月份", entry.parsedMonth),
+                                    y: .value("体重", entry.weight)
+                                )
+                                .interpolationMethod(.catmullRom)
+                                .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                                .foregroundStyle(AppColor.accent.opacity(0.8))
 
-                        AreaMark(
-                            x: .value("月份", entry.parsedMonth),
-                            y: .value("体重", entry.weight)
-                        )
-                        .interpolationMethod(.catmullRom)
-                        .foregroundStyle(
-                            LinearGradient(
-                                colors: [AppColor.accent.opacity(0.2), AppColor.accent.opacity(0.0)],
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                        )
-                    }
-                    .chartYScale(domain: .automatic(includesZero: false))
-                    .chartXAxis {
-                        AxisMarks(values: .stride(by: .month)) { _ in
-                            AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
-                                .foregroundStyle(AppColor.divider.opacity(0.4))
-                            AxisValueLabel(format: .dateTime.month(.abbreviated))
-                                .font(AppFont.caption())
-                                .foregroundStyle(AppColor.textSecondary)
-                        }
-                    }
-                    .chartYAxis {
-                        AxisMarks { value in
-                            AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
-                                .foregroundStyle(AppColor.divider.opacity(0.4))
-                            AxisValueLabel() {
-                                if let weight = value.as(Double.self) {
-                                    Text("\(weight, specifier: "%.1f")")
+                                AreaMark(
+                                    x: .value("月份", entry.parsedMonth),
+                                    y: .value("体重", entry.weight)
+                                )
+                                .interpolationMethod(.catmullRom)
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [AppColor.accent.opacity(0.18), AppColor.accent.opacity(0.0)],
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
+
+                                PointMark(
+                                    x: .value("月份", entry.parsedMonth),
+                                    y: .value("体重", entry.weight)
+                                )
+                                .symbolSize(28)
+                                .foregroundStyle(AppColor.accent)
+                            }
+                            .chartYScale(domain: .automatic(includesZero: false))
+                            .chartXAxis {
+                                AxisMarks(values: .stride(by: .month)) { _ in
+                                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
+                                        .foregroundStyle(AppColor.divider.opacity(0.4))
+                                    AxisValueLabel(format: .dateTime.month(.abbreviated))
                                         .font(AppFont.caption())
                                         .foregroundStyle(AppColor.textSecondary)
                                 }
                             }
+                            .chartYAxis {
+                                AxisMarks { value in
+                                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
+                                        .foregroundStyle(AppColor.divider.opacity(0.4))
+                                    AxisValueLabel() {
+                                        if let weight = value.as(Double.self) {
+                                            Text("\(weight, specifier: "%.1f")")
+                                                .font(AppFont.caption())
+                                                .foregroundStyle(AppColor.textSecondary)
+                                        }
+                                    }
+                                }
+                            }
+                            .chartPlotStyle { plotArea in
+                                plotArea
+                                    .background(AppColor.backgroundSecondary.opacity(0.22))
+                                    .clipShape(RoundedRectangle(cornerRadius: AppLayout.radius14))
+                            }
+                            .frame(
+                                width: chartWidth(
+                                    pointCount: store.bodyWeightMonthlyEntries.count,
+                                    containerWidth: geometry.size.width
+                                ),
+                                height: weightChartHeight
+                            )
+                            .padding(.top, 8)
                         }
                     }
-                    .frame(height: 160)
-                    .padding(.top, 8)
+                    .frame(height: weightChartHeight + AppLayout.space16)
                 }
             }
         }
@@ -96,7 +124,7 @@ struct ProgressTabView: View {
     private var monthlyTrainingChartSection: some View {
         AppFitCard(style: .elevated) {
             VStack(alignment: .leading, spacing: AppLayout.space16) {
-                AppSectionHeader(title: "锻炼成就", subtitle: "每月坚持挥洒汗水的时间")
+                AppSectionHeader(title: "锻炼成就")
 
                 if trainingPoints.isEmpty {
                     Text("暂无数据")
@@ -104,47 +132,99 @@ struct ProgressTabView: View {
                         .foregroundStyle(AppColor.textSecondary)
                         .padding(.vertical, AppLayout.space12)
                 } else {
-                    Chart(trainingPoints) { point in
-                        BarMark(
-                            x: .value("月份", point.parsedMonth),
-                            y: .value("分钟", point.minutes)
-                        )
-                        .foregroundStyle(by: .value("类别", point.category))
-                        .cornerRadius(AppLayout.radius10)
-                        
-                        // Add a subtle background shading to each bar for depth
-                        if let lastCategory = trainingPoints.last(where: { $0.month == point.month })?.category, point.category == lastCategory {
-                            // Only add this for the top of the stack or we could use annotations
-                        }
-                    }
-                    .chartForegroundStyleScale(domain: categoryDomain, range: categoryRange)
-                    .chartXAxis {
-                        AxisMarks(values: .stride(by: .month)) { _ in
-                            AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
-                                .foregroundStyle(AppColor.divider.opacity(0.4))
-                            AxisValueLabel(format: .dateTime.month(.abbreviated))
-                                .font(AppFont.caption())
-                                .foregroundStyle(AppColor.textSecondary)
-                        }
-                    }
-                    .chartYAxis {
-                        AxisMarks { value in
-                            AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [4, 4]))
-                                .foregroundStyle(AppColor.divider.opacity(0.3))
-                            AxisValueLabel() {
-                                if let mins = value.as(Int.self) {
-                                    Text("\(mins) m")
-                                        .font(AppFont.tiny())
+                    selectedTrainingSummary
+
+                    GeometryReader { geometry in
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            Chart(trainingPoints) { point in
+                                BarMark(
+                                    x: .value("月份", point.parsedMonth),
+                                    y: .value("分钟", point.minutes)
+                                )
+                                .foregroundStyle(by: .value("类别", point.category))
+                                .cornerRadius(AppLayout.radius10)
+                            }
+                            .chartForegroundStyleScale(domain: categoryDomain, range: categoryRange)
+                            .chartXAxis {
+                                AxisMarks(values: .stride(by: .month)) { _ in
+                                    AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
+                                        .foregroundStyle(AppColor.divider.opacity(0.4))
+                                    AxisValueLabel(format: .dateTime.month(.abbreviated))
+                                        .font(AppFont.caption())
                                         .foregroundStyle(AppColor.textSecondary)
                                 }
                             }
+                            .chartYAxis {
+                                AxisMarks { value in
+                                    AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [4, 4]))
+                                        .foregroundStyle(AppColor.divider.opacity(0.3))
+                                    AxisValueLabel() {
+                                        if let mins = value.as(Int.self) {
+                                            Text("\(mins)m")
+                                                .font(AppFont.tiny())
+                                                .foregroundStyle(AppColor.textSecondary)
+                                        }
+                                    }
+                                }
+                            }
+                            .chartLegend(position: .top, alignment: .leading, spacing: AppLayout.space8)
+                            .chartPlotStyle { plotArea in
+                                plotArea
+                                    .background(AppColor.backgroundSecondary.opacity(0.22))
+                                    .clipShape(RoundedRectangle(cornerRadius: AppLayout.radius14))
+                            }
+                            .chartOverlay { proxy in
+                                GeometryReader { chartGeometry in
+                                    Rectangle()
+                                        .fill(Color.clear)
+                                        .contentShape(Rectangle())
+                                        .gesture(
+                                            SpatialTapGesture()
+                                                .onEnded { value in
+                                                    updateSelectedTraining(
+                                                        at: value.location,
+                                                        proxy: proxy,
+                                                        geometry: chartGeometry
+                                                    )
+                                                }
+                                        )
+                                }
+                            }
+                            .frame(
+                                width: chartWidth(
+                                    pointCount: store.monthlyTrainingEntries.count,
+                                    containerWidth: geometry.size.width
+                                ),
+                                height: trainingChartHeight
+                            )
+                            .padding(.top, AppLayout.space12)
+                            .padding(.bottom, AppLayout.space8)
                         }
                     }
-                    .chartLegend(position: .top, alignment: .trailing, spacing: AppLayout.space8)
-                    .frame(height: 280)
-                    .padding(.top, AppLayout.space12)
-                    .padding(.bottom, AppLayout.space8)
+                    .frame(height: trainingChartHeight + AppLayout.space20)
                 }
+            }
+        }
+    }
+
+    private var selectedTrainingSummary: some View {
+        Group {
+            if let detail = selectedTrainingDetail {
+                HStack(spacing: AppLayout.space10) {
+                    Circle()
+                        .fill(color(for: detail.category))
+                        .frame(width: 10, height: 10)
+
+                    Text("\(detail.monthLabel) · \(detail.category) · \(detail.minutes) 分钟")
+                        .font(AppFont.bodyStrong())
+                        .foregroundStyle(AppColor.textPrimary)
+
+                    Spacer()
+                }
+                .padding(.horizontal, AppLayout.space12)
+                .padding(.vertical, AppLayout.space10)
+                .background(AppColor.backgroundSecondary.opacity(0.45))
+                .clipShape(RoundedRectangle(cornerRadius: AppLayout.radius14))
             }
         }
     }
@@ -182,6 +262,78 @@ struct ProgressTabView: View {
             palette[index % palette.count]
         }
     }
+
+    private func color(for category: String) -> Color {
+        guard let index = categoryDomain.firstIndex(of: category) else {
+            return AppColor.accent
+        }
+        return categoryRange[index]
+    }
+
+    private func chartWidth(pointCount: Int, containerWidth: CGFloat) -> CGFloat {
+        let baseWidth = max(containerWidth, 240)
+        guard pointCount > visiblePointCount else { return baseWidth }
+        return baseWidth * CGFloat(pointCount) / CGFloat(visiblePointCount)
+    }
+
+    private func updateSelectedTraining(
+        at location: CGPoint,
+        proxy: ChartProxy,
+        geometry: GeometryProxy
+    ) {
+        guard let plotFrame = proxy.plotFrame.map({ geometry[$0] }) else {
+            selectedTrainingDetail = nil
+            return
+        }
+        let relativeX = location.x - plotFrame.origin.x
+        let relativeY = location.y - plotFrame.origin.y
+
+        guard relativeX >= 0,
+              relativeX <= plotFrame.size.width,
+              relativeY >= 0,
+              relativeY <= plotFrame.size.height else {
+            selectedTrainingDetail = nil
+            return
+        }
+
+        guard let tappedMonthDate = proxy.value(atX: relativeX, as: Date.self),
+              let tappedMinutes = proxy.value(atY: relativeY, as: Double.self),
+              let monthlyEntry = nearestTrainingEntry(to: tappedMonthDate),
+              let selectedCategory = categoryHit(in: monthlyEntry, tappedMinutes: tappedMinutes) else {
+            selectedTrainingDetail = nil
+            return
+        }
+
+        selectedTrainingDetail = SelectedTrainingDetail(
+            month: monthlyEntry.month,
+            category: selectedCategory.category,
+            minutes: selectedCategory.minutes
+        )
+    }
+
+    private func nearestTrainingEntry(to date: Date) -> MonthlyTrainingEntry? {
+        store.monthlyTrainingEntries.min {
+            abs($0.parsedMonth.timeIntervalSince(date)) < abs($1.parsedMonth.timeIntervalSince(date))
+        }
+    }
+
+    private func categoryHit(
+        in entry: MonthlyTrainingEntry,
+        tappedMinutes: Double
+    ) -> TrainingCategoryMinutes? {
+        guard tappedMinutes > 0 else { return nil }
+
+        var lowerBound = 0.0
+        for category in entry.categories {
+            let upperBound = lowerBound + Double(category.minutes)
+            if tappedMinutes >= lowerBound && tappedMinutes <= upperBound {
+                return category
+            }
+            lowerBound = upperBound
+        }
+
+        return nil
+    }
 }
 
 private struct MonthlyTrainingChartPoint: Identifiable {
@@ -199,5 +351,20 @@ private struct MonthlyTrainingChartPoint: Identifiable {
 
     var parsedMonth: Date {
         DateParsers.monthFormatter.date(from: month) ?? Date()
+    }
+}
+
+private struct SelectedTrainingDetail: Identifiable {
+    let month: String
+    let category: String
+    let minutes: Int
+
+    var id: String {
+        "\(month)-\(category)"
+    }
+
+    var monthLabel: String {
+        let date = DateParsers.monthFormatter.date(from: month) ?? Date()
+        return DateParsers.monthLabelFormatter.string(from: date)
     }
 }

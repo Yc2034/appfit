@@ -35,13 +35,16 @@
 3. Tab 3 - 训练数据
 - 月度体重变化图表（折线图，按 `yyyy-MM` 展示，只读）。
 - 月度训练时长图表（按类别堆叠柱状图 + legend）。
+- 体重图与训练图默认展示 6 个数据点窗口，超出后支持横向滚动查看历史月份。
+- 训练图支持点按柱状分段，显示该类别在当月的具体训练分钟数。
 - 当前以本地 JSON 展示为主，体重与训练时长模块均无需交互编辑。
 
 ### 4.2 数据
 - `courses.json`：课件筛选与训练步骤。
 - `courses.json` 可为课程配置 `audioGuide`（本地音频标题 + 文件名）。
 - `exercise_library.json`：动作细节内容。
-- `progress_seed.json`：训练数据初始值（当前 `schemaVersion: 3`，体重为月度结构，训练时长为月度分类结构）。
+- `body_weight_seed.json`：体重数据初始值（当前 `schemaVersion: 3`，月度体重结构）。
+- `training_seed.json`：训练数据初始值（当前 `schemaVersion: 3`，月度分类训练结构）。
 - 当前数据页面以本地 JSON 只读展示为主，不依赖用户侧编辑持久化。
 
 ### 4.3 技术
@@ -106,14 +109,22 @@
 }
 ```
 
-`progress_seed.json` 结构如下：
+`body_weight_seed.json` 结构如下：
 
 ```json
 {
   "schemaVersion": 3,
   "bodyWeightMonthlyEntries": [
     { "id": "string", "month": "yyyy-MM", "weight": 71.2, "updatedAt": "2026-03-11T12:30:00Z" }
-  ],
+  ]
+}
+```
+
+`training_seed.json` 结构如下：
+
+```json
+{
+  "schemaVersion": 3,
   "monthlyTrainingEntries": [
     {
       "id": "string",
@@ -127,7 +138,7 @@
 }
 ```
 
-说明：`progress_seed.json` 兼容旧字段 `bodyWeightEntries` 与 `weeklyTrainingEntries` 的解码路径，但当前图表展示优先使用 `bodyWeightMonthlyEntries` 与 `monthlyTrainingEntries`。
+说明：`body_weight_seed.json` 兼容旧字段 `bodyWeightEntries` 的解码路径，`training_seed.json` 兼容旧字段 `weeklyTrainingEntries` 的解码路径；当前图表展示优先使用 `bodyWeightMonthlyEntries` 与 `monthlyTrainingEntries`。
 
 ## 6. File/Module Convention
 当前 SwiftUI 代码位置：`ios/AppFitMVP`
@@ -147,14 +158,16 @@
 1. 可稳定切换 3 个 Tab（课件、动作、数据）。
 2. Tab 1 可基于 `courses.json` 按标签筛选课程并进入训练步骤。
 3. Tab 2 可基于 `exercise_library.json` 渲染双列动作列表与动作详情。
-4. Tab 3 可基于 `progress_seed.json` 渲染“月度体重折线 + 月度分类堆叠柱状（带 legend）”图表，月体重样例数据点数量需完整呈现。
+4. Tab 3 可基于 `body_weight_seed.json` 与 `training_seed.json` 渲染“月度体重折线 + 月度分类堆叠柱状（带 legend）”图表，月体重样例数据点数量需完整呈现。
 5. 对同一月份的多类别训练分钟数可正确累加并以单月堆叠柱展示。
-6. 数据功能全程不依赖网络。
-7. 页面层不再散落硬编码 Color/Font（图表库必要配置除外）。
-8. 亮色/暗色模式下核心页面具备可读性和一致视觉层级。
-9. 当课程配置 `audioGuide` 时，课程页可进行本地音频播放/暂停、进度拖动与时长显示。
-10. 当本地音频文件缺失时，页面给出明确提示且不影响课程浏览与训练流程。
-11. 当本地存在历史缓存时，体重图仍以 `progress_seed.json` 的月度数据为准，不应出现“4 个点只渲染 1 个”的情况。
+6. 当月度数据超过 6 个点时，图表应可横向浏览，不应压缩到无法阅读。
+7. 点按训练图中的具体类别分段时，页面应显示该月份该类别对应的分钟数。
+8. 数据功能全程不依赖网络。
+9. 页面层不再散落硬编码 Color/Font（图表库必要配置除外）。
+10. 亮色/暗色模式下核心页面具备可读性和一致视觉层级。
+11. 当课程配置 `audioGuide` 时，课程页可进行本地音频播放/暂停、进度拖动与时长显示。
+12. 当本地音频文件缺失时，页面给出明确提示且不影响课程浏览与训练流程。
+13. 当本地存在历史缓存时，体重图仍以 `body_weight_seed.json` 的月度数据为准，不应出现“4 个点只渲染 1 个”的情况。
 
 ## 8. Iteration Plan
 ### Phase A (Completed)
@@ -207,3 +220,10 @@
 - `Tab 3` 体重图改为月度趋势展示（平滑折线 + 点位 + 面积层），并优化月份轴标签可读性。
 - 训练时长图由“每周总量柱状图”切换为“每月按类别堆叠柱状图”，并显示 legend。
 - 按最终需求移除体重/训练时长编辑交互入口，数据模块改为只读展示。
+
+### POC Update (2026-03-12)
+- 训练数据源拆分为 `body_weight_seed.json` 与 `training_seed.json`，分别承载体重与训练模块数据。
+- `LocalProgressRepository` 改为分别读取两份 JSON，再组合为统一的 `ProgressStore` 输出。
+- 体重趋势图高度下调，保留核心趋势表达，减少页面纵向占用。
+- 体重图与训练图增加“默认 6 个月窗口 + 横向滚动”浏览方式，用于承载多年历史数据。
+- 训练图支持点按堆叠柱的具体分类分段，并在卡片内显示该月该类别的分钟数明细。

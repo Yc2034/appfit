@@ -30,6 +30,7 @@
 		69B7C253AE692FD6346E568A /* stretch_demo.png in Resources */ = {isa = PBXBuildFile; fileRef = D5C7FFD469DE4F3248E4B3FB /* stretch_demo.png */; };
 		8DA3764D7550A790B261BC35 /* running_drill.png in Resources */ = {isa = PBXBuildFile; fileRef = B3B8338243F23C1283F3D46D /* running_drill.png */; };
 		8F8FC623335602281533D3A2 /* LocalProgressRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9AD02F86A6EC705EB045604 /* LocalProgressRepository.swift */; };
+		91C3204A6D9F41AB9D6D66A1 /* body_weight_seed.json in Resources */ = {isa = PBXBuildFile; fileRef = 7BA6AD9E625F4F8DAA8E4801 /* body_weight_seed.json */; };
 		A15BA360FD37AD15D85155C8 /* AppFitMVPApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F9A26C02ECB05E15F1B346 /* AppFitMVPApp.swift */; };
 		A28C897CBC774DB5960DC275 /* LocalCourseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDE52BDA98D2135BC6FCF61 /* LocalCourseRepository.swift */; };
 		A55BE501899C700846AABD5B /* warmup_dynamic.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EABDA3124F670DF13A9E05 /* warmup_dynamic.png */; };
@@ -45,7 +46,7 @@
 		E08586134765028155CE463F /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5597A69E05098B7E9AB391F /* TagView.swift */; };
 		E69EBEB5C7E8193B328B645F /* cadence_block.png in Resources */ = {isa = PBXBuildFile; fileRef = FCC4F2BC63893545ACDA55EB /* cadence_block.png */; };
 		EED82A528D9FF27CE679F3C4 /* MovementLibraryTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1449E9B2BF1A1DB4EEE92D3E /* MovementLibraryTabView.swift */; };
-		F067B3439735FCA7C09FD0BA /* progress_seed.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F906DB7CC0C9DF88CEF32C7 /* progress_seed.json */; };
+		F6B5C196E41B46B3909E5B0D /* training_seed.json in Resources */ = {isa = PBXBuildFile; fileRef = 3C7F8750AC694CCDA5E7596F /* training_seed.json */; };
 		FE365A3904DF3D093EB0D5DD /* CourseAudioPlayerCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124F98790A7E02499AB3CB20 /* CourseAudioPlayerCard.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,10 +68,10 @@
 		5B5A9C98958B22DF16687C10 /* CourseSearchTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseSearchTabView.swift; sourceTree = "<group>"; };
 		5BA15E0ACE3BAD1D74DC93FD /* LocalImageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalImageView.swift; sourceTree = "<group>"; };
 		6F7922649A2D32DC2DE783FF /* pushup_demo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = pushup_demo.png; sourceTree = "<group>"; };
-		6F906DB7CC0C9DF88CEF32C7 /* progress_seed.json */ = {isa = PBXFileReference; includeInIndex = 1; path = progress_seed.json; sourceTree = "<group>"; };
 		735DB1AD3014C06348F3C9C1 /* mobility_flow.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = mobility_flow.png; sourceTree = "<group>"; };
 		7DE7B3DB9A181F92DCB3BD3E /* squat_demo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = squat_demo.png; sourceTree = "<group>"; };
 		7F4E6F98CA84F4493B0BF841 /* AppFitButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppFitButton.swift; sourceTree = "<group>"; };
+		7BA6AD9E625F4F8DAA8E4801 /* body_weight_seed.json */ = {isa = PBXFileReference; includeInIndex = 1; path = body_weight_seed.json; sourceTree = "<group>"; };
 		81250B727C29064FDFA0A691 /* AppSectionHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppSectionHeader.swift; sourceTree = "<group>"; };
 		828241B583BBD1C14EEEED5C /* AppFitMVP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppFitMVP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		862AD47B9ADF9A383C254B86 /* courses.json */ = {isa = PBXFileReference; includeInIndex = 1; path = courses.json; sourceTree = "<group>"; };
@@ -86,6 +87,7 @@
 		D26E83E46AAE43009E43F1FD /* SessionPlayerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SessionPlayerView.swift; sourceTree = "<group>"; };
 		D5C7FFD469DE4F3248E4B3FB /* stretch_demo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = stretch_demo.png; sourceTree = "<group>"; };
 		E27E5BC3400A8F23421B7C37 /* ProgressTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProgressTabView.swift; sourceTree = "<group>"; };
+		3C7F8750AC694CCDA5E7596F /* training_seed.json */ = {isa = PBXFileReference; includeInIndex = 1; path = training_seed.json; sourceTree = "<group>"; };
 		F519610009BE63E90E305AB9 /* CourseModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseModels.swift; sourceTree = "<group>"; };
 		F9AD02F86A6EC705EB045604 /* LocalProgressRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalProgressRepository.swift; sourceTree = "<group>"; };
 		FBDE52BDA98D2135BC6FCF61 /* LocalCourseRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalCourseRepository.swift; sourceTree = "<group>"; };
@@ -144,7 +146,8 @@
 			children = (
 				862AD47B9ADF9A383C254B86 /* courses.json */,
 				CB28F2CB09814EE7B7E2FD38 /* exercise_library.json */,
-				6F906DB7CC0C9DF88CEF32C7 /* progress_seed.json */,
+				7BA6AD9E625F4F8DAA8E4801 /* body_weight_seed.json */,
+				3C7F8750AC694CCDA5E7596F /* training_seed.json */,
 			);
 			name = Data;
 			path = Data;
@@ -332,7 +335,8 @@
 				69B7C253AE692FD6346E568A /* stretch_demo.png in Resources */,
 				B970ABFD2D9BEE60D62F9C81 /* breathing_reset.png in Resources */,
 				32E18D75BC9DD0C88C8C5027 /* exercise_library.json in Resources */,
-				F067B3439735FCA7C09FD0BA /* progress_seed.json in Resources */,
+				91C3204A6D9F41AB9D6D66A1 /* body_weight_seed.json in Resources */,
+				F6B5C196E41B46B3909E5B0D /* training_seed.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
