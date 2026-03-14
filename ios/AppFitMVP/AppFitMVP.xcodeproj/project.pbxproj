@@ -17,9 +17,9 @@
 		11223344556677889900AA02 /* movement_forearm_plank.json in Resources */ = {isa = PBXBuildFile; fileRef = 11223344556677889900BB02 /* movement_forearm_plank.json */; };
 		11223344556677889900AA03 /* movement_incline_pushup.json in Resources */ = {isa = PBXBuildFile; fileRef = 11223344556677889900BB03 /* movement_incline_pushup.json */; };
 		11223344556677889900AA04 /* movement_reverse_lunge.json in Resources */ = {isa = PBXBuildFile; fileRef = 11223344556677889900BB04 /* movement_reverse_lunge.json */; };
+		20010E0D7D71377A32793C92 /* ExerciseModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489264D19B5A930D78FDA3F5 /* ExerciseModels.swift */; };
 		22334455667788990011AA01 /* course_cardio_technique_builder.json in Resources */ = {isa = PBXBuildFile; fileRef = 22334455667788990011BB01 /* course_cardio_technique_builder.json */; };
 		22334455667788990011AA02 /* course_strength_foundation_a.json in Resources */ = {isa = PBXBuildFile; fileRef = 22334455667788990011BB02 /* course_strength_foundation_a.json */; };
-		20010E0D7D71377A32793C92 /* ExerciseModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489264D19B5A930D78FDA3F5 /* ExerciseModels.swift */; };
 		256CA5E37103F2FBB77F8BF6 /* course_strength_cover.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F2CB759BDC652EF20F25D03 /* course_strength_cover.png */; };
 		2AE5873332C7E04602D54D6D /* CourseStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43C656392C622BB469282AA /* CourseStore.swift */; };
 		362CA17013299B725BE2F4A7 /* CourseDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20879ED7CC68C150A89DCEDC /* CourseDetailView.swift */; };
@@ -60,18 +60,19 @@
 		060AF895585451F6C8560245 /* course_cardio_cover.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = course_cardio_cover.png; sourceTree = "<group>"; };
 		08112233445566778899BB01 /* AppRouter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		0BDF7D584D81247422E34D18 /* Theme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		11223344556677889900BB01 /* movement_bodyweight_squat.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; path = movement_bodyweight_squat.json; sourceTree = "<group>"; };
+		11223344556677889900BB02 /* movement_forearm_plank.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; path = movement_forearm_plank.json; sourceTree = "<group>"; };
+		11223344556677889900BB03 /* movement_incline_pushup.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; path = movement_incline_pushup.json; sourceTree = "<group>"; };
+		11223344556677889900BB04 /* movement_reverse_lunge.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; path = movement_reverse_lunge.json; sourceTree = "<group>"; };
 		11C228903C64D57539405871 /* breathing_reset.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = breathing_reset.png; sourceTree = "<group>"; };
-		11223344556677889900BB01 /* movement_bodyweight_squat.json */ = {isa = PBXFileReference; includeInIndex = 1; path = movement_bodyweight_squat.json; sourceTree = "<group>"; };
-		11223344556677889900BB02 /* movement_forearm_plank.json */ = {isa = PBXFileReference; includeInIndex = 1; path = movement_forearm_plank.json; sourceTree = "<group>"; };
-		11223344556677889900BB03 /* movement_incline_pushup.json */ = {isa = PBXFileReference; includeInIndex = 1; path = movement_incline_pushup.json; sourceTree = "<group>"; };
-		11223344556677889900BB04 /* movement_reverse_lunge.json */ = {isa = PBXFileReference; includeInIndex = 1; path = movement_reverse_lunge.json; sourceTree = "<group>"; };
-		22334455667788990011BB01 /* course_cardio_technique_builder.json */ = {isa = PBXFileReference; includeInIndex = 1; path = course_cardio_technique_builder.json; sourceTree = "<group>"; };
-		22334455667788990011BB02 /* course_strength_foundation_a.json */ = {isa = PBXFileReference; includeInIndex = 1; path = course_strength_foundation_a.json; sourceTree = "<group>"; };
 		124F98790A7E02499AB3CB20 /* CourseAudioPlayerCard.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseAudioPlayerCard.swift; sourceTree = "<group>"; };
 		1449E9B2BF1A1DB4EEE92D3E /* MovementLibraryTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MovementLibraryTabView.swift; sourceTree = "<group>"; };
 		20879ED7CC68C150A89DCEDC /* CourseDetailView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseDetailView.swift; sourceTree = "<group>"; };
+		22334455667788990011BB01 /* course_cardio_technique_builder.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; path = course_cardio_technique_builder.json; sourceTree = "<group>"; };
+		22334455667788990011BB02 /* course_strength_foundation_a.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; path = course_strength_foundation_a.json; sourceTree = "<group>"; };
 		2BE3C690DA51C0BA45E1E837 /* AudioPlaybackManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AudioPlaybackManager.swift; sourceTree = "<group>"; };
 		2F8EC67A9D502937462EA938 /* ExerciseStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ExerciseStore.swift; sourceTree = "<group>"; };
+		3C7F8750AC694CCDA5E7596F /* training_seed.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; path = training_seed.json; sourceTree = "<group>"; };
 		489264D19B5A930D78FDA3F5 /* ExerciseModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ExerciseModels.swift; sourceTree = "<group>"; };
 		4D69BDC56FD68E7CC19256B9 /* LocalExerciseRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalExerciseRepository.swift; sourceTree = "<group>"; };
 		4F2CB759BDC652EF20F25D03 /* course_strength_cover.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = course_strength_cover.png; sourceTree = "<group>"; };
@@ -81,9 +82,9 @@
 		5BA15E0ACE3BAD1D74DC93FD /* LocalImageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalImageView.swift; sourceTree = "<group>"; };
 		6F7922649A2D32DC2DE783FF /* pushup_demo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = pushup_demo.png; sourceTree = "<group>"; };
 		735DB1AD3014C06348F3C9C1 /* mobility_flow.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = mobility_flow.png; sourceTree = "<group>"; };
+		7BA6AD9E625F4F8DAA8E4801 /* body_weight_seed.json */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.json; path = body_weight_seed.json; sourceTree = "<group>"; };
 		7DE7B3DB9A181F92DCB3BD3E /* squat_demo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = squat_demo.png; sourceTree = "<group>"; };
 		7F4E6F98CA84F4493B0BF841 /* AppFitButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppFitButton.swift; sourceTree = "<group>"; };
-		7BA6AD9E625F4F8DAA8E4801 /* body_weight_seed.json */ = {isa = PBXFileReference; includeInIndex = 1; path = body_weight_seed.json; sourceTree = "<group>"; };
 		81250B727C29064FDFA0A691 /* AppSectionHeader.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppSectionHeader.swift; sourceTree = "<group>"; };
 		828241B583BBD1C14EEEED5C /* AppFitMVP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppFitMVP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		895B8DEEA387480CB6ED9E3F /* ProgressStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProgressStore.swift; sourceTree = "<group>"; };
@@ -97,7 +98,6 @@
 		D26E83E46AAE43009E43F1FD /* SessionPlayerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SessionPlayerView.swift; sourceTree = "<group>"; };
 		D5C7FFD469DE4F3248E4B3FB /* stretch_demo.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = stretch_demo.png; sourceTree = "<group>"; };
 		E27E5BC3400A8F23421B7C37 /* ProgressTabView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProgressTabView.swift; sourceTree = "<group>"; };
-		3C7F8750AC694CCDA5E7596F /* training_seed.json */ = {isa = PBXFileReference; includeInIndex = 1; path = training_seed.json; sourceTree = "<group>"; };
 		F519610009BE63E90E305AB9 /* CourseModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CourseModels.swift; sourceTree = "<group>"; };
 		F9AD02F86A6EC705EB045604 /* LocalProgressRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalProgressRepository.swift; sourceTree = "<group>"; };
 		FBDE52BDA98D2135BC6FCF61 /* LocalCourseRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LocalCourseRepository.swift; sourceTree = "<group>"; };
@@ -117,6 +117,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11223344556677889900CC01 /* ExerciseLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				11223344556677889900BB01 /* movement_bodyweight_squat.json */,
+				11223344556677889900BB02 /* movement_forearm_plank.json */,
+				11223344556677889900BB03 /* movement_incline_pushup.json */,
+				11223344556677889900BB04 /* movement_reverse_lunge.json */,
+			);
+			path = ExerciseLibrary;
+			sourceTree = "<group>";
+		};
 		13DBCE8DCFC34BA11B5AB458 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,8 +136,16 @@
 				2F8EC67A9D502937462EA938 /* ExerciseStore.swift */,
 				895B8DEEA387480CB6ED9E3F /* ProgressStore.swift */,
 			);
-			name = ViewModels;
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		22334455667788990011CC01 /* CourseLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				22334455667788990011BB01 /* course_cardio_technique_builder.json */,
+				22334455667788990011BB02 /* course_strength_foundation_a.json */,
+			);
+			path = CourseLibrary;
 			sourceTree = "<group>";
 		};
 		2462710A01D9599FA2453751 /* Products */ = {
@@ -148,7 +167,6 @@
 				1449E9B2BF1A1DB4EEE92D3E /* MovementLibraryTabView.swift */,
 				E27E5BC3400A8F23421B7C37 /* ProgressTabView.swift */,
 			);
-			name = Views;
 			path = Views;
 			sourceTree = "<group>";
 		};
@@ -160,28 +178,7 @@
 				7BA6AD9E625F4F8DAA8E4801 /* body_weight_seed.json */,
 				3C7F8750AC694CCDA5E7596F /* training_seed.json */,
 			);
-			name = Data;
 			path = Data;
-			sourceTree = "<group>";
-		};
-		11223344556677889900CC01 /* ExerciseLibrary */ = {
-			isa = PBXGroup;
-			children = (
-				11223344556677889900BB01 /* movement_bodyweight_squat.json */,
-				11223344556677889900BB02 /* movement_forearm_plank.json */,
-				11223344556677889900BB03 /* movement_incline_pushup.json */,
-				11223344556677889900BB04 /* movement_reverse_lunge.json */,
-			);
-			path = ExerciseLibrary;
-			sourceTree = "<group>";
-		};
-		22334455667788990011CC01 /* CourseLibrary */ = {
-			isa = PBXGroup;
-			children = (
-				22334455667788990011BB01 /* course_cardio_technique_builder.json */,
-				22334455667788990011BB02 /* course_strength_foundation_a.json */,
-			);
-			path = CourseLibrary;
 			sourceTree = "<group>";
 		};
 		5B2ABC0048E280C6B9E52CAE /* iOS */ = {
@@ -199,7 +196,6 @@
 				489264D19B5A930D78FDA3F5 /* ExerciseModels.swift */,
 				597F3179FF64030C4E32E73F /* ProgressModels.swift */,
 			);
-			name = Models;
 			path = Models;
 			sourceTree = "<group>";
 		};
@@ -219,7 +215,6 @@
 				D5C7FFD469DE4F3248E4B3FB /* stretch_demo.png */,
 				11C228903C64D57539405871 /* breathing_reset.png */,
 			);
-			name = Images;
 			path = Images;
 			sourceTree = "<group>";
 		};
@@ -235,7 +230,6 @@
 				A3055149016F4719F6B776AF /* DesignSystem */,
 				984845540B8C8F818F304FE0 /* Components */,
 			);
-			name = AppFitMVP;
 			path = AppFitMVP;
 			sourceTree = "<group>";
 		};
@@ -247,7 +241,6 @@
 				F9AD02F86A6EC705EB045604 /* LocalProgressRepository.swift */,
 				2BE3C690DA51C0BA45E1E837 /* AudioPlaybackManager.swift */,
 			);
-			name = Services;
 			path = Services;
 			sourceTree = "<group>";
 		};
@@ -268,7 +261,6 @@
 				81250B727C29064FDFA0A691 /* AppSectionHeader.swift */,
 				124F98790A7E02499AB3CB20 /* CourseAudioPlayerCard.swift */,
 			);
-			name = Components;
 			path = Components;
 			sourceTree = "<group>";
 		};
@@ -277,7 +269,6 @@
 			children = (
 				0BDF7D584D81247422E34D18 /* Theme.swift */,
 			);
-			name = DesignSystem;
 			path = DesignSystem;
 			sourceTree = "<group>";
 		};
@@ -296,7 +287,6 @@
 				580516EF2C830001C34DDF37 /* Data */,
 				68262DB32DE32D38AE087F0D /* Images */,
 			);
-			name = Resources;
 			path = Resources;
 			sourceTree = "<group>";
 		};
@@ -328,6 +318,12 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					43F2A271CA5FBA39C35EE60D = {
+						DevelopmentTeam = 9GKJPT3CR3;
+						ProvisioningStyle = Automatic;
+					};
+				};
 			};
 			buildConfigurationList = 00959FE5E651B7DDEAEF69AF /* Build configuration list for PBXProject "AppFitMVP" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -421,6 +417,7 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9GKJPT3CR3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "AppFit MVP";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -446,6 +443,7 @@
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9GKJPT3CR3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "AppFit MVP";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -578,8 +576,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
