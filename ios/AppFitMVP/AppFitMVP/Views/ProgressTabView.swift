@@ -4,8 +4,10 @@ import Charts
 struct ProgressTabView: View {
     @EnvironmentObject private var store: ProgressStore
     @State private var selectedTrainingDetail: SelectedTrainingDetail?
+    @State private var selectedWeightEntry: BodyWeightMonthlyEntry?
 
     private let visiblePointCount = 6
+    private let weightChartDomain: ClosedRange<Double> = 65...90
     private let weightChartHeight: CGFloat = 132
     private let trainingChartHeight: CGFloat = 280
     private let chartEdgePadding: CGFloat = 20
@@ -47,6 +49,8 @@ struct ProgressTabView: View {
                         .foregroundStyle(AppColor.textSecondary)
                         .padding(.vertical, AppLayout.space12)
                 } else {
+                    selectedWeightSummary
+
                     GeometryReader { geometry in
                         ScrollView(.horizontal, showsIndicators: false) {
                             Chart(store.bodyWeightMonthlyEntries) { entry in
@@ -60,7 +64,8 @@ struct ProgressTabView: View {
 
                                 AreaMark(
                                     x: .value("月份", entry.parsedMonth),
-                                    y: .value("体重", entry.weight)
+                                    yStart: .value("基线", weightChartDomain.lowerBound),
+                                    yEnd: .value("体重", entry.weight)
                                 )
                                 .interpolationMethod(.catmullRom)
                                 .foregroundStyle(
@@ -77,9 +82,18 @@ struct ProgressTabView: View {
                                 )
                                 .symbolSize(28)
                                 .foregroundStyle(AppColor.accent)
+
+                                if selectedWeightEntry?.id == entry.id {
+                                    PointMark(
+                                        x: .value("月份", entry.parsedMonth),
+                                        y: .value("体重", entry.weight)
+                                    )
+                                    .symbolSize(110)
+                                    .foregroundStyle(AppColor.accent)
+                                }
                             }
                             .chartXScale(range: .plotDimension(startPadding: chartEdgePadding, endPadding: chartEdgePadding))
-                            .chartYScale(domain: .automatic(includesZero: false))
+                            .chartYScale(domain: weightChartDomain)
                             .chartXAxis {
                                 AxisMarks(values: .stride(by: .month)) { _ in
                                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [4, 4]))
@@ -95,7 +109,7 @@ struct ProgressTabView: View {
                                         .foregroundStyle(AppColor.divider.opacity(0.4))
                                     AxisValueLabel() {
                                         if let weight = value.as(Double.self) {
-                                            Text("\(weight, specifier: "%.1f")")
+                                            Text("\(weight, specifier: "%.0f")kg")
                                                 .font(AppFont.caption())
                                                 .foregroundStyle(AppColor.textSecondary)
                                         }
@@ -106,6 +120,23 @@ struct ProgressTabView: View {
                                 plotArea
                                     .background(AppColor.backgroundSecondary.opacity(0.22))
                                     .clipShape(RoundedRectangle(cornerRadius: AppLayout.radius14))
+                            }
+                            .chartOverlay { proxy in
+                                GeometryReader { chartGeometry in
+                                    Rectangle()
+                                        .fill(Color.clear)
+                                        .contentShape(Rectangle())
+                                        .gesture(
+                                            SpatialTapGesture()
+                                                .onEnded { value in
+                                                    updateSelectedWeight(
+                                                        at: value.location,
+                                                        proxy: proxy,
+                                                        geometry: chartGeometry
+                                                    )
+                                                }
+                                        )
+                                }
                             }
                             .frame(
                                 width: chartWidth(
@@ -119,6 +150,28 @@ struct ProgressTabView: View {
                     }
                     .frame(height: weightChartHeight + AppLayout.space16)
                 }
+            }
+        }
+    }
+
+    private var selectedWeightSummary: some View {
+        Group {
+            if let entry = selectedWeightEntry {
+                HStack(spacing: AppLayout.space10) {
+                    Circle()
+                        .fill(AppColor.accent)
+                        .frame(width: 10, height: 10)
+
+                    Text("\(formattedMonthLabel(for: entry.month)) · \(entry.weight, specifier: "%.1f")kg")
+                        .font(AppFont.bodyStrong())
+                        .foregroundStyle(AppColor.textPrimary)
+
+                    Spacer()
+                }
+                .padding(.horizontal, AppLayout.space12)
+                .padding(.vertical, AppLayout.space10)
+                .background(AppColor.backgroundSecondary.opacity(0.45))
+                .clipShape(RoundedRectangle(cornerRadius: AppLayout.radius14))
             }
         }
     }
@@ -162,8 +215,8 @@ struct ProgressTabView: View {
                                     AxisGridLine(stroke: StrokeStyle(lineWidth: 1, dash: [4, 4]))
                                         .foregroundStyle(AppColor.divider.opacity(0.3))
                                     AxisValueLabel() {
-                                        if let mins = value.as(Int.self) {
-                                            Text("\(mins)m")
+                                        if let mins = value.as(Double.self) {
+                                            Text("\(Int(mins.rounded()))m")
                                                 .font(AppFont.tiny())
                                                 .foregroundStyle(AppColor.textSecondary)
                                         }
@@ -314,8 +367,42 @@ struct ProgressTabView: View {
         )
     }
 
+    private func updateSelectedWeight(
+        at location: CGPoint,
+        proxy: ChartProxy,
+        geometry: GeometryProxy
+    ) {
+        guard let plotFrame = proxy.plotFrame.map({ geometry[$0] }) else {
+            selectedWeightEntry = nil
+            return
+        }
+        let relativeX = location.x - plotFrame.origin.x
+        let relativeY = location.y - plotFrame.origin.y
+
+        guard relativeX >= 0,
+              relativeX <= plotFrame.size.width,
+              relativeY >= 0,
+              relativeY <= plotFrame.size.height else {
+            selectedWeightEntry = nil
+            return
+        }
+
+        guard let tappedMonthDate = proxy.value(atX: relativeX, as: Date.self) else {
+            selectedWeightEntry = nil
+            return
+        }
+
+        selectedWeightEntry = nearestWeightEntry(to: tappedMonthDate)
+    }
+
     private func nearestTrainingEntry(to date: Date) -> MonthlyTrainingEntry? {
         store.monthlyTrainingEntries.min {
+            abs($0.parsedMonth.timeIntervalSince(date)) < abs($1.parsedMonth.timeIntervalSince(date))
+        }
+    }
+
+    private func nearestWeightEntry(to date: Date) -> BodyWeightMonthlyEntry? {
+        store.bodyWeightMonthlyEntries.min {
             abs($0.parsedMonth.timeIntervalSince(date)) < abs($1.parsedMonth.timeIntervalSince(date))
         }
     }
@@ -336,6 +423,11 @@ struct ProgressTabView: View {
         }
 
         return nil
+    }
+
+    private func formattedMonthLabel(for month: String) -> String {
+        let date = DateParsers.monthFormatter.date(from: month) ?? Date()
+        return DateParsers.monthLabelFormatter.string(from: date)
     }
 }
 
