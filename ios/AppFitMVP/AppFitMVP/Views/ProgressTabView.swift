@@ -187,6 +187,7 @@ struct ProgressTabView: View {
                         .foregroundStyle(AppColor.textSecondary)
                         .padding(.vertical, AppLayout.space12)
                 } else {
+                    trainingLegend
                     selectedTrainingSummary
 
                     GeometryReader { geometry in
@@ -223,7 +224,6 @@ struct ProgressTabView: View {
                                     }
                                 }
                             }
-                            .chartLegend(position: .top, alignment: .leading, spacing: AppLayout.space8)
                             .chartPlotStyle { plotArea in
                                 plotArea
                                     .background(AppColor.backgroundSecondary.opacity(0.22))
@@ -259,6 +259,33 @@ struct ProgressTabView: View {
                     }
                     .frame(height: trainingChartHeight + AppLayout.space20)
                 }
+            }
+        }
+    }
+
+    private var trainingLegend: some View {
+        LazyVGrid(
+            columns: [GridItem(.adaptive(minimum: 92), spacing: AppLayout.space8)],
+            alignment: .leading,
+            spacing: AppLayout.space8
+        ) {
+            ForEach(categoryDomain, id: \.self) { category in
+                HStack(spacing: AppLayout.space8) {
+                    Circle()
+                        .fill(color(for: category))
+                        .frame(width: 8, height: 8)
+
+                    Text(category)
+                        .font(AppFont.caption())
+                        .foregroundStyle(AppColor.textSecondary)
+                        .lineLimit(1)
+
+                    Spacer(minLength: 0)
+                }
+                .padding(.horizontal, AppLayout.space10)
+                .padding(.vertical, AppLayout.space8)
+                .background(AppColor.backgroundSecondary.opacity(0.35))
+                .clipShape(RoundedRectangle(cornerRadius: AppLayout.radius14))
             }
         }
     }
